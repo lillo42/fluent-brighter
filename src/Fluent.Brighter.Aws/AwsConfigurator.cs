@@ -45,7 +45,7 @@ public class AwsConfigurator
         return this;
     }
 
-    internal void Register(IBrighterRegister register)
+    internal void Register(IBrighterConfigurator register)
     {
         if (_publications.Count > 0)
         {

@@ -48,7 +48,7 @@ public class RmqConfigurator
         return this;
     }
 
-    internal IBrighterRegister AddRabbitMq(IBrighterRegister register)
+    internal IBrighterConfigurator AddRabbitMq(IBrighterConfigurator register)
     {
         if (_connection == null)
         {
@@ -56,7 +56,7 @@ public class RmqConfigurator
         }
 
         _ = register
-            .AddExternalBus(new RmqProducerRegistryFactory(_connection, _publications).Create())
+            .AddExternalBus(new RmqMessageProducerFactory(_connection, _publications))
             .AddChannelFactory(new ChannelFactory(new RmqMessageConsumerFactory(_connection)), _subscriptions);
         return register;
     }

@@ -4,7 +4,7 @@ namespace Fluent.Brighter.Aws;
 
 public static class BrighterRegisterExtensions
 {
-    public static IBrighterRegister UsingAws(this IBrighterRegister register, Action<AwsConfigurator> configure)
+    public static IBrighterConfigurator UsingAws(this IBrighterConfigurator register, Action<AwsConfigurator> configure)
     {
         var configurator = new AwsConfigurator();
         configure(configurator);
