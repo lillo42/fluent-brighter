@@ -103,6 +103,7 @@ public class RmqPublicationBuilder
     }
 
     private int _maxOutStandingCheckIntervalMilliSeconds;
+    
     /// <summary>
     /// Sets the interval for checking outstanding message count in milliseconds.
     /// </summary>
@@ -169,6 +170,19 @@ public class RmqPublicationBuilder
         return this;
     }
 
+    private RoutingKey? _topic;
+
+    public RmqPublicationBuilder Topic(string topic)
+    {
+        return Topic(new RoutingKey(topic));
+    }
+    
+    public RmqPublicationBuilder Topic(RoutingKey topic)
+    {
+        _topic = topic;
+        return this;
+    }
+
     /// <summary>
     /// Builds and returns the configured <see cref="RmqPublication"/> instance.
     /// </summary>
@@ -181,7 +195,8 @@ public class RmqPublicationBuilder
             MakeChannels = _makeChannel,
             MaxOutStandingMessages = _maxOutStandingMessages,
             MaxOutStandingCheckIntervalMilliSeconds = _maxOutStandingCheckIntervalMilliSeconds,
-            OutBoxBag = _outboxBag
+            OutBoxBag = _outboxBag,
+            Topic = _topic
         };
     }
 }

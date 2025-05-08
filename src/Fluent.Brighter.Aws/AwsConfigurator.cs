@@ -47,14 +47,7 @@ public class AwsConfigurator
 
     internal void Register(IBrighterConfigurator register)
     {
-        if (_publications.Count > 0)
-        {
-            _ = register.AddExternalBus(new SnsProducerRegistryFactory(_connection, _publications).Create());
-        }
 
-        if (_subscriptions.Count > 0)
-        {
-            _ = register.AddChannelFactory(new ChannelFactory(_connection), _subscriptions);
-        }
+        
     }
 }
