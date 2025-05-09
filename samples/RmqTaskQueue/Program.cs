@@ -1,11 +1,11 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System.Runtime.InteropServices.ComTypes;
-
-using Fluent.Brighter;
+﻿using Fluent.Brighter;
 using Fluent.Brighter.RMQ;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+using Paramore.Brighter;
+using Paramore.Brighter.ServiceActivator.Extensions.Hosting;
 
 using RmqTaskQueue.Commands;
 
@@ -15,11 +15,13 @@ var host = new HostBuilder()
     .ConfigureServices((_, services) =>
     {
         services
+            .AddHostedService<ServiceActivatorHostedService>()
             .AddBrighter(brighter => brighter
+                .AddAllFromAssembly()
                 .UsingRabbitMQ(rabbitmq => rabbitmq
                     .Connection(conn => conn
-                            .AmqpUriSpecification(amqp => amqp.Uri("amqp://guest:guest@localhost:5672"))
-                            .Exchange(exchange => exchange.Name("paramore.brighter.exchange")))
+                        .AmqpUriSpecification(amqp => amqp.Uri("amqp://guest:guest@localhost:5672"))
+                        .Exchange(exchange => exchange.Name("paramore.brighter.exchange")))
                     .Publication(pub => pub
                         .CreateExchangeIfMissing()
                         .MaxOutStandingMessages(5)
@@ -51,3 +53,29 @@ var host = new HostBuilder()
                 ));
     })
     .Build();
+
+await host.StartAsync();
+
+while (true)
+{
+    await Task.Delay(TimeSpan.FromSeconds(10));
+    Console.Write("Say your name (or q to quit): ");
+    var name = Console.ReadLine();
+
+    if (string.IsNullOrEmpty(name))
+    {
+        continue;
+    }
+
+    if (name == "q")
+    {
+        break;
+    }
+
+    var process = host.Services.GetRequiredService<IAmACommandProcessor>();
+    await process.PostAsync(new GreetingEvent(name));
+    await process.PostAsync(new FarewellEvent(name));
+}
+
+
+await host.StopAsync();

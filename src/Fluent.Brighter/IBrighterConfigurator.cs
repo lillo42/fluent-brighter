@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,6 +25,8 @@ public interface IBrighterConfigurator
     /// Uses bitwise flags to allow combination of multiple component types.
     /// </summary>
     AutoFromAssembly FromAssembly { get; set; }
+    
+    Dictionary<string, List<Assembly>> Assemblies { get; set; }
 
     /// <summary>
     /// Gets the Brighter configuration options for service activation and lifetimes.

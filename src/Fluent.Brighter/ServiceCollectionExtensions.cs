@@ -42,24 +42,32 @@ public static class ServiceCollectionExtensions
             opt.ChannelFactory = configurator.ChannelFactory;
         });
 
-        if (configurator.FromAssembly.HasFlag(AutoFromAssembly.All))
+        if (configurator.FromAssembly == AutoFromAssembly.All)
         {
-            brighter = brighter.AutoFromAssemblies();
+            configurator.Assemblies.TryGetValue(nameof(AutoFromAssembly.All), out var assemblies);
+            assemblies ??= [];
+            brighter = brighter.AutoFromAssemblies(assemblies.ToArray());
         }
         else
         {
+            
+            configurator.Assemblies.TryGetValue(nameof(AutoFromAssembly.Handlers), out var assemblies);
+            assemblies ??= [];
             brighter = configurator.FromAssembly.HasFlag(AutoFromAssembly.Handlers)
-                ? brighter.HandlersFromAssemblies()
-                       .AsyncHandlersFromAssemblies()
-                : brighter.Handlers(configurator.HandlerRegistry);
+                ? brighter.HandlersFromAssemblies(assemblies.ToArray()).AsyncHandlersFromAssemblies(assemblies.ToArray())
+                : brighter.Handlers(configurator.HandlerRegistry).AsyncHandlers(configurator.AsyncHandlerRegistry);
 
+            configurator.Assemblies.TryGetValue(nameof(AutoFromAssembly.Mappers), out assemblies);
+            assemblies ??= [];
             brighter = configurator.FromAssembly.HasFlag(AutoFromAssembly.Mappers)
-                ? brighter.MapperRegistryFromAssemblies()
-                : brighter.Handlers(configurator.HandlerRegistry);
+                ? brighter.MapperRegistryFromAssemblies(assemblies.ToArray())
+                : brighter.MapperRegistry(configurator.MapperRegistry);
 
             if (configurator.FromAssembly.HasFlag(AutoFromAssembly.Transforms))
             {
-                brighter = brighter.TransformsFromAssemblies();
+                configurator.Assemblies.TryGetValue(nameof(AutoFromAssembly.Transforms), out assemblies);
+                assemblies ??= [];
+                brighter = brighter.TransformsFromAssemblies(assemblies.ToArray());
             }
         }
 
