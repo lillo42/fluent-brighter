@@ -18,7 +18,6 @@
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
 
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 
       <!--  The .NET Version used in all projects -->
