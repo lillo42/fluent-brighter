@@ -13,8 +13,6 @@ public class AmqpUriSpecificationBuilder
     private Uri? _uri;
     public AmqpUriSpecificationBuilder Uri(string uri)
     {
-        if(string.IsNullOrEmpty(uri))
-        {}
         return Uri(new Uri(uri));
     }
 
