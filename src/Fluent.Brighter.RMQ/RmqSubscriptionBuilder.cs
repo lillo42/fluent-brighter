@@ -29,13 +29,13 @@ public class RmqSubscriptionBuilder
     }
 
     /// <summary>
-    /// Sets the dead letter queue using a <see cref="ChannelName"/> object.
+    /// Sets the dead letter queue using a <see cref="Paramore.Brighter.ChannelName"/> object.
     /// </summary>
     /// <param name="deadLetterName">Pre-constructed channel name for dead letter queue.</param>
     /// <returns>The builder instance for fluent chaining.</returns>
     public RmqSubscriptionBuilder DeadLetter(ChannelName deadLetterName)
     {
-        _deadLetterName = deadLetterName;
+        _deadLetterName = deadLetterName ?? throw new ArgumentNullException(nameof(deadLetterName));
         return string.IsNullOrEmpty(_deadLetterRoutingKey) ? DeadLetterRoutingKey(deadLetterName.Value) : this;
     }
 
@@ -138,7 +138,7 @@ public class RmqSubscriptionBuilder
     /// </summary>
     /// <param name="ttl">Time in milliseconds that messages are kept in the queue (<see langword="null"/> for unlimited).</param>
     /// <returns>The builder instance for fluent chaining.</returns>
-    public RmqSubscriptionBuilder TTL(int? ttl)
+    public RmqSubscriptionBuilder Ttl(int? ttl)
     {
         _ttl = ttl;
         return this;
@@ -196,7 +196,7 @@ public class RmqSubscriptionBuilder
     }
 
     /// <summary>
-    /// Sets the subscription name using a <see cref="SubscriptionName"/> object.
+    /// Sets the subscription name using a <see cref="Paramore.Brighter.SubscriptionName"/> object.
     /// </summary>
     /// <param name="subscriptionName">Pre-constructed subscription name.</param>
     /// <returns>The builder instance for fluent chaining.</returns>
@@ -228,11 +228,16 @@ public class RmqSubscriptionBuilder
     /// <exception cref="ArgumentException">Thrown when <paramref name="channelName"/> is <see langword="null"/> or empty.</exception>
     public RmqSubscriptionBuilder ChannelName(string channelName)
     {
+        if (string.IsNullOrEmpty(channelName))
+        {
+            throw new ArgumentException("Channel name can't be null or empty", nameof(channelName));
+        }
+        
         return ChannelName(new ChannelName(channelName));
     }
 
     /// <summary>
-    /// Sets the channel name using a <see cref="ChannelName"/> object.
+    /// Sets the channel name using a <see cref="Paramore.Brighter.ChannelName"/> object.
     /// </summary>
     /// <param name="channelName">Pre-constructed channel name.</param>
     /// <returns>The builder instance for fluent chaining.</returns>
@@ -264,11 +269,15 @@ public class RmqSubscriptionBuilder
     /// <exception cref="ArgumentException">Thrown when <paramref name="routingKey"/> is <see langword="null"/> or empty.</exception>
     public RmqSubscriptionBuilder RoutingKey(string routingKey)
     {
+        if (string.IsNullOrEmpty(routingKey))
+        {
+            throw new ArgumentException("RoutingKey can't be null or empty", nameof(routingKey));
+        }
         return RoutingKey(new RoutingKey(routingKey));
     }
 
     /// <summary>
-    /// Sets the routing key for message routing using a <see cref="RoutingKey"/> object.
+    /// Sets the routing key for message routing using a <see cref="Paramore.Brighter.RoutingKey"/> object.
     /// </summary>
     /// <param name="routingKey">Pre-constructed routing key.</param>
     /// <returns>The builder instance for fluent chaining.</returns>
@@ -366,7 +375,7 @@ public class RmqSubscriptionBuilder
         return this;
     }
 
-    private int _requeueDelayInMilliseconds = 0;
+    private int _requeueDelayInMilliseconds;
 
     /// <summary>
     /// Sets the delay between message requeues using a time span.
@@ -396,7 +405,7 @@ public class RmqSubscriptionBuilder
         return this;
     }
 
-    private int _unacceptableMessageLimit = 0;
+    private int _unacceptableMessageLimit;
 
     /// <summary>
     /// Sets the limit for unacceptable messages before stopping the subscription.

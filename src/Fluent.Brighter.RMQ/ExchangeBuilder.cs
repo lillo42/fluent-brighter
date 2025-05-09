@@ -49,7 +49,7 @@ public class ExchangeBuilder
         return this;
     }
 
-    private bool _durable = false;
+    private bool _durable;
 
     /// <summary>
     /// Enables durable exchange configuration (survives broker restarts).
@@ -80,7 +80,7 @@ public class ExchangeBuilder
         return this;
     }
 
-    private bool _supportDelay = false;
+    private bool _supportDelay;
 
     /// <summary>
     /// Enables support for delayed message delivery.

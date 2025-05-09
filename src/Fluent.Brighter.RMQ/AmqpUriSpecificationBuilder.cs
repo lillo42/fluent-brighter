@@ -1,4 +1,3 @@
-
 using System;
 
 using Paramore.Brighter.MessagingGateway.RMQ;
@@ -14,13 +13,15 @@ public class AmqpUriSpecificationBuilder
     private Uri? _uri;
     public AmqpUriSpecificationBuilder Uri(string uri)
     {
+        if(string.IsNullOrEmpty(uri))
+        {}
         return Uri(new Uri(uri));
     }
 
     /// <summary>
-    /// Sets the AMQP endpoint URI using a <see cref="Uri"/> object.
+    /// Sets the AMQP endpoint URI using a <see cref="System.Uri"/> object.
     /// </summary>
-    /// <param name="uri">The pre-constructed <see cref="Uri"/> instance.</param>
+    /// <param name="uri">The pre-constructed <see cref="System.Uri"/> instance.</param>
     /// <returns>The builder instance for fluent chaining.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="uri"/> is <see langword="null"/>.</exception>
     public AmqpUriSpecificationBuilder Uri(Uri uri)
