@@ -1,0 +1,13 @@
+﻿<Project>
+    <PropertyGroup>
+       <BrighterVersion>9.9.8</BrighterVersion> 
+    </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageVersion Include="Paramore.Brighter" Version="$(BrighterVersion)" />
+        <PackageVersion Include="Paramore.Brighter.MessagingGateway.AWSSQS" Version="$(BrighterVersion)" />
+        <PackageVersion Include="Paramore.Brighter.MessagingGateway.RMQ" Version="$(BrighterVersion)" />
+        <PackageVersion Include="Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection" Version="$(BrighterVersion)" />
+        <PackageVersion Include="Paramore.Brighter.ServiceActivator.Extensions.Hosting" Version="9.9.8" />
+    </ItemGroup>
+</Project>

@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Paramore.Brighter.MessagingGateway.AWSSQS" Version="9.9.8" />
+    <PackageReference Include="Paramore.Brighter.MessagingGateway.AWSSQS" />
   </ItemGroup>
 
 </Project>
