@@ -25,6 +25,10 @@ internal class BrighterConfigurator(IServiceCollection services, BrighterConfigu
     internal IAmAProducerRegistry? ProducerRegistry => _producerRegistries.Count == 0 ? null : new CombinedProducerRegistryFactory([.. _producerRegistries]).Create();
     internal IEnumerable<Subscription> Subscriptions => _subscriptions.Keys;
     internal IAmAChannelFactory ChannelFactory => new CombinedChannelFactory(_subscriptions);
+    
+    internal BrighterOutboxConfiguration? OutboxConfiguration { get; set; }
+    internal InboxConfiguration InboxConfiguration { get; set; } = new();
+    internal IDistributedLock? DistributedLockConfiguration { get; set; }
 
     public IBrighterConfigurator AddExternalBus(IAmAMessageProducerFactory producerRegistry)
     {
@@ -39,6 +43,24 @@ internal class BrighterConfigurator(IServiceCollection services, BrighterConfigu
             _subscriptions[subscription] = channelFactory;
         }
 
+        return this;
+    }
+
+    public IBrighterConfigurator Outbox(BrighterOutboxConfiguration configuration)
+    {
+        OutboxConfiguration = configuration;
+        return this;
+    }
+
+    public IBrighterConfigurator Inbox(InboxConfiguration configuration)
+    {
+        InboxConfiguration = configuration;
+        return this;
+    }
+
+    public IBrighterConfigurator DistributedLock(IDistributedLock? distributedLock)
+    {
+        DistributedLockConfiguration = distributedLock;
         return this;
     }
 }

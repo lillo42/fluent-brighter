@@ -64,4 +64,10 @@ public interface IBrighterConfigurator
     /// <returns>The configurator instance for fluent chaining.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="channelFactory"/> or <paramref name="subscriptions"/> is <see langword="null"/>.</exception>
     IBrighterConfigurator AddChannelFactory(IAmAChannelFactory channelFactory, IEnumerable<Subscription> subscriptions);
+    
+    IBrighterConfigurator Outbox(BrighterOutboxConfiguration configuration);
+    
+    IBrighterConfigurator Inbox(InboxConfiguration configuration);
+
+    IBrighterConfigurator DistributedLock(IDistributedLock? distributedLock);
 }

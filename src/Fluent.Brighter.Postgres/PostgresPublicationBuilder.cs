@@ -2,52 +2,79 @@ using System;
 using System.Collections.Generic;
 
 using Paramore.Brighter;
-using Paramore.Brighter.MessagingGateway.RMQ.Sync;
+using Paramore.Brighter.MessagingGateway.Postgres;
 
-namespace Fluent.Brighter.RMQ.Sync;
+namespace Fluent.Brighter.Postgres;
 
 /// <summary>
-/// Fluent builder for configuring RabbitMQ publication settings.
-/// Provides a chainable API to define message publishing behavior before creating the final <see cref="RmqPublication"/> instance.
+/// A fluent builder for creating instances of <see cref="PostgresPublication"/>.
 /// </summary>
-public class RmqPublicationBuilder
+public class PostgresPublicationBuilder
 {
-    private int _waitForConfirmsTimeOutInMilliseconds = 500;
-
+    private string? _schemaName;
+    
     /// <summary>
-    /// Sets the timeout for waiting for message confirms in milliseconds.
+    /// Sets the schema name where the queue store table resides in the PostgreSQL database.
+    /// If not explicitly set, the default schema name configured in the <see cref="PostgresMessagingGatewayConnection"/> will be used [[7]].
     /// </summary>
-    /// <param name="waitForConfirmsTimeOut">Time span representing the timeout duration.</param>
-    /// <returns>The builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder WaitForConfirmsTimeOut(TimeSpan waitForConfirmsTimeOut)
+    /// <param name="schemaName">The schema name for the queue store table.</param>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public PostgresPublicationBuilder SchemaName(string? schemaName)
     {
-        return WaitForConfirmsTimeOutInMilliseconds(Convert.ToInt32(waitForConfirmsTimeOut.TotalMilliseconds));
+        _schemaName = schemaName;
+        return this;
     }
+    
+    private string? _queueStoreTable;
 
     /// <summary>
-    /// Sets the timeout for waiting for message confirms in milliseconds.
+    /// Sets the name of the queue store table in the PostgreSQL database.
+    /// If not explicitly set, the default queue store table name configured in the <see cref="PostgresMessagingGatewayConnection"/> will be used [[7]].
     /// </summary>
-    /// <param name="waitForConfirmsTimeOutInMilliseconds">Timeout in milliseconds (default: 500).</param>
-    /// <returns>The builder instance for fluent chaining.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="waitForConfirmsTimeOutInMilliseconds"/> is negative.</exception>
-    public RmqPublicationBuilder WaitForConfirmsTimeOutInMilliseconds(int waitForConfirmsTimeOutInMilliseconds)
+    /// <param name="queueStoreTable">The name of the queue store table.</param>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public PostgresPublicationBuilder QueueStoreTable(string? queueStoreTable)
     {
-        if (waitForConfirmsTimeOutInMilliseconds < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(waitForConfirmsTimeOutInMilliseconds), "Timeout must be non-negative");
-        }
-
-        _waitForConfirmsTimeOutInMilliseconds = waitForConfirmsTimeOutInMilliseconds;
+        _queueStoreTable = queueStoreTable;
         return this;
     }
 
+    private bool? _binaryMessagePayload;
+    
+    /// <summary>
+    /// Sets whether the message payload should be stored as binary JSON (JSONB) in the PostgreSQL database.
+    /// Using JSONB can offer performance benefits over standard JSON [[9]].
+    /// If not explicitly set, the default setting configured in the <see cref="PostgresMessagingGatewayConnection"/> will be used [[7]].
+    /// </summary>
+    /// <param name="binaryMessagePayload">True to store as JSONB, false to store as UTF-8 string.</param>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public PostgresPublicationBuilder BinaryMessagePayload(bool? binaryMessagePayload)
+    {
+        _binaryMessagePayload = binaryMessagePayload;
+        return this;
+    }
+    
+    /// <summary>
+    /// Enable binary message payload
+    /// </summary>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public PostgresPublicationBuilder EnableBinaryMessagePayload()
+        => BinaryMessagePayload(true);
+    
+    /// <summary>
+    /// Disable binary message payload
+    /// </summary>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public PostgresPublicationBuilder DisableBinaryMessagePayload()
+        => BinaryMessagePayload(false);
+    
     private OnMissingChannel _makeChannel = OnMissingChannel.Create;
 
     /// <summary>
     /// Configures the publisher to create exchanges if they don't exist.
     /// </summary>
     /// <returns>The builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder CreateExchangeIfMissing()
+    public PostgresPublicationBuilder CreateExchangeIfMissing()
     {
         return MakeExchange(OnMissingChannel.Create);
     }
@@ -57,7 +84,7 @@ public class RmqPublicationBuilder
     /// Throws an exception if the exchange is missing.
     /// </summary>
     /// <returns>The builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder ValidateIfExchangeExists()
+    public PostgresPublicationBuilder ValidateIfExchangeExists()
     {
         return MakeExchange(OnMissingChannel.Validate);
     }
@@ -66,7 +93,7 @@ public class RmqPublicationBuilder
     /// Configures the publisher to assume exchanges exist without validation.
     /// </summary>
     /// <returns>The builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder AssumeExchangeExists()
+    public PostgresPublicationBuilder AssumeExchangeExists()
     {
         return MakeExchange(OnMissingChannel.Assume);
     }
@@ -76,7 +103,7 @@ public class RmqPublicationBuilder
     /// </summary>
     /// <param name="makeChannel">The <see cref="OnMissingChannel"/> mode to use.</param>
     /// <returns>The builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder MakeExchange(OnMissingChannel makeChannel)
+    public PostgresPublicationBuilder MakeExchange(OnMissingChannel makeChannel)
     {
         _makeChannel = makeChannel;
         return this;
@@ -89,7 +116,7 @@ public class RmqPublicationBuilder
     /// </summary>
     /// <param name="topic">The topic name</param>
     /// <returns>The builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder Topic(RoutingKey topic)
+    public PostgresPublicationBuilder Topic(RoutingKey topic)
     {
         _topic = topic;
         return this;
@@ -102,29 +129,29 @@ public class RmqPublicationBuilder
     /// </summary>
     /// <param name="type">The request type.</param>
     /// <returns>The builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder RequestType(Type? type)
+    public PostgresPublicationBuilder RequestType(Type? type)
     {
         _requestType = type;
         return this;
     }
+    
     /// <summary>
     /// Sets the request type
     /// </summary>
     /// <returns>The builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder RequestType<TRequest>()
+    public PostgresPublicationBuilder RequestType<TRequest>()
         where TRequest : class, IRequest
     {
         return RequestType(typeof(TRequest));
     }
-    
-   private Uri? _dataSchema;
+    private Uri? _dataSchema;
     
     /// <summary>
     /// Sets the schema URI that data adheres to. Incompatible changes to the schema SHOULD be reflected by a different URI [[11]].
     /// </summary>
     /// <param name="dataSchema">The schema URI.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder  DataSchema(Uri? dataSchema)
+    public PostgresPublicationBuilder DataSchema(Uri? dataSchema)
     {
         _dataSchema = dataSchema;
         return this;
@@ -138,7 +165,7 @@ public class RmqPublicationBuilder
     /// </summary>
     /// <param name="source">The source URI.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder Source(Uri source)
+    public PostgresPublicationBuilder Source(Uri source)
     {
         _source = source ?? throw new ArgumentNullException(nameof(source));
         return this;
@@ -151,7 +178,7 @@ public class RmqPublicationBuilder
     /// </summary>
     /// <param name="subject">The subject string.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder Subject(string? subject)
+    public PostgresPublicationBuilder Subject(string? subject)
     {
         _subject = subject;
         return this;
@@ -165,7 +192,7 @@ public class RmqPublicationBuilder
     /// </summary>
     /// <param name="type">The event type string.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder Type(string type)
+    public PostgresPublicationBuilder Type(string type)
     {
         _type = type ?? throw new ArgumentNullException(nameof(type));
         return this;
@@ -179,7 +206,7 @@ public class RmqPublicationBuilder
     /// </summary>
     /// <param name="properties">Dictionary of additional properties.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder CloudEventsAdditionalProperties(IDictionary<string, object>? properties)
+    public PostgresPublicationBuilder CloudEventsAdditionalProperties(IDictionary<string, object>? properties)
     {
         _cloudEventsAdditionalProperties = properties;
         return this;
@@ -192,30 +219,22 @@ public class RmqPublicationBuilder
     /// </summary>
     /// <param name="replyTo">The reply-to queue name.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder ReplyTo(string? replyTo)
+    public PostgresPublicationBuilder ReplyTo(string? replyTo)
     {
         _replyTo = replyTo;
         return this;
-    }
+    } 
 
-    /// <summary>
-    /// Builds and returns the configured <see cref="RmqPublication"/> instance.
-    /// </summary>
-    /// <returns>A new <see cref="RmqPublication"/> with the specified configuration.</returns>
-    internal RmqPublication Build()
+    internal PostgresPublication Build()
     {
-        return new RmqPublication
+        return new PostgresPublication
         {
-            WaitForConfirmsTimeOutInMilliseconds = _waitForConfirmsTimeOutInMilliseconds,
-            CloudEventsAdditionalProperties = _cloudEventsAdditionalProperties,
-            DataSchema = _dataSchema,
+            SchemaName = _schemaName,
+            QueueStoreTable = _queueStoreTable,
+            BinaryMessagePayload = _binaryMessagePayload,
             MakeChannels = _makeChannel,
-            ReplyTo = _replyTo,
-            RequestType = _requestType,
-            Subject = _subject,
-            Source = _source,
             Topic = _topic,
-            Type = _type,
+            RequestType = _requestType
         };
     }
 }

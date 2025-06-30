@@ -27,7 +27,6 @@ public static class BrighterRegisterExtensions
     /// );
     /// </code>
     /// </example>
-
     public static IBrighterConfigurator UsingRabbitMQ(this IBrighterConfigurator configurator, Action<RmqConfigurator> configure)
     {
         if (configurator == null)

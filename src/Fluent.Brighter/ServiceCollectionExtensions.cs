@@ -40,6 +40,7 @@ public static class ServiceCollectionExtensions
             opt.RequestContextFactory = configurator.Options.RequestContextFactory;
             opt.Subscriptions = configurator.Subscriptions;
             opt.DefaultChannelFactory = configurator.ChannelFactory;
+            opt.InboxConfiguration = configurator.InboxConfiguration;
         });
 
         if (configurator.FromAssembly == AutoFromAssembly.All)
@@ -76,7 +77,14 @@ public static class ServiceCollectionExtensions
         {
             brighter = brighter.UseExternalBus(cfg =>
             {
+                cfg.Outbox = configurator.OutboxConfiguration?.Outbox;
+                cfg.MaxOutStandingMessages = configurator.OutboxConfiguration?.MaxOutStandingMessages;
+                cfg.MaxOutStandingCheckInterval = configurator.OutboxConfiguration?.MaxOutStandingCheckInterval ?? TimeSpan.Zero;
+                cfg.OutboxBulkChunkSize = configurator.OutboxConfiguration?.OutboxBulkChunkSize;
+                cfg.OutBoxBag = configurator.OutboxConfiguration?.OutBoxBag;
+                cfg.OutboxTimeout = configurator.OutboxConfiguration?.OutboxTimeout;
                 cfg.ProducerRegistry = producerRegistry;
+                cfg.DistributedLock = configurator.DistributedLockConfiguration;
             });
         }
 
