@@ -5,6 +5,9 @@ using Paramore.Brighter.MessagingGateway.Postgres;
 
 namespace Fluent.Brighter.Postgres;
 
+/// <summary>
+/// A fluent builder for creating instances of <see cref="PostgresSubscription"/>.
+/// </summary>
 public class PostgresSubscriptionBuilder
 {
     private Type? _dataType;
@@ -366,8 +369,11 @@ public class PostgresSubscriptionBuilder
     /// <returns>The current builder instance for fluent chaining.</returns>
     public PostgresSubscriptionBuilder DisableTableWithLargeMessage() => TableWithLargeMessage(false);
 
-
-    internal PostgresSubscription Build()
+    /// <summary>
+    /// Create a new instance of <see cref="PostgresSubscription"/> 
+    /// </summary>
+    /// <returns></returns>
+    public PostgresSubscription Build()
     {
         if (_dataType == null)
         {

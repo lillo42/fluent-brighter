@@ -1,4 +1,5 @@
 
+using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.AWSSQS;
 
 namespace Fluent.Brighter.Aws;

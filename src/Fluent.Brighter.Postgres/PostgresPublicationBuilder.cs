@@ -225,16 +225,26 @@ public class PostgresPublicationBuilder
         return this;
     } 
 
-    internal PostgresPublication Build()
+    /// <summary>
+    /// Create a new instance of <see cref="PostgresPublication"/> 
+    /// </summary>
+    /// <returns></returns>
+    public PostgresPublication Build()
     {
         return new PostgresPublication
         {
             SchemaName = _schemaName,
             QueueStoreTable = _queueStoreTable,
             BinaryMessagePayload = _binaryMessagePayload,
+            CloudEventsAdditionalProperties = _cloudEventsAdditionalProperties,
+            DataSchema = _dataSchema,
             MakeChannels = _makeChannel,
+            ReplyTo = _replyTo,
+            RequestType = _requestType,
+            Subject = _subject,
+            Source = _source,
             Topic = _topic,
-            RequestType = _requestType
+            Type = _type,
         };
     }
 }

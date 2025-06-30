@@ -1,5 +1,6 @@
 using System;
 
+using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.RMQ.Async;
 
 using RabbitMQ.Client;

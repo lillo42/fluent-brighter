@@ -1,5 +1,6 @@
 using System;
 
+using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.RMQ.Sync;
 
 namespace Fluent.Brighter.RMQ.Sync;

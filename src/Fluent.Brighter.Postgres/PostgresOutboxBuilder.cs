@@ -8,7 +8,7 @@ using Paramore.Brighter.PostgreSql;
 namespace Fluent.Brighter.Postgres;
 
 /// <summary>
-/// A fluent builder for creating instances of <see cref="PostgresOutboxBuilder"/>.
+/// A fluent builder for creating instances of <see cref="BrighterOutboxConfiguration"/>.
 /// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and PostgreSQL-specific settings.
 /// </summary>
 public class PostgresOutboxBuilder
@@ -110,9 +110,13 @@ public class PostgresOutboxBuilder
         _configuration = builder.Build();
         return this;
     }
-    
-    internal PostgresOutboxBuilder ConfigurationIfIsMissing(
-        RelationalDatabaseConfiguration configuration)
+   
+    /// <summary>
+    /// Sets the PostgreSQL-specific relational database configuration if it was not set.
+    /// </summary>
+    /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public PostgresOutboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;
@@ -145,13 +149,18 @@ public class PostgresOutboxBuilder
     
     private IAmARelationalDbConnectionProvider _unitOfWork = null!;
 
-    internal PostgresOutboxBuilder SetProvider(IAmARelationalDbConnectionProvider provider)
+    /// <summary>
+    /// Sets the unit of work connection provider
+    /// </summary>
+    /// <param name="provider"></param>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public PostgresOutboxBuilder UnitOfWorkConnectionProvider(IAmARelationalDbConnectionProvider provider)
     {
         _unitOfWork = provider;
         return this;
     }
         
-    internal BrighterOutboxConfiguration Build()
+    public BrighterOutboxConfiguration Build()
     {
         var provider = _useUnitOfWork ? _unitOfWork : new PostgreSqlConnectionProvider(_configuration!);
         return new BrighterOutboxConfiguration

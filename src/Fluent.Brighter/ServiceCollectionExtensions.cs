@@ -85,6 +85,7 @@ public static class ServiceCollectionExtensions
                 cfg.OutboxTimeout = configurator.OutboxConfiguration?.OutboxTimeout;
                 cfg.ProducerRegistry = producerRegistry;
                 cfg.DistributedLock = configurator.DistributedLockConfiguration;
+                cfg.RequestContextFactory = configurator.Options.RequestContextFactory;
             });
         }
 

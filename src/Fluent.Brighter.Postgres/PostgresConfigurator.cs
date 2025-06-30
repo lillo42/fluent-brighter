@@ -12,6 +12,14 @@ using Paramore.Brighter.PostgreSql;
 
 namespace Fluent.Brighter.Postgres;
 
+/// <summary>
+/// A fluent configuration builder for setting up PostgreSQL integration with Paramore.Brighter message handling.
+/// Provides methods to configure subscriptions, publications, outbox, inbox, distributed locks, and database connections.
+/// </summary>
+/// <remarks>
+/// This class is designed to be used within a dependency injection pipeline to register PostgreSQL-based infrastructure services.
+/// It supports a fluent API for defining configuration steps and integrates with <see cref="IBrighterConfigurator"/> for service registration.
+/// </remarks>
 public class PostgresConfigurator
 {
     private readonly List<PostgresSubscription> _subscriptions= [];
@@ -25,6 +33,12 @@ public class PostgresConfigurator
     private PostgresInboxConfigurationBuilder? _inboxBuilder;
     private PostgresDistributedLockBuilder? _distributedLockBuilder;
 
+    /// <summary>
+    /// Configures the relational database connection settings for PostgreSQL.
+    /// </summary>
+    /// <param name="configure">An action to customize the <see cref="RelationalDatabaseConfigurationBuilder"/>.</param>
+    /// <returns>The current <see cref="PostgresConfigurator"/> instance for fluent chaining.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="configure"/> is null.</exception>
     public PostgresConfigurator Configuration(Action<RelationalDatabaseConfigurationBuilder> configure)
     {
         if (configure == null)
@@ -38,6 +52,12 @@ public class PostgresConfigurator
         return this;
     }
     
+    /// <summary>
+    /// Adds a PostgreSQL subscription configuration.
+    /// </summary>
+    /// <param name="configure">An action to customize the <see cref="PostgresSubscriptionBuilder"/>.</param>
+    /// <returns>The current <see cref="PostgresConfigurator"/> instance for fluent chaining.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="configure"/> is null.</exception>
     public PostgresConfigurator Subscription(Action<PostgresSubscriptionBuilder> configure)
     {
         if (configure == null)
@@ -51,6 +71,12 @@ public class PostgresConfigurator
         return this;
     }
 
+    /// <summary>
+    /// Adds a PostgreSQL publication configuration.
+    /// </summary>
+    /// <param name="configure">An action to customize the <see cref="PostgresPublicationBuilder"/>.</param>
+    /// <returns>The current <see cref="PostgresConfigurator"/> instance for fluent chaining.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when <paramref name="configure"/> is null.</exception>
     public PostgresConfigurator Publication(Action<PostgresPublicationBuilder> configure)
     {
         if (configure == null)
@@ -64,18 +90,32 @@ public class PostgresConfigurator
         return this;
     }
 
+    /// <summary>
+    /// Enables unit of work support for transactional message handling.
+    /// </summary>
+    /// <returns>The current <see cref="PostgresConfigurator"/> instance for fluent chaining.</returns>
     public PostgresConfigurator UseUnitOfWork()
     {
         _unitOfOWork = true;
         return this;
     }
 
+    /// <summary>
+    /// Sets the Npgsql data source to be used for connection pooling.
+    /// </summary>
+    /// <param name="dataSource">The Npgsql data source instance.</param>
+    /// <returns>The current <see cref="PostgresConfigurator"/> instance for fluent chaining.</returns>
     public PostgresConfigurator UseDataSource(NpgsqlDataSource? dataSource)
     {
         _dataSource = dataSource;
         return this;
     }
         
+    /// <summary>
+    /// Configures the outbox for message persistence.
+    /// </summary>
+    /// <param name="configure">An optional action to customize the <see cref="PostgresOutboxBuilder"/>.</param>
+    /// <returns>The current <see cref="PostgresConfigurator"/> instance for fluent chaining.</returns>
     public PostgresConfigurator Outbox(Action<PostgresOutboxBuilder>? configure = null)
     {
         _outboxBuilder = new PostgresOutboxBuilder();
@@ -87,6 +127,11 @@ public class PostgresConfigurator
         return this;
     }
 
+    /// <summary>
+    /// Configures the inbox for message de-duplication.
+    /// </summary>
+    /// <param name="configure">An optional action to customize the <see cref="PostgresInboxConfigurationBuilder"/>.</param>
+    /// <returns>The current <see cref="PostgresConfigurator"/> instance for fluent chaining.</returns>
     public PostgresConfigurator Inbox(Action<PostgresInboxConfigurationBuilder>? configure = null)
     {
         _inboxBuilder = new PostgresInboxConfigurationBuilder();
@@ -98,6 +143,11 @@ public class PostgresConfigurator
         return this;
     }
 
+    /// <summary>
+    /// Configures distributed lock functionality using PostgreSQL advisory locks.
+    /// </summary>
+    /// <param name="configure">An optional action to customize the <see cref="PostgresDistributedLockBuilder"/>.</param>
+    /// <returns>The current <see cref="PostgresConfigurator"/> instance for fluent chaining.</returns>
     public PostgresConfigurator DistributedLock(Action<PostgresDistributedLockBuilder>? configure = null)
     {
         _distributedLockBuilder = new PostgresDistributedLockBuilder();
@@ -135,7 +185,7 @@ public class PostgresConfigurator
         {
             register.Outbox(_outboxBuilder
                 .ConfigurationIfIsMissing(_configuration)
-                .SetProvider(provider)
+                .UnitOfWorkConnectionProvider(provider)
                 .Build());
         }
 
@@ -143,7 +193,7 @@ public class PostgresConfigurator
         {
             register.Inbox(_inboxBuilder
                 .ConfigurationIfIsMissing(_configuration)
-                .SetProvider(provider)
+                .UnitOfWorkConnectionProvider(provider)
                 .Build());
         }
 

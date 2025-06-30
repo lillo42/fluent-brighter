@@ -1,10 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <IsPackable>false</IsPackable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="coverlet.collector">
@@ -25,6 +26,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\src\Fluent.Brighter.RMQ.Async\Fluent.Brighter.RMQ.Async.csproj" />
+      <ProjectReference Include="..\..\src\Fluent.Brighter.Postgres\Fluent.Brighter.Postgres.csproj" />
     </ItemGroup>
+
 </Project>
