@@ -1,8 +1,8 @@
 using System;
 
-using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.Sync;
 
-namespace Fluent.Brighter.RMQ;
+namespace Fluent.Brighter.RMQ.Sync;
 
 /// <summary>
 /// Builder class for constructing <see cref="AmqpUriSpecification"/> instances with a fluent API.
@@ -113,6 +113,11 @@ public class AmqpUriSpecificationBuilder
     /// <returns>A new <see cref="AmqpUriSpecification"/> with the configured settings.</returns>
     internal AmqpUriSpecification Build()
     {
+        if (_uri == null)
+        {
+            throw new ConfigurationException("Missing the AMQP URI");
+        }
+        
         return new AmqpUriSpecification(_uri, _connectionRetryCount, _retryWaitInMilliseconds, _circuitBreakTimeInMilliseconds);
     }
 }

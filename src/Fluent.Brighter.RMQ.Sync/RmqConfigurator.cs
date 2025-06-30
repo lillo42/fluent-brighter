@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.Sync;
 
-namespace Fluent.Brighter.RMQ;
+namespace Fluent.Brighter.RMQ.Sync;
 
 /// <summary>
 /// Configures RabbitMQ integration for Brighter messaging.
@@ -111,7 +112,7 @@ public class RmqConfigurator
 
         if (_connection == null)
         {
-            throw new InvalidOperationException("no connection setup");
+            throw new ConfigurationException("no connection setup");
         }
 
         if (_publications.Count > 0)

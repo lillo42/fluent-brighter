@@ -1,5 +1,6 @@
-
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Paramore.Brighter;
 
@@ -11,9 +12,21 @@ namespace Fluent.Brighter;
 /// </summary>
 public class CombinedChannelFactory(Dictionary<Subscription, IAmAChannelFactory> channels) : IAmAChannelFactory
 {
-    /// <inheritdoc cref="IAmAChannelFactory.CreateChannel(Subscription)"/>,
-    public IAmAChannel CreateChannel(Subscription subscription)
+    /// <inheritdoc />
+    public IAmAChannelSync CreateSyncChannel(Subscription subscription)
     {
-        return channels[subscription].CreateChannel(subscription);
+        return channels[subscription].CreateSyncChannel(subscription);
+    }
+
+    /// <inheritdoc />
+    public IAmAChannelAsync CreateAsyncChannel(Subscription subscription)
+    {
+        return channels[subscription].CreateAsyncChannel(subscription);
+    }
+
+    /// <inheritdoc />
+    public async Task<IAmAChannelAsync> CreateAsyncChannelAsync(Subscription subscription, CancellationToken ct = default)
+    {
+        return await channels[subscription].CreateAsyncChannelAsync(subscription, ct);
     }
 }

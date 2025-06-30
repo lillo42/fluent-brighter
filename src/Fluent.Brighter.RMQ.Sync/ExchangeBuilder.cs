@@ -1,9 +1,10 @@
-
 using System;
 
-using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.Sync;
 
-namespace Fluent.Brighter.RMQ;
+using RabbitMQ.Client;
+
+namespace Fluent.Brighter.RMQ.Sync;
 
 /// <summary>
 /// Fluent builder for configuring AMQP exchange settings.
@@ -30,7 +31,7 @@ public class ExchangeBuilder
         return this;
     }
 
-    private string _type = "direct";
+    private string _type = ExchangeType.Direct;
 
     /// <summary>
     /// Sets the exchange type (e.g., "direct", "fanout", "topic", "headers").
@@ -48,6 +49,11 @@ public class ExchangeBuilder
         _type = type;
         return this;
     }
+
+    public ExchangeBuilder TypeAsDirect() => Type(ExchangeType.Direct);
+    public ExchangeBuilder TypeAsFanout() => Type(ExchangeType.Fanout);
+    public ExchangeBuilder TypeAsHeaders() => Type(ExchangeType.Headers);
+    public ExchangeBuilder TypeAsTopic() => Type(ExchangeType.Topic);
 
     private bool _durable;
 
@@ -117,6 +123,11 @@ public class ExchangeBuilder
     /// <returns>A new <see cref="Exchange"/> with the specified configuration.</returns>
     internal Exchange Build()
     {
-        return new Exchange(_name, _type, _durable, _supportDelay);
+        if (string.IsNullOrEmpty(_name))
+        {
+            throw new ConfigurationException("Name can't be null or empty");
+        }
+        
+        return new Exchange(_name!, _type, _durable, _supportDelay);
     }
 }

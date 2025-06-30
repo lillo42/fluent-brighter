@@ -39,7 +39,7 @@ public static class ServiceCollectionExtensions
             opt.PolicyRegistry = configurator.Options.PolicyRegistry;
             opt.RequestContextFactory = configurator.Options.RequestContextFactory;
             opt.Subscriptions = configurator.Subscriptions;
-            opt.ChannelFactory = configurator.ChannelFactory;
+            opt.DefaultChannelFactory = configurator.ChannelFactory;
         });
 
         if (configurator.FromAssembly == AutoFromAssembly.All)
@@ -74,7 +74,10 @@ public static class ServiceCollectionExtensions
         var producerRegistry = configurator.ProducerRegistry;
         if (producerRegistry != null)
         {
-            brighter = brighter.UseExternalBus(producerRegistry);
+            brighter = brighter.UseExternalBus(cfg =>
+            {
+                cfg.ProducerRegistry = producerRegistry;
+            });
         }
 
         return services;

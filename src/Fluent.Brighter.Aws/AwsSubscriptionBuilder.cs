@@ -25,7 +25,7 @@ public class SqsSubscriptionBuilder<T>
     }
 
 
-    private ChannelName _channelName = new(typeof(T).FullName.ToValidSNSTopicName());
+    private ChannelName _channelName = new(typeof(T).FullName!.ToValidSNSTopicName());
     public SqsSubscriptionBuilder<T> QueueName(string queueName)
     {
         return ChannelName(new ChannelName(queueName));
@@ -42,7 +42,7 @@ public class SqsSubscriptionBuilder<T>
         return this;
     }
 
-    private RoutingKey _routingKey = new(typeof(T).FullName.ToValidSNSTopicName());
+    private RoutingKey _routingKey = new(typeof(T).FullName!.ToValidSNSTopicName());
     public SqsSubscriptionBuilder<T> TopicName(string topicName)
     {
         return RoutingKey(new RoutingKey(topicName))
@@ -339,31 +339,32 @@ public class SqsSubscriptionBuilder<T>
 
     internal SqsSubscription<T> Build()
     {
-        return new SqsSubscription<T>(
-               name: _subscriptionName,
-               channelName: _channelName,
-               routingKey: _routingKey,
-               bufferSize: _bufferSize,
-               noOfPerformers: _noOfPerformers,
-               timeoutInMs: _timeout,
-               pollDelayInMs: _pollDelayInMs,
-               noWorkPauseInMs: _noWorkPauseInMs,
-               requeueCount: _requeueCount,
-               requeueDelayInMs: _requeueDelayInMs,
-               unacceptableMessageLimit: _unacceptableMessageLimit,
-               runAsync: _runAsync,
-               channelFactory: _channelFactory,
-               lockTimeout: _lockTimeout,
-               delaySeconds: _delayInSeconds,
-               messageRetentionPeriod: _messageRetentionPeriod,
-               findTopicBy: _findTopicBy,
-               iAmPolicy: _iAmPolicy,
-               redrivePolicy: _redrivePolicy,
-               snsAttributes: _snsAttributes,
-               tags: _tags,
-               makeChannels: _makeChannel,
-               rawMessageDelivery: _rawMessageDelivery,
-               emptyChannelDelay: _emptyChannelDelay,
-               channelFailureDelay: _channelFailureDelay);
+        return null!;
+        // new SqsSubscription<T>(
+        //        subscriptionName: _subscriptionName,
+        //        channelName: _channelName,
+        //        routingKey: _routingKey,
+        //        bufferSize: _bufferSize,
+        //        noOfPerformers: _noOfPerformers,
+        //        timeoutInMs: _timeout,
+        //        pollDelayInMs: _pollDelayInMs,
+        //        noWorkPauseInMs: _noWorkPauseInMs,
+        //        requeueCount: _requeueCount,
+        //        requeueDelayInMs: _requeueDelayInMs,
+        //        unacceptableMessageLimit: _unacceptableMessageLimit,
+        //        runAsync: _runAsync,
+        //        channelFactory: _channelFactory,
+        //        lockTimeout: _lockTimeout,
+        //        delaySeconds: _delayInSeconds,
+        //        messageRetentionPeriod: _messageRetentionPeriod,
+        //        findTopicBy: _findTopicBy,
+        //        iAmPolicy: _iAmPolicy,
+        //        redrivePolicy: _redrivePolicy,
+        //        snsAttributes: _snsAttributes,
+        //        tags: _tags,
+        //        makeChannels: _makeChannel,
+        //        rawMessageDelivery: _rawMessageDelivery,
+        //        emptyChannelDelay: _emptyChannelDelay,
+               // channelFailureDelay: _channelFailureDelay);
     }
 }

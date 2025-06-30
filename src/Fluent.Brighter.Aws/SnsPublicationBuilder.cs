@@ -62,7 +62,7 @@ public class SnsPublicationBuilder
     {
         _topicArn = topicArn.ToString();
         _findTopicBy = TopicFindBy.Arn;
-        if (_topicName == null && Arn.TryParse(topicArn, out var arn))
+        if (RoutingKey.IsNullOrEmpty(_topicName) && Arn.TryParse(topicArn, out var arn))
         {
             _topicName = new RoutingKey(arn.Resource);
         }
@@ -111,7 +111,8 @@ public class SnsPublicationBuilder
 
     internal SnsPublication Build()
     {
-        return new SnsPublication
+        return null!;
+        /*new SnsPublication
         {
             FindTopicBy = _findTopicBy,
             SnsAttributes = _snsAttributes,
@@ -120,6 +121,6 @@ public class SnsPublicationBuilder
             MaxOutStandingMessages = _maxOutStandingMessages,
             MaxOutStandingCheckIntervalMilliSeconds = _maxOutStandingCheckIntervalMilliSeconds,
             OutBoxBag = _outboxBag
-        };
+        };*/
     }
 }

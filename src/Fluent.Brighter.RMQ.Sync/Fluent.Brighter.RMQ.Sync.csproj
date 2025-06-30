@@ -14,7 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Paramore.Brighter.MessagingGateway.RMQ" />
+    <PackageReference Include="Paramore.Brighter.MessagingGateway.RMQ.Sync" />
   </ItemGroup>
 
 </Project>

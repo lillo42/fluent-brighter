@@ -2,7 +2,7 @@
 
 using Xunit;
 
-namespace Fluent.Brighter.RMQ.Tests;
+namespace Fluent.Brighter.RMQ.Sync.Tests;
 
 public class ExchangeBuilderTests
 {

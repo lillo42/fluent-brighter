@@ -1,8 +1,8 @@
 using System;
 
-using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.Sync;
 
-namespace Fluent.Brighter.RMQ;
+namespace Fluent.Brighter.RMQ.Sync;
 
 /// <summary>
 /// Fluent builder for configuring RabbitMQ messaging gateway connections.

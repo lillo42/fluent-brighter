@@ -1,11 +1,9 @@
-
 using System;
-using System.Collections.Generic;
 
 using Paramore.Brighter;
-using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.Sync;
 
-namespace Fluent.Brighter.RMQ;
+namespace Fluent.Brighter.RMQ.Sync;
 
 /// <summary>
 /// Fluent builder for configuring RabbitMQ publication settings.
@@ -83,104 +81,39 @@ public class RmqPublicationBuilder
         return this;
     }
 
-    private int _maxOutStandingMessages = -1;
-
-    /// <summary>
-    /// Sets the maximum number of outstanding messages allowed before blocking.
-    /// </summary>
-    /// <param name="maxOutStandingMessages">Maximum number of outstanding messages (default: -1 for unlimited).</param>
-    /// <returns>The builder instance for fluent chaining.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxOutStandingMessages"/> is less than -1.</exception>
-    public RmqPublicationBuilder MaxOutStandingMessages(int maxOutStandingMessages)
-    {
-        if (maxOutStandingMessages < -1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(maxOutStandingMessages), "MaxOutStandingMessages must be -1 or greater");
-        }
-
-        _maxOutStandingMessages = maxOutStandingMessages;
-        return this;
-    }
-
-    private int _maxOutStandingCheckIntervalMilliSeconds;
-    
-    /// <summary>
-    /// Sets the interval for checking outstanding message count in milliseconds.
-    /// </summary>
-    /// <param name="maxOutStandingCheckInterval">Time span representing the interval.</param>
-    /// <returns>The builder instance for fluent chaining.</returns>
-    public RmqPublicationBuilder MaxOutStandingCheckInterval(TimeSpan maxOutStandingCheckInterval)
-    {
-        return MaxOutStandingCheckIntervalMilliSeconds(Convert.ToInt32(maxOutStandingCheckInterval.TotalMilliseconds));
-    }
-
-    /// <summary>
-    /// Sets the interval for checking outstanding message count in milliseconds.
-    /// </summary>
-    /// <param name="maxOutStandingCheckIntervalMilliSeconds">Interval in milliseconds.</param>
-    /// <returns>The builder instance for fluent chaining.</returns>
-    /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="maxOutStandingCheckIntervalMilliSeconds"/> is negative.</exception>
-    public RmqPublicationBuilder MaxOutStandingCheckIntervalMilliSeconds(int maxOutStandingCheckIntervalMilliSeconds)
-    {
-        if (maxOutStandingCheckIntervalMilliSeconds < 0)
-        {
-            throw new ArgumentOutOfRangeException(nameof(maxOutStandingCheckIntervalMilliSeconds), "Interval must be non-negative");
-        }
-
-        _maxOutStandingCheckIntervalMilliSeconds = maxOutStandingCheckIntervalMilliSeconds;
-        return this;
-    }
-
-    private Dictionary<string, object>? _outboxBag;
-
-    /// <summary>
-    /// Adds a key-value pair to the outbox context bag for message metadata.
-    /// </summary>
-    /// <param name="key">The key for the metadata entry.</param>
-    /// <param name="value">The value for the metadata entry.</param>
-    /// <returns>The builder instance for fluent chaining.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="key"/> is <see langword="null"/>.</exception>
-    public RmqPublicationBuilder OutboxBag(string key, object value)
-    {
-        _outboxBag ??= [];
-
-        if (key == null)
-        {
-            throw new ArgumentNullException(nameof(key));
-        }
-
-        _outboxBag[key] = value;
-        return this;
-    }
-
-    /// <summary>
-    /// Adds multiple key-value pairs to the outbox context bag for message metadata.
-    /// </summary>
-    /// <param name="bag">Collection of key-value pairs to add.</param>
-    /// <returns>The builder instance for fluent chaining.</returns>
-    /// <exception cref="ArgumentNullException">Thrown when <paramref name="bag"/> is <see langword="null"/>.</exception>
-    public RmqPublicationBuilder OutboxBag(IEnumerable<KeyValuePair<string, object>> bag)
-    {
-        _outboxBag ??= [];
-        foreach (var item in bag ?? throw new ArgumentNullException(nameof(bag)))
-        {
-            _outboxBag[item.Key] = item.Value;
-        }
-
-        return this;
-    }
-
     private RoutingKey? _topic;
 
-    public RmqPublicationBuilder Topic(string topic)
-    {
-        return Topic(new RoutingKey(topic));
-    }
-    
+    /// <summary>
+    /// Sets the topic
+    /// </summary>
+    /// <param name="topic">The topic name</param>
+    /// <returns>The builder instance for fluent chaining.</returns>
     public RmqPublicationBuilder Topic(RoutingKey topic)
     {
         _topic = topic;
         return this;
+    }
+
+    private Type? _requestType;
+
+    /// <summary>
+    /// Sets the request type
+    /// </summary>
+    /// <param name="type">The request type.</param>
+    /// <returns>The builder instance for fluent chaining.</returns>
+    public RmqPublicationBuilder RequestType(Type? type)
+    {
+        _requestType = type;
+        return this;
+    }
+    /// <summary>
+    /// Sets the request type
+    /// </summary>
+    /// <returns>The builder instance for fluent chaining.</returns>
+    public RmqPublicationBuilder RequestType<TRequest>()
+        where TRequest : class, IRequest
+    {
+        return RequestType(typeof(TRequest));
     }
 
     /// <summary>
@@ -193,10 +126,8 @@ public class RmqPublicationBuilder
         {
             WaitForConfirmsTimeOutInMilliseconds = _waitForConfirmsTimeOutInMilliseconds,
             MakeChannels = _makeChannel,
-            MaxOutStandingMessages = _maxOutStandingMessages,
-            MaxOutStandingCheckIntervalMilliSeconds = _maxOutStandingCheckIntervalMilliSeconds,
-            OutBoxBag = _outboxBag,
-            Topic = _topic
+            Topic = _topic,
+            RequestType = _requestType
         };
     }
 }

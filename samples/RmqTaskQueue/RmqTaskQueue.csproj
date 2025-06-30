@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Fluent.Brighter.RMQ\Fluent.Brighter.RMQ.csproj" />
+    <ProjectReference Include="..\..\src\Fluent.Brighter.RMQ.Sync\Fluent.Brighter.RMQ.Sync.csproj" />
   </ItemGroup>
 
   <ItemGroup>

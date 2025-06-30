@@ -1,7 +1,6 @@
-
 using System;
 
-namespace Fluent.Brighter.RMQ;
+namespace Fluent.Brighter.RMQ.Sync;
 
 /// <summary>
 /// Provides extension methods for integrating RabbitMQ with Brighter service configuration.
@@ -36,8 +35,8 @@ public static class BrighterRegisterExtensions
             throw new ArgumentNullException(nameof(configurator));
         }
 
-        var rmqconfigurator = new RmqConfigurator();
-        configure(rmqconfigurator);
-        return rmqconfigurator.AddRabbitMq(configurator);
+        var rmqConfigurator = new RmqConfigurator();
+        configure(rmqConfigurator);
+        return rmqConfigurator.AddRabbitMq(configurator);
     }
 }

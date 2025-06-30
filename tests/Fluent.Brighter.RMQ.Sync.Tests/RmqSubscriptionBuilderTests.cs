@@ -6,7 +6,7 @@ using Paramore.Brighter;
 
 using Xunit;
 
-namespace Fluent.Brighter.RMQ.Tests;
+namespace Fluent.Brighter.RMQ.Sync.Tests;
 
 public class RmqSubscriptionBuilderTests
 {
@@ -25,8 +25,8 @@ public class RmqSubscriptionBuilderTests
         Assert.IsType<RmqSubscriptionBuilder>(result);
         Assert.Same(builder, result);
         var sub = builder.Build();
-        Assert.Equal(dlqName, sub.DeadLetterChannelName.Value);
-        Assert.Equal(dlqName, sub.DeadLetterRoutingKey);
+        Assert.Equal(dlqName, sub.DeadLetterChannelName!.Value);
+        Assert.Equal(dlqName, sub.DeadLetterRoutingKey!);
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class RmqSubscriptionBuilderTests
         
         var sub = builder.Build();
         Assert.Equal(dlqName, sub.DeadLetterChannelName);
-        Assert.Equal(dlqName.Value, sub.DeadLetterRoutingKey);
+        Assert.Equal(dlqName.Value, sub.DeadLetterRoutingKey?.Value);
     }
     
     [Fact]
@@ -77,7 +77,7 @@ public class RmqSubscriptionBuilderTests
         Assert.Same(builder, result);
         var sub = builder.Build();
         Assert.Equal(dlqName, sub.DeadLetterChannelName);
-        Assert.Equal("initial.routing.key", sub.DeadLetterRoutingKey);
+        Assert.Equal("initial.routing.key", sub.DeadLetterRoutingKey?.Value);
     }
     
     [Fact]
@@ -93,7 +93,7 @@ public class RmqSubscriptionBuilderTests
         // Assert
         Assert.NotNull(result);
         Assert.Same(builder, result);
-        Assert.Equal(routingKey, builder.Build().DeadLetterRoutingKey);
+        Assert.Equal(routingKey, builder.Build().DeadLetterRoutingKey?.Value);
     }
     
     [Fact]
@@ -237,7 +237,7 @@ public class RmqSubscriptionBuilderTests
     {
         // Arrange
         var builder = new RmqSubscriptionBuilder().MessageType(typeof(object));
-        int? ttlValue = 5000;
+        var ttlValue = TimeSpan.FromSeconds(5000);
     
         // Act
         var result = builder.Ttl(ttlValue);
@@ -245,7 +245,7 @@ public class RmqSubscriptionBuilderTests
         // Assert
         Assert.NotNull(result);
         Assert.Same(builder, result);
-        Assert.Equal(ttlValue, builder.Build().TTL);
+        Assert.Equal(ttlValue, builder.Build().Ttl);
     }
     
     [Fact]
@@ -253,7 +253,7 @@ public class RmqSubscriptionBuilderTests
     {
         // Arrange
         var builder = new RmqSubscriptionBuilder().MessageType(typeof(object));
-        int? ttlValue = null;
+        TimeSpan? ttlValue = null;
     
         // Act
         var result = builder.Ttl(ttlValue);
@@ -261,7 +261,7 @@ public class RmqSubscriptionBuilderTests
         // Assert
         Assert.NotNull(result);
         Assert.Same(builder, result);
-        Assert.Null(builder.Build().TTL);
+        Assert.Null(builder.Build().Ttl);
     }
     
     [Fact]
@@ -355,7 +355,7 @@ public class RmqSubscriptionBuilderTests
         const string queueName = "my.queue";
     
         // Act
-        var result = builder.QueueName(queueName);
+        var result = builder.Queue(queueName);
     
         // Assert
         Assert.NotNull(result);
@@ -425,7 +425,7 @@ public class RmqSubscriptionBuilderTests
         const string topicName = "my.topic";
     
         // Act
-        var result = builder.TopicName(topicName);
+        var result = builder.Topic(topicName);
     
         // Assert
         Assert.NotNull(result);
@@ -527,7 +527,7 @@ public class RmqSubscriptionBuilderTests
         // Assert
         Assert.NotNull(result);
         Assert.Same(builder, result);
-        Assert.Equal(concurrency, builder.Build().NoOfPeformers);
+        Assert.Equal(concurrency, builder.Build().NoOfPerformers);
     }
     
     [Fact]
@@ -547,42 +547,14 @@ public class RmqSubscriptionBuilderTests
         // Arrange
         var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
         var timeout = TimeSpan.FromMilliseconds(500);
-        const int expectedMilliseconds = 500;
     
         // Act
-        var result = builder.Timeout(timeout);
+        var result = builder.TimeOut(timeout);
     
         // Assert
         Assert.NotNull(result);
         Assert.IsType<RmqSubscriptionBuilder>(result);
-        Assert.Equal(expectedMilliseconds, builder.Build().TimeoutInMilliseconds);
-    }
-    
-    [Fact]
-    public void TimeoutInMilliseconds_ValidValue_SetsTimeoutInMilliseconds()
-    {
-        // Arrange
-        var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
-        const int timeoutMilliseconds = 1000;
-    
-        // Act
-        var result = builder.TimeoutInMilliseconds(timeoutMilliseconds);
-    
-        // Assert
-        Assert.NotNull(result);
-        Assert.Same(builder, result);
-        Assert.Equal(timeoutMilliseconds, builder.Build().TimeoutInMilliseconds);
-    }
-    
-    [Fact]
-    public void TimeoutInMilliseconds_InvalidValue_ThrowsArgumentOutOfRangeException()
-    {
-        // Arrange
-        var builder = new RmqSubscriptionBuilder();
-        const int timeoutMilliseconds = -100;
-    
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => builder.TimeoutInMilliseconds(timeoutMilliseconds));
+        Assert.Equal(timeout, builder.Build().TimeOut);
     }
     
     [Fact]
@@ -628,49 +600,6 @@ public class RmqSubscriptionBuilderTests
         Assert.Throws<ArgumentOutOfRangeException>(() => builder.RequeueCount(requeueCount));
     }
     
-    [Fact]
-    public void RequeueDelay_TimeSpan_SetsRequeueDelayInMilliseconds()
-    {
-        // Arrange
-        var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
-        var requeueDelay = TimeSpan.FromMilliseconds(2000);
-        const int expectedMilliseconds = 2000;
-    
-        // Act
-        var result = builder.RequeueDelay(requeueDelay);
-    
-        // Assert
-        Assert.NotNull(result);
-        Assert.Same(builder, result);
-        Assert.Equal(expectedMilliseconds,  builder.Build().RequeueDelayInMilliseconds);
-    }
-    
-    [Fact]
-    public void RequeueDelayInMilliseconds_ValidValue_SetsRequeueDelayInMilliseconds()
-    {
-        // Arrange
-        var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
-        const int requeueDelayMilliseconds = 1500;
-    
-        // Act
-        var result = builder.RequeueDelayInMilliseconds(requeueDelayMilliseconds);
-    
-        // Assert
-        Assert.NotNull(result);
-        Assert.Same(builder, result);
-        Assert.Equal(requeueDelayMilliseconds, builder.Build().RequeueDelayInMilliseconds);
-    }
-    
-    [Fact]
-    public void RequeueDelayInMilliseconds_InvalidValue_ThrowsArgumentOutOfRangeException()
-    {
-        // Arrange
-        var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
-        const int requeueDelayMilliseconds = -100;
-    
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => builder.RequeueDelayInMilliseconds(requeueDelayMilliseconds));
-    }
     
     [Fact]
     public void UnacceptableMessageLimit_ValidValue_SetsUnacceptableMessageLimit()
@@ -706,12 +635,12 @@ public class RmqSubscriptionBuilderTests
         var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
     
         // Act
-        var result = builder.MessagePumpReactor();
+        var result = builder.AsReactor();
     
         // Assert
         Assert.NotNull(result);
         Assert.Same(builder, result);
-        Assert.False(builder.Build().RunAsync);
+        Assert.Equal(MessagePumpType.Reactor, builder.Build().MessagePumpType);
     }
     
     [Fact]
@@ -721,29 +650,29 @@ public class RmqSubscriptionBuilderTests
         var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
     
         // Act
-        var result = builder.MessagePumpProactor();
+        var result = builder.AsProactor();
     
         // Assert
         Assert.NotNull(result);
         Assert.Same(builder, result);
-        Assert.True(builder.Build().RunAsync);
+        Assert.Equal(MessagePumpType.Proactor, builder.Build().MessagePumpType);
     }
     
     [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public void MessagePump_SetsRunAsyncCorrectly(bool runAsync)
+    [InlineData(MessagePumpType.Reactor)]
+    [InlineData(MessagePumpType.Proactor)]
+    public void MessagePump_SetsRunAsyncCorrectly(MessagePumpType messagePumpType)
     {
         // Arrange
         var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
     
         // Act
-        var result = builder.MessagePump(runAsync);
+        var result = builder.MessagePump(messagePumpType);
     
         // Assert
         Assert.NotNull(result);
         Assert.Same(builder, result);
-        Assert.Equal(runAsync, builder.Build().RunAsync);
+        Assert.Equal(messagePumpType, builder.Build().MessagePumpType);
     }
     
     [Fact]
@@ -779,7 +708,6 @@ public class RmqSubscriptionBuilderTests
         // Arrange
         var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
         var delay = TimeSpan.FromMilliseconds(750);
-        const int expectedMilliseconds = 750;
     
         // Act
         var result = builder.EmptyDelay(delay);
@@ -787,34 +715,7 @@ public class RmqSubscriptionBuilderTests
         // Assert
         Assert.NotNull(result);
         Assert.Same(builder, result);
-        Assert.Equal(expectedMilliseconds, builder.Build().EmptyChannelDelay);
-    }
-    
-    [Fact]
-    public void EmptyChannelDelayInMilliseconds_ValidValue_SetsEmptyChannelDelayInMilliseconds()
-    {
-        // Arrange
-        var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
-        const int delayMilliseconds = 1200;
-    
-        // Act
-        var result = builder.EmptyChannelDelayInMilliseconds(delayMilliseconds);
-    
-        // Assert
-        Assert.NotNull(result);
-        Assert.Same(builder, result);
-        Assert.Equal(delayMilliseconds, builder.Build().EmptyChannelDelay);
-    }
-    
-    [Fact]
-    public void EmptyChannelDelayInMilliseconds_InvalidValue_ThrowsArgumentOutOfRangeException()
-    {
-        // Arrange
-        var builder = new RmqSubscriptionBuilder();
-        const int delayMilliseconds = -50;
-    
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => builder.EmptyChannelDelayInMilliseconds(delayMilliseconds));
+        Assert.Equal(delay, builder.Build().EmptyChannelDelay);
     }
     
     [Fact]
@@ -823,7 +724,6 @@ public class RmqSubscriptionBuilderTests
         // Arrange
         var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
         var delay = TimeSpan.FromMilliseconds(1500);
-        const int expectedMilliseconds = 1500;
     
         // Act
         var result = builder.FailureDelay(delay);
@@ -831,34 +731,7 @@ public class RmqSubscriptionBuilderTests
         // Assert
         Assert.NotNull(result);
         Assert.Same(builder, result);
-        Assert.Equal(expectedMilliseconds, builder.Build().ChannelFailureDelay);
-    }
-    
-    [Fact]
-    public void FailureDelayInMilliseconds_ValidValue_SetsChannelFailureDelayInMilliseconds()
-    {
-        // Arrange
-        var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
-        const int delayMilliseconds = 2500;
-    
-        // Act
-        var result = builder.FailureDelayInMilliseconds(delayMilliseconds);
-    
-        // Assert
-        Assert.NotNull(result);
-        Assert.Same(builder, result);
-        Assert.Equal(delayMilliseconds, builder.Build().ChannelFailureDelay);
-    }
-    
-    [Fact]
-    public void FailureDelayInMilliseconds_InvalidValue_ThrowsArgumentOutOfRangeException()
-    {
-        // Arrange
-        var builder = new RmqSubscriptionBuilder();
-        const int delayMilliseconds = -200;
-    
-        // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => builder.FailureDelayInMilliseconds(delayMilliseconds));
+        Assert.Equal(delay, builder.Build().ChannelFailureDelay);
     }
     
     [Fact]
@@ -868,7 +741,7 @@ public class RmqSubscriptionBuilderTests
         var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
     
         // Act
-        var result = builder.CreateOrOverrideTopicOrQueueIfMissing();
+        var result = builder.CreateIfMissing();
     
         // Assert
         Assert.NotNull(result);
@@ -883,7 +756,7 @@ public class RmqSubscriptionBuilderTests
         var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
     
         // Act
-        var result = builder.ValidateIfTopicAndQueueExists();
+        var result = builder.Validate();
     
         // Assert
         Assert.NotNull(result);
@@ -898,7 +771,7 @@ public class RmqSubscriptionBuilderTests
         var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
     
         // Act
-        var result = builder.AssumeTopicAndQueueExists();
+        var result = builder.Assume();
     
         // Assert
         Assert.NotNull(result);
@@ -916,7 +789,7 @@ public class RmqSubscriptionBuilderTests
         var builder = new RmqSubscriptionBuilder().MessageType<ExampleCommand>();
     
         // Act
-        var result = builder.MakeTopicOrQueue(makeChannels);
+        var result = builder.MakeChannels(makeChannels);
     
         // Assert
         Assert.NotNull(result);
@@ -932,22 +805,22 @@ public class RmqSubscriptionBuilderTests
         const string dlqRoutingKey = "dlq.routing.key";
         const bool highAvailability = true;
         const bool durable = true;
-        int? ttl = 60000;
+        var ttl = TimeSpan.FromSeconds(600);
         var dataType = typeof(ExampleCommand);
         var subName = new SubscriptionName("test.subscription");
         var channelName = new ChannelName("test.queue");
         var routingKey = new RoutingKey("test.topic");
         const int bufferSize = 5;
         const int concurrency = 3;
-        const int timeout = 1000;
+        var timeout = TimeSpan.FromSeconds(1000);
         const int requeueCount = 2;
-        const int requeueDelay = 500;
+        var requeueDelay =  TimeSpan.FromSeconds(500);
         const int unacceptableLimit = 10;
-        const bool runAsync = true;
+        var messagePumpType = MessagePumpType.Proactor;
         var channelFactory = Substitute.For<IAmAChannelFactory>();
         const OnMissingChannel makeChannel = OnMissingChannel.Create;
-        const int emptyDelay = 250;
-        const int failureDelay = 750;
+        var emptyDelay = TimeSpan.FromSeconds(250);
+        var failureDelay = TimeSpan.FromSeconds(750);
     
         var builder = new RmqSubscriptionBuilder()
             .DeadLetter(dlqName)
@@ -961,15 +834,15 @@ public class RmqSubscriptionBuilderTests
             .RoutingKey(routingKey)
             .BufferSize(bufferSize)
             .Concurrency(concurrency)
-            .TimeoutInMilliseconds(timeout)
+            .TimeOut(timeout)
             .RequeueCount(requeueCount)
-            .RequeueDelayInMilliseconds(requeueDelay)
+            .RequeueDelay(requeueDelay)
             .UnacceptableMessageLimit(unacceptableLimit)
-            .MessagePump(runAsync)
+            .MessagePump(messagePumpType)
             .ChannelFactory(channelFactory)
-            .MakeTopicOrQueue(makeChannel)
-            .EmptyChannelDelayInMilliseconds(emptyDelay)
-            .FailureDelayInMilliseconds(failureDelay);
+            .MakeChannels(makeChannel)
+            .EmptyDelay(emptyDelay)
+            .FailureDelay(failureDelay);
     
         // Act
         var subscription = builder.Build();
@@ -977,21 +850,21 @@ public class RmqSubscriptionBuilderTests
         // Assert
         Assert.NotNull(subscription);
         Assert.Equal(dlqName, subscription.DeadLetterChannelName);
-        Assert.Equal(dlqRoutingKey, subscription.DeadLetterRoutingKey);
+        Assert.Equal(dlqRoutingKey, subscription.DeadLetterRoutingKey?.Value);
         Assert.True(subscription.HighAvailability);
         Assert.True(subscription.IsDurable);
-        Assert.Equal(ttl, subscription.TTL);
+        Assert.Equal(ttl, subscription.Ttl);
         Assert.Equal(dataType, subscription.DataType);
         Assert.Equal(subName, subscription.Name);
         Assert.Equal(channelName, subscription.ChannelName);
         Assert.Equal(routingKey, subscription.RoutingKey);
         Assert.Equal(bufferSize, subscription.BufferSize);
-        Assert.Equal(concurrency, subscription.NoOfPeformers);
-        Assert.Equal(timeout, subscription.TimeoutInMilliseconds);
+        Assert.Equal(concurrency, subscription.NoOfPerformers);
+        Assert.Equal(timeout, subscription.TimeOut);
         Assert.Equal(requeueCount, subscription.RequeueCount);
-        Assert.Equal(requeueDelay, subscription.RequeueDelayInMilliseconds);
+        Assert.Equal(requeueDelay, subscription.RequeueDelay);
         Assert.Equal(unacceptableLimit, subscription.UnacceptableMessageLimit);
-        Assert.True(subscription.RunAsync);
+        Assert.Equal(messagePumpType, subscription.MessagePumpType);
         Assert.Same(channelFactory, subscription.ChannelFactory);
         Assert.Equal(makeChannel, subscription.MakeChannels);
         Assert.Equal(emptyDelay, subscription.EmptyChannelDelay);
@@ -1014,21 +887,20 @@ public class RmqSubscriptionBuilderTests
         Assert.Null(subscription.DeadLetterRoutingKey);
         Assert.False(subscription.HighAvailability);
         Assert.False(subscription.IsDurable);
-        Assert.Null(subscription.TTL);
+        Assert.Null(subscription.Ttl);
         Assert.Equal(typeof(ExampleCommand), subscription.DataType);
         Assert.Equal(new SubscriptionName(typeof(ExampleCommand).FullName!), subscription.Name);
         Assert.Equal(new ChannelName(typeof(ExampleCommand).FullName!), subscription.ChannelName);
         Assert.Equal(new RoutingKey(typeof(ExampleCommand).FullName!), subscription.RoutingKey);
         Assert.Equal(1, subscription.BufferSize);
-        Assert.Equal(Environment.ProcessorCount, subscription.NoOfPeformers);
-        Assert.Equal(300, subscription.TimeoutInMilliseconds);
+        Assert.Equal(Environment.ProcessorCount, subscription.NoOfPerformers);
+        Assert.Equal(TimeSpan.FromMilliseconds(300), subscription.TimeOut);
         Assert.Equal(-1, subscription.RequeueCount);
-        Assert.Equal(0, subscription.RequeueDelayInMilliseconds);
+        Assert.Equal(TimeSpan.Zero, subscription.RequeueDelay);
         Assert.Equal(0, subscription.UnacceptableMessageLimit);
-        Assert.False(subscription.RunAsync);
         Assert.Null(subscription.ChannelFactory);
         Assert.Equal(OnMissingChannel.Create, subscription.MakeChannels);
-        Assert.Equal(500, subscription.EmptyChannelDelay);
-        Assert.Equal(1000, subscription.ChannelFailureDelay);
+        Assert.Equal(TimeSpan.FromMilliseconds(500), subscription.EmptyChannelDelay);
+        Assert.Equal(TimeSpan.FromMilliseconds(1000), subscription.ChannelFailureDelay);
     }
 }

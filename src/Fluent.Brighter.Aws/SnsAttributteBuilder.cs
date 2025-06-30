@@ -39,12 +39,7 @@ public class SnsAttributesBuilder
 
     internal SnsAttributes Build()
     {
-        var attributes = new SnsAttributes
-        {
-            DeliveryPolicy = _deliveryPolicy,
-            Policy = _policy
-        };
-
+        var attributes = new SnsAttributes(deliveryPolicy: _deliveryPolicy, policy: _policy);
         attributes.Tags.AddRange(_tags);
 
         return attributes;

@@ -1,5 +1,5 @@
 ﻿using Fluent.Brighter;
-using Fluent.Brighter.RMQ;
+using Fluent.Brighter.RMQ.Sync;
 
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,32 +24,26 @@ var host = new HostBuilder()
                         .Exchange(exchange => exchange.Name("paramore.brighter.exchange")))
                     .Publication(pub => pub
                         .CreateExchangeIfMissing()
-                        .MaxOutStandingMessages(5)
-                        .MaxOutStandingCheckIntervalMilliSeconds(500)
-                        .WaitForConfirmsTimeOutInMilliseconds(1_000)
                         .Topic("greeting.event"))
                     .Publication(pub => pub
                         .CreateExchangeIfMissing()
-                        .MaxOutStandingMessages(5)
-                        .MaxOutStandingCheckIntervalMilliSeconds(500)
-                        .WaitForConfirmsTimeOutInMilliseconds(1_000)
                         .Topic("farewell.event"))
                     .Subscription<GreetingEvent>(sub => sub
                         .SubscriptionName("paramore.example.greeting")
                         .ChannelName("greeting.event")
                         .RoutingKey("greeting.event")
-                        .TimeoutInMilliseconds(200)
+                        .TimeOut(TimeSpan.FromSeconds(200))
                         .EnableDurable()
                         .EnableHighAvailability()
-                        .CreateOrOverrideTopicOrQueueIfMissing())
+                        .CreateIfMissing())
                     .Subscription<FarewellEvent>(sub => sub
                         .SubscriptionName("paramore.example.farewell")
                         .ChannelName("farewell.event")
                         .RoutingKey("farewell.event")
-                        .TimeoutInMilliseconds(200)
+                        .TimeOut(TimeSpan.FromSeconds(200))
                         .EnableDurable()
                         .EnableHighAvailability()
-                        .CreateOrOverrideTopicOrQueueIfMissing())
+                        .CreateIfMissing())
                 ));
     })
     .Build();

@@ -22,6 +22,11 @@ public class RedrivePolicyBuilder
 
     internal RedrivePolicy Build()
     {
-        return new RedrivePolicy(_deadLetterQueueName, _maxReceiveCount);
+        if (string.IsNullOrEmpty(_deadLetterQueueName))
+        {
+            throw new ConfigurationException("Missing deadletter");
+        }
+        
+        return new RedrivePolicy(_deadLetterQueueName!, _maxReceiveCount);
     }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
 
 using Paramore.Brighter.MessagingGateway.RMQ;
+using Paramore.Brighter.MessagingGateway.RMQ.Sync;
 
 using Xunit;
 
-namespace Fluent.Brighter.RMQ.Tests;
+namespace Fluent.Brighter.RMQ.Sync.Tests;
 
 public class RmqConnectionBuilderTests
 {
