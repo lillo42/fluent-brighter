@@ -113,7 +113,7 @@ public class PostgresPublicationBuilderTests
     public void Topic_SetsRoutingKey()
     {
         var routingKey = new RoutingKey("test.topic");
-        var result = _builder.Topic(routingKey);
+        var result = _builder.Queue(routingKey);
 
         Assert.Equal(routingKey, GetPrivateField<RoutingKey?>(_builder, "_topic"));
         Assert.Same(_builder, result);
@@ -243,7 +243,7 @@ public class PostgresPublicationBuilderTests
             .SchemaName(schemaName)
             .QueueStoreTable(queueTable)
             .BinaryMessagePayload(binaryMessagePayload)
-            .Topic(routingKey)
+            .Queue(routingKey)
             .RequestType(requestType)
             .DataSchema(dataSchema)
             .Source(source)

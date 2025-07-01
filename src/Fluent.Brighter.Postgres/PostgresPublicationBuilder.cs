@@ -116,7 +116,7 @@ public class PostgresPublicationBuilder
     /// </summary>
     /// <param name="topic">The topic name</param>
     /// <returns>The builder instance for fluent chaining.</returns>
-    public PostgresPublicationBuilder Topic(RoutingKey topic)
+    public PostgresPublicationBuilder Queue(RoutingKey topic)
     {
         _topic = topic;
         return this;

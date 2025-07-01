@@ -87,38 +87,6 @@ public class PostgresSubscriptionBuilderTests
     }
 
     [Fact]
-    public void RoutingKey_Sets_RoutingKey_Correctly()
-    {
-        // Arrange
-        var expectedKey = new RoutingKey("MyRoutingKey");
-
-        // Act
-        var subscription = new PostgresSubscriptionBuilder()
-            .MessageType<TestRequest>()
-            .RoutingKey(expectedKey)
-            .Build();
-
-        // Assert
-        Assert.Equal(expectedKey, subscription.RoutingKey);
-    }
-
-    [Fact]
-    public void Topic_Sets_RoutingKey_Correctly()
-    {
-        // Arrange
-        var expectedKey = new RoutingKey("MyTopic");
-
-        // Act
-        var subscription = new PostgresSubscriptionBuilder()
-            .MessageType<TestRequest>()
-            .Topic(expectedKey)
-            .Build();
-
-        // Assert
-        Assert.Equal(expectedKey, subscription.RoutingKey);
-    }
-
-    [Fact]
     public void BufferSize_Sets_BufferSize_Correctly()
     {
         // Arrange

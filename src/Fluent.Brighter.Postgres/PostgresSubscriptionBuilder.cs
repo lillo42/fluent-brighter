@@ -70,27 +70,6 @@ public class PostgresSubscriptionBuilder
         => ChannelName(queueName);
     
 
-    private RoutingKey? _routingKey;
-    
-    /// <summary>
-    /// Sets the routing key (topic name).
-    /// </summary>
-    /// <param name="routingKey">The routing key to use for message routing.</param>
-    /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresSubscriptionBuilder RoutingKey(RoutingKey? routingKey)
-    {
-        _routingKey = routingKey;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the topic name (routing key).
-    /// </summary>
-    /// <param name="topicName">The routing key to use for message routing.</param>
-    /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresSubscriptionBuilder Topic(RoutingKey? topicName) => RoutingKey(topicName);
-    
-    
     private int _bufferSize = 1;
 
     /// <summary>
@@ -176,7 +155,7 @@ public class PostgresSubscriptionBuilder
         return this;
     }
     
-    private MessagePumpType _messagePumpType = Paramore.Brighter.MessagePumpType.Reactor;
+    private MessagePumpType _messagePumpType = MessagePumpType.Reactor;
 
     /// <summary>
     /// Sets the message pump type (Reactor or Proactor).
@@ -193,13 +172,13 @@ public class PostgresSubscriptionBuilder
     /// Sets the message pump as <see cref="Paramore.Brighter.MessagePumpType.Proactor"/>
     /// </summary>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresSubscriptionBuilder AsProactor() => MessagePump(Paramore.Brighter.MessagePumpType.Proactor);
+    public PostgresSubscriptionBuilder AsProactor() => MessagePump(MessagePumpType.Proactor);
     
     /// <summary>
     /// Sets the message pump as <see cref="Paramore.Brighter.MessagePumpType.Reactor"/>
     /// </summary>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresSubscriptionBuilder AsReactor() => MessagePump(Paramore.Brighter.MessagePumpType.Reactor);
+    public PostgresSubscriptionBuilder AsReactor() => MessagePump(MessagePumpType.Reactor);
     
     private IAmAChannelFactory? _channelFactory;
 
@@ -384,7 +363,6 @@ public class PostgresSubscriptionBuilder
             dataType: _dataType,
             subscriptionName: _subscriptionName,
             channelName: _channelName,
-            routingKey: _routingKey,
             bufferSize: _bufferSize,
             noOfPerformers: _noOfPerformers,
             timeOut: _timeOut,
