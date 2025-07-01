@@ -1,20 +1,18 @@
 using System.Data.Common;
 
 using Paramore.Brighter;
-using Paramore.Brighter.Outbox.PostgreSql;
+using Paramore.Brighter.Outbox.MsSql;
 
-using Xunit;
+namespace Fluent.Brighter.MsSql.Tests;
 
-namespace Fluent.Brighter.Postgres.Tests;
-
-public class PostgresOutboxBuilderTests
+public class MsSqlOutboxBuilderTests
 {
     private const string TestConnectionString = "Host=localhost;Username=test;Password=test;Database=testdb";
 
     [Fact]
     public void MaxOutStandingMessages_WhenSet_SetsValueCorrectly()
     {
-        var builder = new PostgresOutboxBuilder();
+        var builder = new MsSqlOutboxBuilder();
         var result = builder.MaxOutStandingMessages(100);
 
         Assert.Equal(100, GetPrivateField<int?>(builder, "_maxOutStandingMessages"));
@@ -25,7 +23,7 @@ public class PostgresOutboxBuilderTests
     public void MaxOutStandingCheckInterval_WhenSet_SetsValueCorrectly()
     {
         var interval = TimeSpan.FromSeconds(10);
-        var builder = new PostgresOutboxBuilder();
+        var builder = new MsSqlOutboxBuilder();
         var result = builder.MaxOutStandingCheckInterval(interval);
 
         Assert.Equal(interval, GetPrivateField<TimeSpan>(builder, "_maxOutStandingCheckInterval"));
@@ -35,7 +33,7 @@ public class PostgresOutboxBuilderTests
     [Fact]
     public void BulkChunkSize_WhenSet_SetsValueCorrectly()
     {
-        var builder = new PostgresOutboxBuilder();
+        var builder = new MsSqlOutboxBuilder();
         var result = builder.BulkChunkSize(50);
 
         Assert.Equal(50, GetPrivateField<int?>(builder, "_outboxBulkChunkSize"));
@@ -46,7 +44,7 @@ public class PostgresOutboxBuilderTests
     public void Bag_WhenSet_SetsValueCorrectly()
     {
         var bag = new Dictionary<string, object> { { "Key", "Value" } };
-        var builder = new PostgresOutboxBuilder();
+        var builder = new MsSqlOutboxBuilder();
         var result = builder.Bag(bag);
 
         Assert.Same(bag, GetPrivateField<Dictionary<string, object>>(builder, "_outBoxBag"));
@@ -56,7 +54,7 @@ public class PostgresOutboxBuilderTests
     [Fact]
     public void Timeout_WhenSet_SetsValueCorrectly()
     {
-        var builder = new PostgresOutboxBuilder();
+        var builder = new MsSqlOutboxBuilder();
         var result = builder.Timeout(5000);
 
         Assert.Equal(5000, GetPrivateField<int?>(builder, "_outboxTimeout"));
@@ -67,7 +65,7 @@ public class PostgresOutboxBuilderTests
     public void Configuration_WithRelationalConfig_SetsValueCorrectly()
     {
         var config = new RelationalDatabaseConfiguration(TestConnectionString);
-        var builder = new PostgresOutboxBuilder();
+        var builder = new MsSqlOutboxBuilder();
         var result = builder.Connection(config);
 
         Assert.Same(config, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
@@ -77,7 +75,7 @@ public class PostgresOutboxBuilderTests
     [Fact]
     public void Configuration_WithAction_BuildsFromBuilder()
     {
-        var builder = new PostgresOutboxBuilder();
+        var builder = new MsSqlOutboxBuilder();
         builder.Connection(cfg => cfg.ConnectionString("newConn"));
 
         var config = GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration");
@@ -89,7 +87,7 @@ public class PostgresOutboxBuilderTests
     public void ConfigurationIfIsMissing_WhenNull_SetsValue()
     {
         var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
-        var builder = new PostgresOutboxBuilder();
+        var builder = new MsSqlOutboxBuilder();
 
         builder.SetConnectionIfIsMissing(defaultConfig);
 
@@ -102,7 +100,7 @@ public class PostgresOutboxBuilderTests
         var initialConfig = new RelationalDatabaseConfiguration("initialConn");
         var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
 
-        var builder = new PostgresOutboxBuilder().Connection(initialConfig);
+        var builder = new MsSqlOutboxBuilder().Connection(initialConfig);
         builder.SetConnectionIfIsMissing(defaultConfig);
 
         Assert.Same(initialConfig, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
@@ -111,21 +109,21 @@ public class PostgresOutboxBuilderTests
     [Fact]
     public void UseUnitOfWork_WhenTrue_SetsFlag()
     {
-        var builder = new PostgresOutboxBuilder().UseUnitOfWork(true);
+        var builder = new MsSqlOutboxBuilder().UseUnitOfWork(true);
         Assert.True(GetPrivateField<bool>(builder, "_useUnitOfWork"));
     }
 
     [Fact]
     public void EnableUnitOfWork_SetsUseUnitOfWorkToTrue()
     {
-        var builder = new PostgresOutboxBuilder().EnableUnitOfWork();
+        var builder = new MsSqlOutboxBuilder().EnableUnitOfWork();
         Assert.True(GetPrivateField<bool>(builder, "_useUnitOfWork"));
     }
 
     [Fact]
     public void DisableUnitOfWork_SetsUseUnitOfWorkToFalse()
     {
-        var builder = new PostgresOutboxBuilder().DisableUnitOfWork();
+        var builder = new MsSqlOutboxBuilder().DisableUnitOfWork();
         Assert.False(GetPrivateField<bool>(builder, "_useUnitOfWork"));
     }
 
@@ -133,7 +131,7 @@ public class PostgresOutboxBuilderTests
     public void UnitOfWorkConnectionProvider_SetsProvider()
     {
         var mockProvider = new MockRelationalDbConnectionProvider();
-        var builder = new PostgresOutboxBuilder().UnitOfWorkConnectionProvider(mockProvider);
+        var builder = new MsSqlOutboxBuilder().UnitOfWorkConnectionProvider(mockProvider);
 
         Assert.Same(mockProvider, GetPrivateField<IAmARelationalDbConnectionProvider>(builder, "_unitOfWork"));
     }
@@ -142,7 +140,7 @@ public class PostgresOutboxBuilderTests
     public void Build_ReturnsCorrectConfigurationWithDefaults()
     {
         var config = new RelationalDatabaseConfiguration(TestConnectionString);
-        var builder = new PostgresOutboxBuilder().Connection(config);
+        var builder = new MsSqlOutboxBuilder().Connection(config);
 
         var result = builder.Build();
 
@@ -152,7 +150,7 @@ public class PostgresOutboxBuilderTests
         Assert.Null((object?)result.OutboxBulkChunkSize);
         Assert.Null((object?)result.OutboxTimeout);
         Assert.Null(result.OutBoxBag);
-        Assert.IsType<PostgreSqlOutbox>(result.Outbox);
+        Assert.IsType<MsSqlOutbox>(result.Outbox);
     }
 
     [Fact]
@@ -161,7 +159,7 @@ public class PostgresOutboxBuilderTests
         var config = new RelationalDatabaseConfiguration(TestConnectionString);
         var bag = new Dictionary<string, object> { { "Key", "Value" } };
 
-        var builder = new PostgresOutboxBuilder()
+        var builder = new MsSqlOutboxBuilder()
             .Connection(config)
             .MaxOutStandingMessages(100)
             .MaxOutStandingCheckInterval(TimeSpan.FromSeconds(5))

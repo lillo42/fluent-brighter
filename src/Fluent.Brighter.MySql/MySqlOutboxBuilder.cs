@@ -92,7 +92,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
+    public MySqlOutboxBuilder Connection(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
@@ -103,7 +103,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public MySqlOutboxBuilder Connection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -116,7 +116,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
+    public MySqlOutboxBuilder SetConnectionIfIsMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;

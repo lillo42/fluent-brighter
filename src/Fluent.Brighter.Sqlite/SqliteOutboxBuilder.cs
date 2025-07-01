@@ -92,7 +92,7 @@ public class SqliteOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public SqliteOutboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
+    public SqliteOutboxBuilder Connection(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
@@ -103,7 +103,7 @@ public class SqliteOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public SqliteOutboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public SqliteOutboxBuilder Connection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -116,7 +116,7 @@ public class SqliteOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public SqliteOutboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
+    public SqliteOutboxBuilder SetConnectionIfIsMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;

@@ -8,7 +8,7 @@ namespace Fluent.Brighter.MySql;
 /// </summary>
 /// <remarks>
 /// This class simplifies the integration of MySQL as a messaging gateway and persistence store within Brighter's pipeline.
-/// Use the <see cref="UsingMySQL(IBrighterConfigurator, Action)"/> method to define MySQL-specific settings.
+/// Use the <see cref="UsingMySQL(IBrighterConfigurator, Action{MySqlConfigurator})"/> method to define MySQL-specific settings.
 /// </remarks>
 public static class BrighterRegisterExtensions
 {
@@ -24,15 +24,16 @@ public static class BrighterRegisterExtensions
     /// <code>
     /// services.AddBrighter(config =>
     /// {
-    ///     config.Using(pg =>
+    ///     config.UsingMySQL(opt =>
     ///     {
-    ///         pg.Configuration(builder => builder
+    ///         opt.Connection(builder => builder
     ///             .ConnectionString("my-db-connection-string")
-    ///             .SchemaName("messaging"));
+    ///             );
     ///
-    ///         pg.UseUnitOfWork();
-    ///         pg.Outbox();
-    ///         pg.Inbox();
+    ///         opt.EnableUnitOfWork();
+    ///         opt.UsingOutbox();
+    ///         opt.UsingInbox();
+    ///         opt.UsingDistributedLock();
     ///     });
     /// });
     /// </code>

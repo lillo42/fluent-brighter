@@ -76,7 +76,7 @@ public class PostgresInboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
+    public PostgresInboxBuilder Connection(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
@@ -87,7 +87,7 @@ public class PostgresInboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public PostgresInboxBuilder Connection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -100,7 +100,7 @@ public class PostgresInboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
+    public PostgresInboxBuilder SetConnectionIfIsMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;

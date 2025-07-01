@@ -92,7 +92,7 @@ public class PostgresOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
+    public PostgresOutboxBuilder Connection(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
@@ -103,7 +103,7 @@ public class PostgresOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public PostgresOutboxBuilder Connection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -116,7 +116,7 @@ public class PostgresOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
+    public PostgresOutboxBuilder SetConnectionIfIsMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;

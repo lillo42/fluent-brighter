@@ -66,7 +66,7 @@ public class SqliteOutboxBuilderTests
     {
         var config = new RelationalDatabaseConfiguration(TestConnectionString);
         var builder = new SqliteOutboxBuilder();
-        var result = builder.Configuration(config);
+        var result = builder.Connection(config);
 
         Assert.Same(config, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
         Assert.Same(builder, result);
@@ -76,7 +76,7 @@ public class SqliteOutboxBuilderTests
     public void Configuration_WithAction_BuildsFromBuilder()
     {
         var builder = new SqliteOutboxBuilder();
-        builder.Configuration(cfg => cfg.ConnectionString("newConn"));
+        builder.Connection(cfg => cfg.ConnectionString("newConn"));
 
         var config = GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration");
         Assert.NotNull(config);
@@ -89,7 +89,7 @@ public class SqliteOutboxBuilderTests
         var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
         var builder = new SqliteOutboxBuilder();
 
-        builder.ConfigurationIfIsMissing(defaultConfig);
+        builder.SetConnectionIfIsMissing(defaultConfig);
 
         Assert.Same(defaultConfig, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
     }
@@ -100,8 +100,8 @@ public class SqliteOutboxBuilderTests
         var initialConfig = new RelationalDatabaseConfiguration("initialConn");
         var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
 
-        var builder = new SqliteOutboxBuilder().Configuration(initialConfig);
-        builder.ConfigurationIfIsMissing(defaultConfig);
+        var builder = new SqliteOutboxBuilder().Connection(initialConfig);
+        builder.SetConnectionIfIsMissing(defaultConfig);
 
         Assert.Same(initialConfig, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
     }
@@ -140,7 +140,7 @@ public class SqliteOutboxBuilderTests
     public void Build_ReturnsCorrectConfigurationWithDefaults()
     {
         var config = new RelationalDatabaseConfiguration(TestConnectionString);
-        var builder = new SqliteOutboxBuilder().Configuration(config);
+        var builder = new SqliteOutboxBuilder().Connection(config);
 
         var result = builder.Build();
 
@@ -160,7 +160,7 @@ public class SqliteOutboxBuilderTests
         var bag = new Dictionary<string, object> { { "Key", "Value" } };
 
         var builder = new SqliteOutboxBuilder()
-            .Configuration(config)
+            .Connection(config)
             .MaxOutStandingMessages(100)
             .MaxOutStandingCheckInterval(TimeSpan.FromSeconds(5))
             .BulkChunkSize(50)

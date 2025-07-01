@@ -76,7 +76,7 @@ public class SqliteInboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public SqliteInboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
+    public SqliteInboxBuilder Connection(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
@@ -87,7 +87,7 @@ public class SqliteInboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public SqliteInboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public SqliteInboxBuilder Connection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -100,7 +100,7 @@ public class SqliteInboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public SqliteInboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
+    public SqliteInboxBuilder SetConnectionIfIsMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;

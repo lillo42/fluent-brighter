@@ -18,7 +18,7 @@ public class PostgresDistributedLockBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresDistributedLockBuilder Configuration(RelationalDatabaseConfiguration? configuration)
+    public PostgresDistributedLockBuilder Connection(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
@@ -29,7 +29,7 @@ public class PostgresDistributedLockBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresDistributedLockBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public PostgresDistributedLockBuilder Connection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -42,7 +42,7 @@ public class PostgresDistributedLockBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresDistributedLockBuilder ConfigurationIfMissing(RelationalDatabaseConfiguration configuration)
+    public PostgresDistributedLockBuilder SetConnectionIfMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;

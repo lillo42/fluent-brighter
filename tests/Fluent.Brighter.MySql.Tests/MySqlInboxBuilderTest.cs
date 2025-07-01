@@ -61,7 +61,7 @@ public class MySqlInboxBuilderTest
      public void Configuration_WithRelationalConfig_SetsValue()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new MySqlInboxBuilder().Configuration(config);
+         var builder = new MySqlInboxBuilder().Connection(config);
 
          Assert.Same(config, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
      }
@@ -70,7 +70,7 @@ public class MySqlInboxBuilderTest
      public void Configuration_WithAction_BuildsFromBuilder()
      {
          var builder = new MySqlInboxBuilder();
-         builder.Configuration(cfg => cfg.ConnectionString("newConn"));
+         builder.Connection(cfg => cfg.ConnectionString("newConn"));
 
          var config = GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration");
          Assert.NotNull(config);
@@ -83,7 +83,7 @@ public class MySqlInboxBuilderTest
          var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
          var builder = new MySqlInboxBuilder();
 
-         builder.ConfigurationIfIsMissing(defaultConfig);
+         builder.SetConnectionIfIsMissing(defaultConfig);
 
          Assert.Same(defaultConfig, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
      }
@@ -94,8 +94,8 @@ public class MySqlInboxBuilderTest
          var initialConfig = new RelationalDatabaseConfiguration("initialConn");
          var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
 
-         var builder = new MySqlInboxBuilder().Configuration(initialConfig);
-         builder.ConfigurationIfIsMissing(defaultConfig);
+         var builder = new MySqlInboxBuilder().Connection(initialConfig);
+         builder.SetConnectionIfIsMissing(defaultConfig);
 
          Assert.Same(initialConfig, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
      }
@@ -134,7 +134,7 @@ public class MySqlInboxBuilderTest
      public void Build_WithDefaultValues_CreatesInboxWithDefaults()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new MySqlInboxBuilder().Configuration(config);
+         var builder = new MySqlInboxBuilder().Connection(config);
          var inboxConfig = builder.Build();
 
          Assert.NotNull(inboxConfig);
@@ -151,7 +151,7 @@ public class MySqlInboxBuilderTest
          var mockProvider = new MockRelationalDbConnectionProvider();
 
          var builder = new MySqlInboxBuilder()
-             .Configuration(config)
+             .Connection(config)
              .EnableUnitOfWork()
              .UnitOfWorkConnectionProvider(mockProvider);
 
@@ -166,7 +166,7 @@ public class MySqlInboxBuilderTest
      public void Build_WhenUseUnitOfWorkFalse_CreatesNewConnectionProvider()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new MySqlInboxBuilder().Configuration(config).DisableUnitOfWork();
+         var builder = new MySqlInboxBuilder().Connection(config).DisableUnitOfWork();
 
          var inboxConfig = builder.Build();
          var inbox = Assert.IsType<MySqlInbox>(inboxConfig.Inbox);

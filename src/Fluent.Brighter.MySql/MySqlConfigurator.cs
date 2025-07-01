@@ -32,7 +32,7 @@ public class MySqlConfigurator
     /// <param name="configure">An action to customize the <see cref="RelationalDatabaseConfigurationBuilder"/>.</param>
     /// <returns>The current <see cref="MySqlConfigurator"/> instance for fluent chaining.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="configure"/> is null.</exception>
-    public MySqlConfigurator Configuration(Action<RelationalDatabaseConfigurationBuilder> configure)
+    public MySqlConfigurator Connection(Action<RelationalDatabaseConfigurationBuilder> configure)
     {
         if (configure == null)
         {
@@ -46,21 +46,34 @@ public class MySqlConfigurator
     }
     
     /// <summary>
-    /// Enables unit of work support for transactional message handling.
+    /// Sets whether to use a unit of work.
     /// </summary>
-    /// <returns>The current <see cref="MySqlConfigurator"/> instance for fluent chaining.</returns>
-    public MySqlConfigurator UseUnitOfWork()
+    /// <param name="useUnitOfWork">True to enable unit of work; otherwise, false.</param>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public MySqlConfigurator UseUnitOfWork(bool useUnitOfWork)
     {
-        _unitOfOWork = true;
+        _unitOfOWork = useUnitOfWork;
         return this;
     }
+    
+    /// <summary>
+    /// Enable to use a unit of work.
+    /// </summary>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public MySqlConfigurator EnableUnitOfWork() => UseUnitOfWork(true);
+    
+    /// <summary>
+    /// Disable to use a unit of work.
+    /// </summary>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public MySqlConfigurator DisableUnitOfWork() => UseUnitOfWork(false);
         
     /// <summary>
     /// Configures the outbox for message persistence.
     /// </summary>
     /// <param name="configure">An optional action to customize the <see cref="MySqlOutboxBuilder"/>.</param>
     /// <returns>The current <see cref="MySqlConfigurator"/> instance for fluent chaining.</returns>
-    public MySqlConfigurator Outbox(Action<MySqlOutboxBuilder>? configure = null)
+    public MySqlConfigurator UsingOutbox(Action<MySqlOutboxBuilder>? configure = null)
     {
         _outboxBuilder = new MySqlOutboxBuilder();
         configure?.Invoke(_outboxBuilder);
@@ -73,7 +86,7 @@ public class MySqlConfigurator
     /// </summary>
     /// <param name="configure">An optional action to customize the <see cref="MySqlInboxBuilder"/>.</param>
     /// <returns>The current <see cref="MySqlConfigurator"/> instance for fluent chaining.</returns>
-    public MySqlConfigurator Inbox(Action<MySqlInboxBuilder>? configure = null)
+    public MySqlConfigurator UsingInbox(Action<MySqlInboxBuilder>? configure = null)
     {
         _inboxBuilder = new MySqlInboxBuilder();
         configure?.Invoke(_inboxBuilder);
@@ -86,7 +99,7 @@ public class MySqlConfigurator
     /// </summary>
     /// <param name="configure">An optional action to customize the <see cref="MySqlDistributedLockBuilder" />.</param>
     /// <returns>The current <see cref="MySqlConfigurator"/> instance for fluent chaining.</returns>
-    public MySqlConfigurator DistributedLock(Action<MySqlDistributedLockBuilder>? configure = null)
+    public MySqlConfigurator UsingDistributedLock(Action<MySqlDistributedLockBuilder>? configure = null)
     {
         _distributedLockBuilder = new MySqlDistributedLockBuilder();
         configure?.Invoke(_distributedLockBuilder);
@@ -119,7 +132,7 @@ public class MySqlConfigurator
         if (_outboxBuilder != null)
         {
             register.Outbox(_outboxBuilder
-                .ConfigurationIfIsMissing(_configuration)
+                .SetConnectionIfIsMissing(_configuration)
                 .UnitOfWorkConnectionProvider(provider)
                 .Build());
         }
@@ -127,7 +140,7 @@ public class MySqlConfigurator
         if (_inboxBuilder != null)
         {
             register.Inbox(_inboxBuilder
-                .ConfigurationIfIsMissing(_configuration)
+                .SetConnectionIfIsMissing(_configuration)
                 .UnitOfWorkConnectionProvider(provider)
                 .Build());
         }

@@ -1,34 +1,34 @@
 using System;
 
-namespace Fluent.Brighter.Postgres;
+namespace Fluent.Brighter.MsSql;
 
 /// <summary>
-/// Provides extension methods for integrating PostgreSQL-based messaging infrastructure with Brighter service configuration.
-/// Enables fluent configuration of subscriptions, publications, outbox, inbox, and distributed locks using PostgreSQL.
+/// Provides extension methods for integrating MS SQL-based messaging infrastructure with Brighter service configuration.
+/// Enables fluent configuration of subscriptions, publications, outbox, inbox, and distributed locks using MS SQL.
 /// </summary>
 /// <remarks>
-/// This class simplifies the integration of PostgreSQL as a messaging gateway and persistence store within Brighter's pipeline.
-/// Use the <see cref="UsingPostgres(IBrighterConfigurator, Action{PostgresConfigurator})"/> method to define PostgreSQL-specific settings.
+/// This class simplifies the integration of MS SQL as a messaging gateway and persistence store within Brighter's pipeline.
+/// Use the <see cref="UsingMsSql(IBrighterConfigurator, Action{MsSqlConfigurator})"/> method to define MS SQL-specific settings.
 /// </remarks>
 public static class BrighterRegisterExtensions
 {
     /// <summary>
-    /// Configures PostgreSQL integration for Brighter messaging using a fluent <see cref="PostgresConfigurator"/> setup.
+    /// Configures MS SQL integration for Brighter messaging using a fluent <see cref="MsSqlConfigurator"/> setup.
     /// Applies the provided configuration to set up subscriptions, publications, and database connections.
     /// </summary>
     /// <param name="configurator">The Brighter configurator to extend.</param>
-    /// <param name="configure">An action to customize the <see cref="PostgresConfigurator"/>.</param>
-    /// <returns>The updated <see cref="IBrighterConfigurator"/> instance with PostgreSQL services registered.</returns>
+    /// <param name="configure">An action to customize the <see cref="MsSqlConfigurator"/>.</param>
+    /// <returns>The updated <see cref="IBrighterConfigurator"/> instance with MS SQL services registered.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="configurator"/> is null.</exception>
     /// <example>
     /// <code>
     /// services.AddBrighter(config =>
     /// {
-    ///     config.UsingPostgres(opt =>
+    ///     config.UsingMsSql(opt =>
     ///     {
     ///         opt.Connection(builder => builder
     ///             .ConnectionString("my-db-connection-string")
-    ///             .SchemaName("messaging"));
+    ///             );
     ///
     ///         opt.AddSubscription(sub => sub
     ///             .MessageType<MyRequest>()
@@ -46,7 +46,7 @@ public static class BrighterRegisterExtensions
     /// });
     /// </code>
     /// </example>
-    public static IBrighterConfigurator UsingPostgres(this IBrighterConfigurator configurator, Action<PostgresConfigurator> configure)
+    public static IBrighterConfigurator UsingMsSql(this IBrighterConfigurator configurator, Action<MsSqlConfigurator> configure)
     {
         if (configurator == null)
         {
@@ -58,8 +58,8 @@ public static class BrighterRegisterExtensions
             throw new ArgumentNullException(nameof(configurator));
         }
 
-        var postgresConfigurator = new PostgresConfigurator();
+        var postgresConfigurator = new MsSqlConfigurator();
         configure(postgresConfigurator);
-        return postgresConfigurator.AddPostgres(configurator);
+        return postgresConfigurator.AddMsSql(configurator);
     }
 }

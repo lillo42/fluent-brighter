@@ -14,7 +14,7 @@ public class MySqlDistributedLockBuilderTests
         var builder = new MySqlDistributedLockBuilder();
 
         // Act
-        var result = builder.Configuration(expectedConfig);
+        var result = builder.Connection(expectedConfig);
 
         // Assert
         Assert.NotNull(result);
@@ -28,7 +28,7 @@ public class MySqlDistributedLockBuilderTests
         var builder = new MySqlDistributedLockBuilder();
 
         // Act
-        var result = builder.Configuration(cfgBuilder => cfgBuilder
+        var result = builder.Connection(cfgBuilder => cfgBuilder
             .ConnectionString(TestConnectionString)
             .DatabaseName("TestDB")
             .BinaryMessagePayload(true));
@@ -71,7 +71,7 @@ public class MySqlDistributedLockBuilderTests
         var initialConfig = new RelationalDatabaseConfiguration("initialConnectionString");
         var defaultConfig = new RelationalDatabaseConfiguration("defaultConnectionString");
         
-        var builder = new MySqlDistributedLockBuilder().Configuration(initialConfig);
+        var builder = new MySqlDistributedLockBuilder().Connection(initialConfig);
 
         // Act
         var result = builder.ConfigurationIfMissing(defaultConfig);
@@ -90,7 +90,7 @@ public class MySqlDistributedLockBuilderTests
     {
         // Arrange
         var config = new RelationalDatabaseConfiguration(TestConnectionString);
-        var builder = new MySqlDistributedLockBuilder().Configuration(config);
+        var builder = new MySqlDistributedLockBuilder().Connection(config);
 
         // Act
         var provider = builder.Build();

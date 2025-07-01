@@ -1,10 +1,8 @@
 ﻿using Paramore.Brighter;
 
-using Xunit;
+namespace Fluent.Brighter.MsSql.Tests;
 
-namespace Fluent.Brighter.Postgres.Tests;
-
-public class PostgresDistributedLockBuilderTests
+public class MsSqlDistributedLockBuilderTests
 {
     private const string TestConnectionString = "Host=localhost;Username=test;Password=test;Database=testdb";
 
@@ -13,7 +11,7 @@ public class PostgresDistributedLockBuilderTests
     {
         // Arrange
         var expectedConfig = new RelationalDatabaseConfiguration(TestConnectionString);
-        var builder = new PostgresDistributedLockBuilder();
+        var builder = new MsSqlDistributedLockBuilder();
 
         // Act
         var result = builder.Connection(expectedConfig);
@@ -27,7 +25,7 @@ public class PostgresDistributedLockBuilderTests
     public void Configuration_WithAction_SetsValueCorrectly()
     {
         // Arrange
-        var builder = new PostgresDistributedLockBuilder();
+        var builder = new MsSqlDistributedLockBuilder();
 
         // Act
         var result = builder.Connection(cfgBuilder => cfgBuilder
@@ -36,7 +34,7 @@ public class PostgresDistributedLockBuilderTests
             .BinaryMessagePayload(true));
 
         // Assert
-        var actualConfig = (RelationalDatabaseConfiguration?)typeof(PostgresDistributedLockBuilder)
+        var actualConfig = (RelationalDatabaseConfiguration?)typeof(MsSqlDistributedLockBuilder)
             .GetField("_configuration", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
             .GetValue(builder);
 
@@ -52,13 +50,13 @@ public class PostgresDistributedLockBuilderTests
     {
         // Arrange
         var defaultConfig = new RelationalDatabaseConfiguration("defaultConnectionString"); 
-        var builder = new PostgresDistributedLockBuilder();
+        var builder = new MsSqlDistributedLockBuilder();
 
         // Act
-        var result = builder.SetConnectionIfMissing(defaultConfig);
+        var result = builder.ConfigurationIfMissing(defaultConfig);
 
         // Assert
-        var actualConfig = (RelationalDatabaseConfiguration?)typeof(PostgresDistributedLockBuilder)
+        var actualConfig = (RelationalDatabaseConfiguration?)typeof(MsSqlDistributedLockBuilder)
             .GetField("_configuration", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
             .GetValue(builder);
 
@@ -73,13 +71,13 @@ public class PostgresDistributedLockBuilderTests
         var initialConfig = new RelationalDatabaseConfiguration("initialConnectionString");
         var defaultConfig = new RelationalDatabaseConfiguration("defaultConnectionString");
         
-        var builder = new PostgresDistributedLockBuilder().Connection(initialConfig);
+        var builder = new MsSqlDistributedLockBuilder().Connection(initialConfig);
 
         // Act
-        var result = builder.SetConnectionIfMissing(defaultConfig);
+        var result = builder.ConfigurationIfMissing(defaultConfig);
 
         // Assert
-        var actualConfig = (RelationalDatabaseConfiguration?)typeof(PostgresDistributedLockBuilder)
+        var actualConfig = (RelationalDatabaseConfiguration?)typeof(MsSqlDistributedLockBuilder)
             .GetField("_configuration", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)?
             .GetValue(builder);
 
@@ -88,20 +86,20 @@ public class PostgresDistributedLockBuilderTests
     }
 
     [Fact]
-    public void Build_CreatesPostgresLockingProviderWithCorrectOptions()
+    public void Build_CreatesMsSqlLockingProviderWithCorrectOptions()
     {
         // Arrange
         var config = new RelationalDatabaseConfiguration(TestConnectionString);
-        var builder = new PostgresDistributedLockBuilder().Connection(config);
+        var builder = new MsSqlDistributedLockBuilder().Connection(config);
 
         // Act
         var provider = builder.Build();
 
-        // Assuming PostgresLockingProvider exposes Options for testing
-        var optionsField = provider.GetType().GetField("<options>P", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        // Assuming MsSqlLockingProvider exposes Options for testing
+        var optionsField = provider.GetType().GetField("<connectionProvider>P", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         var options = optionsField?.GetValue(provider);
 
-        var connectionStringProperty = options?.GetType().GetProperty("ConnectionString");
+        var connectionStringProperty = options?.GetType().GetField("_connectionString", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
         var actualConnectionString = connectionStringProperty?.GetValue(options) as string;
             
         // Assert

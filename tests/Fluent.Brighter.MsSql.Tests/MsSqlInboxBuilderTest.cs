@@ -2,12 +2,14 @@ using System.Data.Common;
 
 using Paramore.Brighter;
 using Paramore.Brighter.Inbox;
-using Paramore.Brighter.Inbox.Sqlite;
-using Paramore.Brighter.Sqlite;
+using Paramore.Brighter.Inbox.MsSql;
+using Paramore.Brighter.MsSql;
 
-namespace Fluent.Brighter.Sqlite.Tests;
+using Xunit;
 
-public class SqliteInboxBuilderTest
+namespace Fluent.Brighter.MsSql.Tests;
+
+public class MsSqlInboxBuilderTest
 {
      private const string TestConnectionString = "Host=localhost;Username=test;Password=test;Database=testdb";
  
@@ -17,7 +19,7 @@ public class SqliteInboxBuilderTest
      [InlineData(InboxScope.Events)]
      public void Scope_WhenSet_SetsValueCorrectly(InboxScope scope)
      {
-         var builder = new SqliteInboxBuilder();
+         var builder = new MsSqlInboxBuilder();
          var result = builder.Scope(scope);
 
             Assert.Equal(scope, GetPrivateField<InboxScope>(builder, "_scope"));
@@ -27,7 +29,7 @@ public class SqliteInboxBuilderTest
      [Fact]
      public void OnceOnly_WhenSet_SetsValueCorrectly()
      {
-         var builder = new SqliteInboxBuilder();
+         var builder = new MsSqlInboxBuilder();
          var result = builder.OnceOnly(false);
 
          Assert.False(GetPrivateField<bool>(builder, "_onceOnly"));
@@ -39,7 +41,7 @@ public class SqliteInboxBuilderTest
      [InlineData(OnceOnlyAction.Warn)]
      public void ActionOnExists_WhenSet_SetsValueCorrectly(OnceOnlyAction action)
      {
-         var builder = new SqliteInboxBuilder();
+         var builder = new MsSqlInboxBuilder();
          var result = builder.ActionOnExists(action);
 
          Assert.Equal(action, GetPrivateField<OnceOnlyAction>(builder, "_actionOnExists"));
@@ -49,7 +51,7 @@ public class SqliteInboxBuilderTest
      [Fact]
      public void Context_WhenSet_SetsValueCorrectly()
      {
-         var builder = new SqliteInboxBuilder();
+         var builder = new MsSqlInboxBuilder();
          Func<Type, string> contextFunc = _ => "customContext";
          var result = builder.Context(contextFunc);
 
@@ -61,7 +63,7 @@ public class SqliteInboxBuilderTest
      public void Configuration_WithRelationalConfig_SetsValue()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new SqliteInboxBuilder().Connection(config);
+         var builder = new MsSqlInboxBuilder().Connection(config);
 
          Assert.Same(config, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
      }
@@ -69,7 +71,7 @@ public class SqliteInboxBuilderTest
      [Fact]
      public void Configuration_WithAction_BuildsFromBuilder()
      {
-         var builder = new SqliteInboxBuilder();
+         var builder = new MsSqlInboxBuilder();
          builder.Connection(cfg => cfg.ConnectionString("newConn"));
 
          var config = GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration");
@@ -81,9 +83,9 @@ public class SqliteInboxBuilderTest
      public void ConfigurationIfIsMissing_WhenNull_SetsValue()
      {
          var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
-         var builder = new SqliteInboxBuilder();
+         var builder = new MsSqlInboxBuilder();
 
-         builder.SetConnectionIfIsMissing(defaultConfig);
+         builder.SetConnectIfIsMissing(defaultConfig);
 
          Assert.Same(defaultConfig, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
      }
@@ -94,8 +96,8 @@ public class SqliteInboxBuilderTest
          var initialConfig = new RelationalDatabaseConfiguration("initialConn");
          var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
 
-         var builder = new SqliteInboxBuilder().Connection(initialConfig);
-         builder.SetConnectionIfIsMissing(defaultConfig);
+         var builder = new MsSqlInboxBuilder().Connection(initialConfig);
+         builder.SetConnectIfIsMissing(defaultConfig);
 
          Assert.Same(initialConfig, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
      }
@@ -103,21 +105,21 @@ public class SqliteInboxBuilderTest
      [Fact]
      public void UseUnitOfWork_WhenTrue_SetsFlag()
      {
-         var builder = new SqliteInboxBuilder().UseUnitOfWork(true);
+         var builder = new MsSqlInboxBuilder().UseUnitOfWork(true);
          Assert.True(GetPrivateField<bool>(builder, "_useUnitOfWork"));
      }
 
      [Fact]
      public void EnableUnitOfWork_SetsUseUnitOfWorkToTrue()
      {
-         var builder = new SqliteInboxBuilder().EnableUnitOfWork();
+         var builder = new MsSqlInboxBuilder().EnableUnitOfWork();
          Assert.True(GetPrivateField<bool>(builder, "_useUnitOfWork"));
      }
 
      [Fact]
      public void DisableUnitOfWork_SetsUseUnitOfWorkToFalse()
      {
-         var builder = new SqliteInboxBuilder().DisableUnitOfWork();
+         var builder = new MsSqlInboxBuilder().DisableUnitOfWork();
          Assert.False(GetPrivateField<bool>(builder, "_useUnitOfWork"));
      }
 
@@ -125,7 +127,7 @@ public class SqliteInboxBuilderTest
      public void UnitOfWorkConnectionProvider_SetsProvider()
      {
          var mockProvider = new MockRelationalDbConnectionProvider();
-         var builder = new SqliteInboxBuilder().UnitOfWorkConnectionProvider(mockProvider);
+         var builder = new MsSqlInboxBuilder().UnitOfWorkConnectionProvider(mockProvider);
 
          Assert.Same(mockProvider, GetPrivateField<IAmARelationalDbConnectionProvider>(builder, "_unitOfWork"));
      }
@@ -134,11 +136,11 @@ public class SqliteInboxBuilderTest
      public void Build_WithDefaultValues_CreatesInboxWithDefaults()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new SqliteInboxBuilder().Connection(config);
+         var builder = new MsSqlInboxBuilder().Connection(config);
          var inboxConfig = builder.Build();
 
          Assert.NotNull(inboxConfig);
-         Assert.IsType<SqliteInbox>(inboxConfig.Inbox);
+         Assert.IsType<MsSqlInbox>(inboxConfig.Inbox);
          Assert.Equal(InboxScope.All, inboxConfig.Scope);
          Assert.True(inboxConfig.OnceOnly);
          Assert.Equal(OnceOnlyAction.Throw, inboxConfig.ActionOnExists);
@@ -150,13 +152,13 @@ public class SqliteInboxBuilderTest
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
          var mockProvider = new MockRelationalDbConnectionProvider();
 
-         var builder = new SqliteInboxBuilder()
+         var builder = new MsSqlInboxBuilder()
              .Connection(config)
              .EnableUnitOfWork()
              .UnitOfWorkConnectionProvider(mockProvider);
 
          var inboxConfig = builder.Build();
-         var inbox = Assert.IsType<SqliteInbox>(inboxConfig.Inbox);
+         var inbox = Assert.IsType<MsSqlInbox>(inboxConfig.Inbox);
 
          var inboxField = inbox.GetType().GetField("_connectionProvider", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
          Assert.Same(mockProvider, inboxField?.GetValue(inbox));
@@ -166,13 +168,13 @@ public class SqliteInboxBuilderTest
      public void Build_WhenUseUnitOfWorkFalse_CreatesNewConnectionProvider()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new SqliteInboxBuilder().Connection(config).DisableUnitOfWork();
+         var builder = new MsSqlInboxBuilder().Connection(config).DisableUnitOfWork();
 
          var inboxConfig = builder.Build();
-         var inbox = Assert.IsType<SqliteInbox>(inboxConfig.Inbox);
+         var inbox = Assert.IsType<MsSqlInbox>(inboxConfig.Inbox);
 
          var inboxField = inbox.GetType().GetField("_connectionProvider", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-         Assert.IsType<SqliteConnectionProvider>(inboxField?.GetValue(inbox));
+         Assert.IsType<MsSqlConnectionProvider>(inboxField?.GetValue(inbox));
      }
 
      // Helper to access private fields via reflection

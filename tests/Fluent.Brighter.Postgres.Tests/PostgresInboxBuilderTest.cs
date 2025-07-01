@@ -63,7 +63,7 @@ public class PostgresInboxBuilderTest
      public void Configuration_WithRelationalConfig_SetsValue()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new PostgresInboxBuilder().Configuration(config);
+         var builder = new PostgresInboxBuilder().Connection(config);
 
          Assert.Same(config, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
      }
@@ -72,7 +72,7 @@ public class PostgresInboxBuilderTest
      public void Configuration_WithAction_BuildsFromBuilder()
      {
          var builder = new PostgresInboxBuilder();
-         builder.Configuration(cfg => cfg.ConnectionString("newConn"));
+         builder.Connection(cfg => cfg.ConnectionString("newConn"));
 
          var config = GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration");
          Assert.NotNull(config);
@@ -85,7 +85,7 @@ public class PostgresInboxBuilderTest
          var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
          var builder = new PostgresInboxBuilder();
 
-         builder.ConfigurationIfIsMissing(defaultConfig);
+         builder.SetConnectionIfIsMissing(defaultConfig);
 
          Assert.Same(defaultConfig, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
      }
@@ -96,8 +96,8 @@ public class PostgresInboxBuilderTest
          var initialConfig = new RelationalDatabaseConfiguration("initialConn");
          var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
 
-         var builder = new PostgresInboxBuilder().Configuration(initialConfig);
-         builder.ConfigurationIfIsMissing(defaultConfig);
+         var builder = new PostgresInboxBuilder().Connection(initialConfig);
+         builder.SetConnectionIfIsMissing(defaultConfig);
 
          Assert.Same(initialConfig, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
      }
@@ -136,7 +136,7 @@ public class PostgresInboxBuilderTest
      public void Build_WithDefaultValues_CreatesInboxWithDefaults()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new PostgresInboxBuilder().Configuration(config);
+         var builder = new PostgresInboxBuilder().Connection(config);
          var inboxConfig = builder.Build();
 
          Assert.NotNull(inboxConfig);
@@ -153,7 +153,7 @@ public class PostgresInboxBuilderTest
          var mockProvider = new MockRelationalDbConnectionProvider();
 
          var builder = new PostgresInboxBuilder()
-             .Configuration(config)
+             .Connection(config)
              .EnableUnitOfWork()
              .UnitOfWorkConnectionProvider(mockProvider);
 
@@ -168,7 +168,7 @@ public class PostgresInboxBuilderTest
      public void Build_WhenUseUnitOfWorkFalse_CreatesNewConnectionProvider()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new PostgresInboxBuilder().Configuration(config).DisableUnitOfWork();
+         var builder = new PostgresInboxBuilder().Connection(config).DisableUnitOfWork();
 
          var inboxConfig = builder.Build();
          var inbox = Assert.IsType<PostgreSqlInbox>(inboxConfig.Inbox);

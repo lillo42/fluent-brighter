@@ -8,7 +8,7 @@ namespace Fluent.Brighter.Sqlite;
 /// </summary>
 /// <remarks>
 /// This class simplifies the integration of SQLite as a messaging gateway and persistence store within Brighter's pipeline.
-/// Use the <see cref="UsingSQLite(IBrighterConfigurator, Action)"/> method to define SQLite-specific settings.
+/// Use the <see cref="UsingSQLite(IBrighterConfigurator, Action{SqliteConfigurator})"/> method to define SQLite-specific settings.
 /// </remarks>
 public static class BrighterRegisterExtensions
 {
@@ -24,15 +24,15 @@ public static class BrighterRegisterExtensions
     /// <code>
     /// services.AddBrighter(config =>
     /// {
-    ///     config.Using(pg =>
+    ///     config.UsingSQLite(pg =>
     ///     {
-    ///         pg.Configuration(builder => builder
+    ///         pg.Connection(builder => builder
     ///             .ConnectionString("my-db-connection-string")
-    ///             .SchemaName("messaging"));
+    ///             );
     ///
-    ///         pg.UseUnitOfWork();
-    ///         pg.Outbox();
-    ///         pg.Inbox();
+    ///         pg.EnableUnitOfWork();
+    ///         pg.UsingOutbox();
+    ///         pg.UsingInbox();
     ///     });
     /// });
     /// </code>

@@ -10,7 +10,8 @@ namespace Fluent.Brighter.Sqlite;
 
 /// <summary>
 /// A fluent configuration builder for setting up SQLite integration with Paramore.Brighter message handling.
-/// Provides methods to configure subscriptions, publications, outbox, inbox, distributed locks, and database connections.
+/// Provides methods to configure outbox, inbox and database connections.
+/// 
 /// </summary>
 /// <remarks>
 /// This class is designed to be used within a dependency injection pipeline to register SQLite-based infrastructure services.
@@ -26,12 +27,12 @@ public class SqliteConfigurator
     private SqliteInboxBuilder? _inboxBuilder;
 
     /// <summary>
-    /// Configures the relational database connection settings for PostgreSQL.
+    /// Configures the relational database connection settings for SQLite.
     /// </summary>
     /// <param name="configure">An action to customize the <see cref="RelationalDatabaseConfigurationBuilder"/>.</param>
     /// <returns>The current <see cref="SqliteConfigurator"/> instance for fluent chaining.</returns>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="configure"/> is null.</exception>
-    public SqliteConfigurator Configuration(Action<RelationalDatabaseConfigurationBuilder> configure)
+    public SqliteConfigurator Connection(Action<RelationalDatabaseConfigurationBuilder> configure)
     {
         if (configure == null)
         {
@@ -44,26 +45,38 @@ public class SqliteConfigurator
         return this;
     }
     
-    /// <summary>
-    /// Enables unit of work support for transactional message handling.
+    // <summary>
+    /// Sets whether to use a unit of work.
     /// </summary>
-    /// <returns>The current <see cref="SqliteConfigurator"/> instance for fluent chaining.</returns>
-    public SqliteConfigurator UseUnitOfWork()
+    /// <param name="useUnitOfWork">True to enable unit of work; otherwise, false.</param>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public SqliteConfigurator UseUnitOfWork(bool useUnitOfWork)
     {
-        _unitOfOWork = true;
+        _unitOfOWork = useUnitOfWork;
         return this;
     }
+    
+    /// <summary>
+    /// Enable to use a unit of work.
+    /// </summary>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public SqliteConfigurator EnableUnitOfWork() => UseUnitOfWork(true);
+    
+    /// <summary>
+    /// Disable to use a unit of work.
+    /// </summary>
+    /// <returns>The current builder instance for fluent chaining.</returns>
+    public SqliteConfigurator DisableUnitOfWork() => UseUnitOfWork(false); 
         
     /// <summary>
     /// Configures the outbox for message persistence.
     /// </summary>
     /// <param name="configure">An optional action to customize the <see cref="SqliteOutboxBuilder"/>.</param>
     /// <returns>The current <see cref="SqliteConfigurator"/> instance for fluent chaining.</returns>
-    public SqliteConfigurator Outbox(Action<SqliteOutboxBuilder>? configure = null)
+    public SqliteConfigurator UsingOutbox(Action<SqliteOutboxBuilder>? configure = null)
     {
         _outboxBuilder = new SqliteOutboxBuilder();
         configure?.Invoke(_outboxBuilder);
-        
         return this;
     }
 
@@ -72,11 +85,10 @@ public class SqliteConfigurator
     /// </summary>
     /// <param name="configure">An optional action to customize the <see cref="SqliteInboxBuilder"/>.</param>
     /// <returns>The current <see cref="SqliteConfigurator"/> instance for fluent chaining.</returns>
-    public SqliteConfigurator Inbox(Action<SqliteInboxBuilder>? configure = null)
+    public SqliteConfigurator UsingInbox(Action<SqliteInboxBuilder>? configure = null)
     {
         _inboxBuilder = new SqliteInboxBuilder();
         configure?.Invoke(_inboxBuilder);
-
         return this;
     }
     
@@ -105,7 +117,7 @@ public class SqliteConfigurator
         if (_outboxBuilder != null)
         {
             register.Outbox(_outboxBuilder
-                .ConfigurationIfIsMissing(_configuration)
+                .SetConnectionIfIsMissing(_configuration)
                 .UnitOfWorkConnectionProvider(provider)
                 .Build());
         }
@@ -113,7 +125,7 @@ public class SqliteConfigurator
         if (_inboxBuilder != null)
         {
             register.Inbox(_inboxBuilder
-                .ConfigurationIfIsMissing(_configuration)
+                .SetConnectionIfIsMissing(_configuration)
                 .UnitOfWorkConnectionProvider(provider)
                 .Build());
         }

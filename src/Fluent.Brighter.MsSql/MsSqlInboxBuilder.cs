@@ -2,16 +2,16 @@ using System;
 
 using Paramore.Brighter;
 using Paramore.Brighter.Inbox;
-using Paramore.Brighter.Inbox.MySql;
-using Paramore.Brighter.MySql;
+using Paramore.Brighter.Inbox.MsSql;
+using Paramore.Brighter.MsSql;
 
-namespace Fluent.Brighter.MySql;
+namespace Fluent.Brighter.MsSql;
 
 /// <summary>
 /// A fluent builder for creating instances of <see cref="InboxConfiguration"/>.
-/// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and MySQL-specific settings.
+/// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and MS SQL-specific settings.
 /// </summary>
-public class MySqlInboxBuilder
+public class MsSqlInboxBuilder
 {
     // Base class constructor parameters
     private InboxScope _scope = InboxScope.All;
@@ -29,7 +29,7 @@ public class MySqlInboxBuilder
     /// </summary>
     /// <param name="scope">The inbox scope.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder Scope(InboxScope scope)
+    public MsSqlInboxBuilder Scope(InboxScope scope)
     {
         _scope = scope;
         return this;
@@ -41,7 +41,7 @@ public class MySqlInboxBuilder
     /// </summary>
     /// <param name="onceOnly">True to enable de-duplication; false to disable.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder OnceOnly(bool onceOnly)
+    public MsSqlInboxBuilder OnceOnly(bool onceOnly)
     {
         _onceOnly = onceOnly;
         return this;
@@ -53,7 +53,7 @@ public class MySqlInboxBuilder
     /// </summary>
     /// <param name="actionOnExists">The action to take on duplicate requests.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder ActionOnExists(OnceOnlyAction actionOnExists)
+    public MsSqlInboxBuilder ActionOnExists(OnceOnlyAction actionOnExists)
     {
         _actionOnExists = actionOnExists;
         return this;
@@ -65,18 +65,18 @@ public class MySqlInboxBuilder
     /// </summary>
     /// <param name="context">A function that maps handler types to context strings.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder Context(Func<Type, string>? context)
+    public MsSqlInboxBuilder Context(Func<Type, string>? context)
     {
         _context = context;
         return this;
     }
 
     /// <summary>
-    /// Sets the MySQL-specific relational database configuration.
+    /// Sets the SQLite-specific relational database configuration.
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder Connection(RelationalDatabaseConfiguration? configuration)
+    public MsSqlInboxBuilder Connection(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
@@ -87,7 +87,7 @@ public class MySqlInboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder Connection(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public MsSqlInboxBuilder Connection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -100,7 +100,7 @@ public class MySqlInboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder SetConnectionIfIsMissing(RelationalDatabaseConfiguration configuration)
+    public MsSqlInboxBuilder SetConnectIfIsMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;
@@ -111,7 +111,7 @@ public class MySqlInboxBuilder
     /// </summary>
     /// <param name="useUnitOfWork">True to enable unit of work; otherwise, false.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder UseUnitOfWork(bool useUnitOfWork)
+    public MsSqlInboxBuilder UseUnitOfWork(bool useUnitOfWork)
     {
         _useUnitOfWork = useUnitOfWork;
         return this;
@@ -121,13 +121,13 @@ public class MySqlInboxBuilder
     /// Enable to use a unit of work with the inbox.
     /// </summary>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder EnableUnitOfWork() => UseUnitOfWork(true);
+    public MsSqlInboxBuilder EnableUnitOfWork() => UseUnitOfWork(true);
     
     /// <summary>
     /// Disable to use a unit of work with the inbox.
     /// </summary>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder DisableUnitOfWork() => UseUnitOfWork(false);
+    public MsSqlInboxBuilder DisableUnitOfWork() => UseUnitOfWork(false);
     
     private IAmARelationalDbConnectionProvider _unitOfWork = null!;
 
@@ -136,7 +136,7 @@ public class MySqlInboxBuilder
     /// </summary>
     /// <param name="provider"></param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlInboxBuilder UnitOfWorkConnectionProvider(IAmARelationalDbConnectionProvider provider)
+    public MsSqlInboxBuilder UnitOfWorkConnectionProvider(IAmARelationalDbConnectionProvider provider)
     {
         _unitOfWork = provider;
         return this;
@@ -148,9 +148,9 @@ public class MySqlInboxBuilder
     /// <returns>A configured instance of <see cref="InboxConfiguration"/>.</returns>
     public InboxConfiguration Build()
     {
-        var provider = _useUnitOfWork ? _unitOfWork : new MySqlConnectionProvider(_configuration!);
+        var provider = _useUnitOfWork ? _unitOfWork : new MsSqlConnectionProvider(_configuration!);
         return new InboxConfiguration(
-            new MySqlInbox(_configuration, provider),
+            new MsSqlInbox(_configuration, provider),
             _scope,
             _onceOnly,
             _actionOnExists,

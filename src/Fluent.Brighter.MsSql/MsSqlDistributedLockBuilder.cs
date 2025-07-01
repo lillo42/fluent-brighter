@@ -1,16 +1,16 @@
 using System;
 
 using Paramore.Brighter;
-using Paramore.Brighter.Locking.MySql;
-using Paramore.Brighter.MySql;
+using Paramore.Brighter.Locking.MsSql;
+using Paramore.Brighter.MsSql;
 
-namespace Fluent.Brighter.MySql;
+namespace Fluent.Brighter.MsSql;
 
 /// <summary>
-/// A fluent builder for creating instances of <see cref="MySqlLockingProvider"/>.
-/// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and MySQL-specific settings.
+/// A fluent builder for creating instances of <see cref="MsSqlLockingProvider"/>.
+/// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and MS SQL-specific settings.
 /// </summary>
-public class MySqlDistributedLockBuilder
+public class MsSqlDistributedLockBuilder
 {
     private RelationalDatabaseConfiguration? _configuration;
     
@@ -19,7 +19,7 @@ public class MySqlDistributedLockBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlDistributedLockBuilder Connection(RelationalDatabaseConfiguration? configuration)
+    public MsSqlDistributedLockBuilder Connection(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
@@ -30,7 +30,7 @@ public class MySqlDistributedLockBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlDistributedLockBuilder Connection(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public MsSqlDistributedLockBuilder Connection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -43,18 +43,18 @@ public class MySqlDistributedLockBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlDistributedLockBuilder ConfigurationIfMissing(RelationalDatabaseConfiguration configuration)
+    public MsSqlDistributedLockBuilder ConfigurationIfMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;
     }
 
     /// <summary>
-    /// Create a new instance of <see cref="MySqlLockingProvider"/> based on provided information
+    /// Create a new instance of <see cref="MsSqlLockingProvider"/> based on provided information
     /// </summary>
-    /// <returns>A new instance of <see cref="MySqlLockingProvider"/></returns>
-    public MySqlLockingProvider Build()
+    /// <returns>A new instance of <see cref="MsSqlLockingProvider"/></returns>
+    public MsSqlLockingProvider Build()
     {
-        return new MySqlLockingProvider(new MySqlConnectionProvider(_configuration));
+        return new MsSqlLockingProvider(new MsSqlConnectionProvider(_configuration));
     }
 }
