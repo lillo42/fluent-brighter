@@ -2,16 +2,16 @@ using System;
 using System.Collections.Generic;
 
 using Paramore.Brighter;
-using Paramore.Brighter.MySql;
-using Paramore.Brighter.Outbox.MySql;
+using Paramore.Brighter.Outbox.Sqlite;
+using Paramore.Brighter.Sqlite;
 
-namespace Fluent.Brighter.MySql;
+namespace Fluent.Brighter.Sqlite;
 
 /// <summary>
 /// A fluent builder for creating instances of <see cref="BrighterOutboxConfiguration"/>.
-/// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and MySQL-specific settings.
+/// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and SQLite-specific settings.
 /// </summary>
-public class MySqlOutboxBuilder
+public class SqliteOutboxBuilder
 {
     private int? _maxOutStandingMessages = -1;
     
@@ -23,7 +23,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="maxOutStandingMessages">The max number of messages allowed in the outbox.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder MaxOutStandingMessages(int? maxOutStandingMessages)
+    public SqliteOutboxBuilder MaxOutStandingMessages(int? maxOutStandingMessages)
     {
         _maxOutStandingMessages = maxOutStandingMessages;
         return this;
@@ -38,7 +38,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="maxOutStandingCheckInterval">The interval between checks (e.g., every 5 seconds).</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder MaxOutStandingCheckInterval(TimeSpan maxOutStandingCheckInterval)
+    public SqliteOutboxBuilder MaxOutStandingCheckInterval(TimeSpan maxOutStandingCheckInterval)
     {
         _maxOutStandingCheckInterval = maxOutStandingCheckInterval;
         return this;
@@ -52,7 +52,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="outboxBulkChunkSize">The bulk insert size limit.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder BulkChunkSize(int? outboxBulkChunkSize)
+    public SqliteOutboxBuilder BulkChunkSize(int? outboxBulkChunkSize)
     {
         _outboxBulkChunkSize = outboxBulkChunkSize;
         return this;
@@ -66,7 +66,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="outBoxBag">A dictionary of additional arguments.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder Bag(Dictionary<string, object>? outBoxBag)
+    public SqliteOutboxBuilder Bag(Dictionary<string, object>? outBoxBag)
     {
         _outBoxBag = outBoxBag;
         return this;
@@ -79,7 +79,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="outboxTimeout">The timeout in milliseconds.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder Timeout(int? outboxTimeout)
+    public SqliteOutboxBuilder Timeout(int? outboxTimeout)
     {
         _outboxTimeout = outboxTimeout;
         return this;
@@ -92,7 +92,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
+    public SqliteOutboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
@@ -103,7 +103,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public SqliteOutboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -116,7 +116,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
+    public SqliteOutboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;
@@ -129,7 +129,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="useUnitOfWork">True to enable unit of work; otherwise, false.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder UseUnitOfWork(bool useUnitOfWork)
+    public SqliteOutboxBuilder UseUnitOfWork(bool useUnitOfWork)
     {
         _useUnitOfWork = useUnitOfWork;
         return this;
@@ -139,13 +139,13 @@ public class MySqlOutboxBuilder
     /// Enable to use a unit of work with the outbox.
     /// </summary>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder EnableUnitOfWork() => UseUnitOfWork(true);
+    public SqliteOutboxBuilder EnableUnitOfWork() => UseUnitOfWork(true);
     
     /// <summary>
     /// Disable to use a unit of work with the outbox.
     /// </summary>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder DisableUnitOfWork() => UseUnitOfWork(false);
+    public SqliteOutboxBuilder DisableUnitOfWork() => UseUnitOfWork(false);
     
     private IAmARelationalDbConnectionProvider _unitOfWork = null!;
 
@@ -154,7 +154,7 @@ public class MySqlOutboxBuilder
     /// </summary>
     /// <param name="provider"></param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public MySqlOutboxBuilder UnitOfWorkConnectionProvider(IAmARelationalDbConnectionProvider provider)
+    public SqliteOutboxBuilder UnitOfWorkConnectionProvider(IAmARelationalDbConnectionProvider provider)
     {
         _unitOfWork = provider;
         return this;
@@ -166,7 +166,7 @@ public class MySqlOutboxBuilder
     /// <returns>A new instance of <see cref="BrighterOutboxConfiguration" />.</returns>
     public BrighterOutboxConfiguration Build()
     {
-        var provider = _useUnitOfWork ? _unitOfWork : new MySqlConnectionProvider(_configuration!);
+        var provider = _useUnitOfWork ? _unitOfWork : new SqliteConnectionProvider(_configuration!);
         return new BrighterOutboxConfiguration
         {
             MaxOutStandingMessages = _maxOutStandingMessages,
@@ -174,7 +174,7 @@ public class MySqlOutboxBuilder
             OutboxBulkChunkSize = _outboxBulkChunkSize,
             OutboxTimeout = _outboxTimeout,
             OutBoxBag = _outBoxBag,
-            Outbox = new MySqlOutbox(_configuration!, provider)
+            Outbox = new SqliteOutbox(_configuration!, provider)
         };
     }
 }

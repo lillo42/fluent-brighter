@@ -119,10 +119,7 @@ public class PostgresConfigurator
     public PostgresConfigurator Outbox(Action<PostgresOutboxBuilder>? configure = null)
     {
         _outboxBuilder = new PostgresOutboxBuilder();
-        if (configure != null)
-        {
-            configure(_outboxBuilder);
-        }
+        configure?.Invoke(_outboxBuilder);
         
         return this;
     }
@@ -135,10 +132,7 @@ public class PostgresConfigurator
     public PostgresConfigurator Inbox(Action<PostgresInboxBuilder>? configure = null)
     {
         _inboxBuilder = new PostgresInboxBuilder();
-        if (configure != null)
-        {
-            configure(_inboxBuilder);
-        }
+        configure?.Invoke(_inboxBuilder);
 
         return this;
     }
@@ -151,10 +145,7 @@ public class PostgresConfigurator
     public PostgresConfigurator DistributedLock(Action<PostgresDistributedLockBuilder>? configure = null)
     {
         _distributedLockBuilder = new PostgresDistributedLockBuilder();
-        if (configure != null)
-        {
-            configure(_distributedLockBuilder);
-        }
+        configure?.Invoke(_distributedLockBuilder);
         
         return this;
     }

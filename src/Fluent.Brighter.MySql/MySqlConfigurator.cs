@@ -1,3 +1,4 @@
+using System;
 using System.Data.Common;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -62,10 +63,7 @@ public class MySqlConfigurator
     public MySqlConfigurator Outbox(Action<MySqlOutboxBuilder>? configure = null)
     {
         _outboxBuilder = new MySqlOutboxBuilder();
-        if (configure != null)
-        {
-            configure(_outboxBuilder);
-        }
+        configure?.Invoke(_outboxBuilder);
         
         return this;
     }
