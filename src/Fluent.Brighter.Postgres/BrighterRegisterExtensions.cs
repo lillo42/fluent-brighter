@@ -36,7 +36,7 @@ public static class BrighterRegisterExtensions
     ///
     ///         pg.Publication(pub => pub
     ///             .Type("my-event-type")
-    ///             .Topic(new RoutingKey("my-topic")));
+    ///             .Queue(new RoutingKey("my-topic")));
     ///
     ///         pg.UseUnitOfWork();
     ///         pg.Outbox();

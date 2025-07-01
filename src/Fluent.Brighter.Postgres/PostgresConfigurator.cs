@@ -30,7 +30,7 @@ public class PostgresConfigurator
     private NpgsqlDataSource? _dataSource;
 
     private PostgresOutboxBuilder? _outboxBuilder;
-    private PostgresInboxConfigurationBuilder? _inboxBuilder;
+    private PostgresInboxBuilder? _inboxBuilder;
     private PostgresDistributedLockBuilder? _distributedLockBuilder;
 
     /// <summary>
@@ -130,11 +130,11 @@ public class PostgresConfigurator
     /// <summary>
     /// Configures the inbox for message de-duplication.
     /// </summary>
-    /// <param name="configure">An optional action to customize the <see cref="PostgresInboxConfigurationBuilder"/>.</param>
+    /// <param name="configure">An optional action to customize the <see cref="PostgresInboxBuilder"/>.</param>
     /// <returns>The current <see cref="PostgresConfigurator"/> instance for fluent chaining.</returns>
-    public PostgresConfigurator Inbox(Action<PostgresInboxConfigurationBuilder>? configure = null)
+    public PostgresConfigurator Inbox(Action<PostgresInboxBuilder>? configure = null)
     {
-        _inboxBuilder = new PostgresInboxConfigurationBuilder();
+        _inboxBuilder = new PostgresInboxBuilder();
         if (configure != null)
         {
             configure(_inboxBuilder);

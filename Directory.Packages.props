@@ -9,12 +9,15 @@
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="Paramore.Brighter" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Inbox.MySql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Inbox.Postgres" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Locking.MySql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Locking.PostgresSql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.AWSSQS" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.Postgres" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.RMQ.Sync" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.RMQ.Async" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Outbox.MySql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.PostgreSql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.ServiceActivator.Extensions.Hosting" Version="$(BrighterVersion)" />

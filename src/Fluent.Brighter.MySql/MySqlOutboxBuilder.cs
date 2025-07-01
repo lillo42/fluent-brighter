@@ -1,17 +1,14 @@
-using System;
-using System.Collections.Generic;
-
 using Paramore.Brighter;
-using Paramore.Brighter.Outbox.PostgreSql;
-using Paramore.Brighter.PostgreSql;
+using Paramore.Brighter.MySql;
+using Paramore.Brighter.Outbox.MySql;
 
-namespace Fluent.Brighter.Postgres;
+namespace Fluent.Brighter.MySql;
 
 /// <summary>
 /// A fluent builder for creating instances of <see cref="BrighterOutboxConfiguration"/>.
-/// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and PostgreSQL-specific settings.
+/// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and MySQL-specific settings.
 /// </summary>
-public class PostgresOutboxBuilder
+public class MySqlOutboxBuilder
 {
     private int? _maxOutStandingMessages = -1;
     
@@ -23,7 +20,7 @@ public class PostgresOutboxBuilder
     /// </summary>
     /// <param name="maxOutStandingMessages">The max number of messages allowed in the outbox.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder MaxOutStandingMessages(int? maxOutStandingMessages)
+    public MySqlOutboxBuilder MaxOutStandingMessages(int? maxOutStandingMessages)
     {
         _maxOutStandingMessages = maxOutStandingMessages;
         return this;
@@ -38,7 +35,7 @@ public class PostgresOutboxBuilder
     /// </summary>
     /// <param name="maxOutStandingCheckInterval">The interval between checks (e.g., every 5 seconds).</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder MaxOutStandingCheckInterval(TimeSpan maxOutStandingCheckInterval)
+    public MySqlOutboxBuilder MaxOutStandingCheckInterval(TimeSpan maxOutStandingCheckInterval)
     {
         _maxOutStandingCheckInterval = maxOutStandingCheckInterval;
         return this;
@@ -52,7 +49,7 @@ public class PostgresOutboxBuilder
     /// </summary>
     /// <param name="outboxBulkChunkSize">The bulk insert size limit.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder BulkChunkSize(int? outboxBulkChunkSize)
+    public MySqlOutboxBuilder BulkChunkSize(int? outboxBulkChunkSize)
     {
         _outboxBulkChunkSize = outboxBulkChunkSize;
         return this;
@@ -66,7 +63,7 @@ public class PostgresOutboxBuilder
     /// </summary>
     /// <param name="outBoxBag">A dictionary of additional arguments.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder Bag(Dictionary<string, object>? outBoxBag)
+    public MySqlOutboxBuilder Bag(Dictionary<string, object>? outBoxBag)
     {
         _outBoxBag = outBoxBag;
         return this;
@@ -79,7 +76,7 @@ public class PostgresOutboxBuilder
     /// </summary>
     /// <param name="outboxTimeout">The timeout in milliseconds.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder Timeout(int? outboxTimeout)
+    public MySqlOutboxBuilder Timeout(int? outboxTimeout)
     {
         _outboxTimeout = outboxTimeout;
         return this;
@@ -88,22 +85,22 @@ public class PostgresOutboxBuilder
     private RelationalDatabaseConfiguration? _configuration;
     
     /// <summary>
-    /// Sets the PostgreSQL-specific relational database configuration.
+    /// Sets the MySQL-specific relational database configuration.
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
+    public MySqlOutboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
     }
 
     /// <summary>
-    /// Sets the PostgreSQL-specific relational database configuration.
+    /// Sets the MySQL-specific relational database configuration.
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public MySqlOutboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -112,11 +109,11 @@ public class PostgresOutboxBuilder
     }
    
     /// <summary>
-    /// Sets the PostgreSQL-specific relational database configuration if it was not set.
+    /// Sets the MySQL-specific relational database configuration if it was not set.
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
+    public MySqlOutboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;
@@ -129,7 +126,7 @@ public class PostgresOutboxBuilder
     /// </summary>
     /// <param name="useUnitOfWork">True to enable unit of work; otherwise, false.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder UseUnitOfWork(bool useUnitOfWork)
+    public MySqlOutboxBuilder UseUnitOfWork(bool useUnitOfWork)
     {
         _useUnitOfWork = useUnitOfWork;
         return this;
@@ -139,13 +136,13 @@ public class PostgresOutboxBuilder
     /// Enable to use a unit of work with the outbox.
     /// </summary>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder EnableUnitOfWork() => UseUnitOfWork(true);
+    public MySqlOutboxBuilder EnableUnitOfWork() => UseUnitOfWork(true);
     
     /// <summary>
     /// Disable to use a unit of work with the outbox.
     /// </summary>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder DisableUnitOfWork() => UseUnitOfWork(false);
+    public MySqlOutboxBuilder DisableUnitOfWork() => UseUnitOfWork(false);
     
     private IAmARelationalDbConnectionProvider _unitOfWork = null!;
 
@@ -154,7 +151,7 @@ public class PostgresOutboxBuilder
     /// </summary>
     /// <param name="provider"></param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresOutboxBuilder UnitOfWorkConnectionProvider(IAmARelationalDbConnectionProvider provider)
+    public MySqlOutboxBuilder UnitOfWorkConnectionProvider(IAmARelationalDbConnectionProvider provider)
     {
         _unitOfWork = provider;
         return this;
@@ -166,7 +163,7 @@ public class PostgresOutboxBuilder
     /// <returns>A new instance of <see cref="BrighterOutboxConfiguration" />.</returns>
     public BrighterOutboxConfiguration Build()
     {
-        var provider = _useUnitOfWork ? _unitOfWork : new PostgreSqlConnectionProvider(_configuration!);
+        var provider = _useUnitOfWork ? _unitOfWork : new MySqlConnectionProvider(_configuration!);
         return new BrighterOutboxConfiguration
         {
             MaxOutStandingMessages = _maxOutStandingMessages,
@@ -174,7 +171,7 @@ public class PostgresOutboxBuilder
             OutboxBulkChunkSize = _outboxBulkChunkSize,
             OutboxTimeout = _outboxTimeout,
             OutBoxBag = _outBoxBag,
-            Outbox = new PostgreSqlOutbox(_configuration!, provider)
+            Outbox = new MySqlOutbox(_configuration!, provider)
         };
     }
 }

@@ -1,17 +1,15 @@
-using System;
-
 using Paramore.Brighter;
 using Paramore.Brighter.Inbox;
-using Paramore.Brighter.Inbox.Postgres;
-using Paramore.Brighter.PostgreSql;
+using Paramore.Brighter.Inbox.MySql;
+using Paramore.Brighter.MySql;
 
-namespace Fluent.Brighter.Postgres;
+namespace Fluent.Brighter.MySql;
 
 /// <summary>
 /// A fluent builder for creating instances of <see cref="InboxConfiguration"/>.
-/// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and PostgreSQL-specific settings.
+/// Provides a clean, readable API for configuring inbox behavior including de-duplication, scope, and MySQL-specific settings.
 /// </summary>
-public class PostgresInboxBuilder
+public class MySqlInboxBuilder
 {
     // Base class constructor parameters
     private InboxScope _scope = InboxScope.All;
@@ -29,7 +27,7 @@ public class PostgresInboxBuilder
     /// </summary>
     /// <param name="scope">The inbox scope.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder Scope(InboxScope scope)
+    public MySqlInboxBuilder Scope(InboxScope scope)
     {
         _scope = scope;
         return this;
@@ -41,7 +39,7 @@ public class PostgresInboxBuilder
     /// </summary>
     /// <param name="onceOnly">True to enable de-duplication; false to disable.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder OnceOnly(bool onceOnly)
+    public MySqlInboxBuilder OnceOnly(bool onceOnly)
     {
         _onceOnly = onceOnly;
         return this;
@@ -53,7 +51,7 @@ public class PostgresInboxBuilder
     /// </summary>
     /// <param name="actionOnExists">The action to take on duplicate requests.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder ActionOnExists(OnceOnlyAction actionOnExists)
+    public MySqlInboxBuilder ActionOnExists(OnceOnlyAction actionOnExists)
     {
         _actionOnExists = actionOnExists;
         return this;
@@ -65,29 +63,29 @@ public class PostgresInboxBuilder
     /// </summary>
     /// <param name="context">A function that maps handler types to context strings.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder Context(Func<Type, string>? context)
+    public MySqlInboxBuilder Context(Func<Type, string>? context)
     {
         _context = context;
         return this;
     }
 
     /// <summary>
-    /// Sets the PostgreSQL-specific relational database configuration.
+    /// Sets the MySQL-specific relational database configuration.
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
+    public MySqlInboxBuilder Configuration(RelationalDatabaseConfiguration? configuration)
     {
         _configuration = configuration;
         return this;
     }
     
     /// <summary>
-    /// Sets the PostgreSQL-specific relational database configuration.
+    /// Sets the MySQL-specific relational database configuration.
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
+    public MySqlInboxBuilder Configuration(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
@@ -96,11 +94,11 @@ public class PostgresInboxBuilder
     }
 
     /// <summary>
-    /// Sets the PostgreSQL-specific relational database configuration if it was not set.
+    /// Sets the MySQL-specific relational database configuration if it was not set.
     /// </summary>
     /// <param name="configuration">An instance of <see cref="RelationalDatabaseConfiguration"/>.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
+    public MySqlInboxBuilder ConfigurationIfIsMissing(RelationalDatabaseConfiguration configuration)
     {
         _configuration ??= configuration;
         return this;
@@ -111,7 +109,7 @@ public class PostgresInboxBuilder
     /// </summary>
     /// <param name="useUnitOfWork">True to enable unit of work; otherwise, false.</param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder UseUnitOfWork(bool useUnitOfWork)
+    public MySqlInboxBuilder UseUnitOfWork(bool useUnitOfWork)
     {
         _useUnitOfWork = useUnitOfWork;
         return this;
@@ -121,13 +119,13 @@ public class PostgresInboxBuilder
     /// Enable to use a unit of work with the inbox.
     /// </summary>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder EnableUnitOfWork() => UseUnitOfWork(true);
+    public MySqlInboxBuilder EnableUnitOfWork() => UseUnitOfWork(true);
     
     /// <summary>
     /// Disable to use a unit of work with the inbox.
     /// </summary>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder DisableUnitOfWork() => UseUnitOfWork(false);
+    public MySqlInboxBuilder DisableUnitOfWork() => UseUnitOfWork(false);
     
     private IAmARelationalDbConnectionProvider _unitOfWork = null!;
 
@@ -136,7 +134,7 @@ public class PostgresInboxBuilder
     /// </summary>
     /// <param name="provider"></param>
     /// <returns>The current builder instance for fluent chaining.</returns>
-    public PostgresInboxBuilder UnitOfWorkConnectionProvider(IAmARelationalDbConnectionProvider provider)
+    public MySqlInboxBuilder UnitOfWorkConnectionProvider(IAmARelationalDbConnectionProvider provider)
     {
         _unitOfWork = provider;
         return this;
@@ -148,9 +146,9 @@ public class PostgresInboxBuilder
     /// <returns>A configured instance of <see cref="InboxConfiguration"/>.</returns>
     public InboxConfiguration Build()
     {
-        var provider = _useUnitOfWork ? _unitOfWork : new PostgreSqlConnectionProvider(_configuration!);
+        var provider = _useUnitOfWork ? _unitOfWork : new MySqlConnectionProvider(_configuration!);
         return new InboxConfiguration(
-            new PostgreSqlInbox(provider, _configuration),
+            new MySqlInbox(_configuration, provider),
             _scope,
             _onceOnly,
             _actionOnExists,

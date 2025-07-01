@@ -2,14 +2,12 @@ using System.Data.Common;
 
 using Paramore.Brighter;
 using Paramore.Brighter.Inbox;
-using Paramore.Brighter.Inbox.Postgres;
-using Paramore.Brighter.PostgreSql;
+using Paramore.Brighter.Inbox.MySql;
+using Paramore.Brighter.MySql;
 
-using Xunit;
+namespace Fluent.Brighter.MySql.Tests;
 
-namespace Fluent.Brighter.Postgres.Tests;
-
-public class PostgresInboxConfigurationBuilderTest
+public class MySqlInboxBuilderTest
 {
      private const string TestConnectionString = "Host=localhost;Username=test;Password=test;Database=testdb";
  
@@ -19,7 +17,7 @@ public class PostgresInboxConfigurationBuilderTest
      [InlineData(InboxScope.Events)]
      public void Scope_WhenSet_SetsValueCorrectly(InboxScope scope)
      {
-         var builder = new PostgresInboxConfigurationBuilder();
+         var builder = new MySqlInboxBuilder();
          var result = builder.Scope(scope);
 
             Assert.Equal(scope, GetPrivateField<InboxScope>(builder, "_scope"));
@@ -29,7 +27,7 @@ public class PostgresInboxConfigurationBuilderTest
      [Fact]
      public void OnceOnly_WhenSet_SetsValueCorrectly()
      {
-         var builder = new PostgresInboxConfigurationBuilder();
+         var builder = new MySqlInboxBuilder();
          var result = builder.OnceOnly(false);
 
          Assert.False(GetPrivateField<bool>(builder, "_onceOnly"));
@@ -41,7 +39,7 @@ public class PostgresInboxConfigurationBuilderTest
      [InlineData(OnceOnlyAction.Warn)]
      public void ActionOnExists_WhenSet_SetsValueCorrectly(OnceOnlyAction action)
      {
-         var builder = new PostgresInboxConfigurationBuilder();
+         var builder = new MySqlInboxBuilder();
          var result = builder.ActionOnExists(action);
 
          Assert.Equal(action, GetPrivateField<OnceOnlyAction>(builder, "_actionOnExists"));
@@ -51,7 +49,7 @@ public class PostgresInboxConfigurationBuilderTest
      [Fact]
      public void Context_WhenSet_SetsValueCorrectly()
      {
-         var builder = new PostgresInboxConfigurationBuilder();
+         var builder = new MySqlInboxBuilder();
          Func<Type, string> contextFunc = _ => "customContext";
          var result = builder.Context(contextFunc);
 
@@ -63,7 +61,7 @@ public class PostgresInboxConfigurationBuilderTest
      public void Configuration_WithRelationalConfig_SetsValue()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new PostgresInboxConfigurationBuilder().Configuration(config);
+         var builder = new MySqlInboxBuilder().Configuration(config);
 
          Assert.Same(config, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
      }
@@ -71,7 +69,7 @@ public class PostgresInboxConfigurationBuilderTest
      [Fact]
      public void Configuration_WithAction_BuildsFromBuilder()
      {
-         var builder = new PostgresInboxConfigurationBuilder();
+         var builder = new MySqlInboxBuilder();
          builder.Configuration(cfg => cfg.ConnectionString("newConn"));
 
          var config = GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration");
@@ -83,7 +81,7 @@ public class PostgresInboxConfigurationBuilderTest
      public void ConfigurationIfIsMissing_WhenNull_SetsValue()
      {
          var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
-         var builder = new PostgresInboxConfigurationBuilder();
+         var builder = new MySqlInboxBuilder();
 
          builder.ConfigurationIfIsMissing(defaultConfig);
 
@@ -96,7 +94,7 @@ public class PostgresInboxConfigurationBuilderTest
          var initialConfig = new RelationalDatabaseConfiguration("initialConn");
          var defaultConfig = new RelationalDatabaseConfiguration("defaultConn");
 
-         var builder = new PostgresInboxConfigurationBuilder().Configuration(initialConfig);
+         var builder = new MySqlInboxBuilder().Configuration(initialConfig);
          builder.ConfigurationIfIsMissing(defaultConfig);
 
          Assert.Same(initialConfig, GetPrivateField<RelationalDatabaseConfiguration>(builder, "_configuration"));
@@ -105,21 +103,21 @@ public class PostgresInboxConfigurationBuilderTest
      [Fact]
      public void UseUnitOfWork_WhenTrue_SetsFlag()
      {
-         var builder = new PostgresInboxConfigurationBuilder().UseUnitOfWork(true);
+         var builder = new MySqlInboxBuilder().UseUnitOfWork(true);
          Assert.True(GetPrivateField<bool>(builder, "_useUnitOfWork"));
      }
 
      [Fact]
      public void EnableUnitOfWork_SetsUseUnitOfWorkToTrue()
      {
-         var builder = new PostgresInboxConfigurationBuilder().EnableUnitOfWork();
+         var builder = new MySqlInboxBuilder().EnableUnitOfWork();
          Assert.True(GetPrivateField<bool>(builder, "_useUnitOfWork"));
      }
 
      [Fact]
      public void DisableUnitOfWork_SetsUseUnitOfWorkToFalse()
      {
-         var builder = new PostgresInboxConfigurationBuilder().DisableUnitOfWork();
+         var builder = new MySqlInboxBuilder().DisableUnitOfWork();
          Assert.False(GetPrivateField<bool>(builder, "_useUnitOfWork"));
      }
 
@@ -127,7 +125,7 @@ public class PostgresInboxConfigurationBuilderTest
      public void UnitOfWorkConnectionProvider_SetsProvider()
      {
          var mockProvider = new MockRelationalDbConnectionProvider();
-         var builder = new PostgresInboxConfigurationBuilder().UnitOfWorkConnectionProvider(mockProvider);
+         var builder = new MySqlInboxBuilder().UnitOfWorkConnectionProvider(mockProvider);
 
          Assert.Same(mockProvider, GetPrivateField<IAmARelationalDbConnectionProvider>(builder, "_unitOfWork"));
      }
@@ -136,11 +134,11 @@ public class PostgresInboxConfigurationBuilderTest
      public void Build_WithDefaultValues_CreatesInboxWithDefaults()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new PostgresInboxConfigurationBuilder().Configuration(config);
+         var builder = new MySqlInboxBuilder().Configuration(config);
          var inboxConfig = builder.Build();
 
          Assert.NotNull(inboxConfig);
-         Assert.IsType<PostgreSqlInbox>(inboxConfig.Inbox);
+         Assert.IsType<MySqlInbox>(inboxConfig.Inbox);
          Assert.Equal(InboxScope.All, inboxConfig.Scope);
          Assert.True(inboxConfig.OnceOnly);
          Assert.Equal(OnceOnlyAction.Throw, inboxConfig.ActionOnExists);
@@ -152,13 +150,13 @@ public class PostgresInboxConfigurationBuilderTest
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
          var mockProvider = new MockRelationalDbConnectionProvider();
 
-         var builder = new PostgresInboxConfigurationBuilder()
+         var builder = new MySqlInboxBuilder()
              .Configuration(config)
              .EnableUnitOfWork()
              .UnitOfWorkConnectionProvider(mockProvider);
 
          var inboxConfig = builder.Build();
-         var inbox = Assert.IsType<PostgreSqlInbox>(inboxConfig.Inbox);
+         var inbox = Assert.IsType<MySqlInbox>(inboxConfig.Inbox);
 
          var inboxField = inbox.GetType().GetField("_connectionProvider", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
          Assert.Same(mockProvider, inboxField?.GetValue(inbox));
@@ -168,13 +166,13 @@ public class PostgresInboxConfigurationBuilderTest
      public void Build_WhenUseUnitOfWorkFalse_CreatesNewConnectionProvider()
      {
          var config = new RelationalDatabaseConfiguration(TestConnectionString);
-         var builder = new PostgresInboxConfigurationBuilder().Configuration(config).DisableUnitOfWork();
+         var builder = new MySqlInboxBuilder().Configuration(config).DisableUnitOfWork();
 
          var inboxConfig = builder.Build();
-         var inbox = Assert.IsType<PostgreSqlInbox>(inboxConfig.Inbox);
+         var inbox = Assert.IsType<MySqlInbox>(inboxConfig.Inbox);
 
          var inboxField = inbox.GetType().GetField("_connectionProvider", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-         Assert.IsType<PostgreSqlConnectionProvider>(inboxField?.GetValue(inbox));
+         Assert.IsType<MySqlConnectionProvider>(inboxField?.GetValue(inbox));
      }
 
      // Helper to access private fields via reflection

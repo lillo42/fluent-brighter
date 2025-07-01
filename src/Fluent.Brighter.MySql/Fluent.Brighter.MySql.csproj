@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Paramore.Brighter.Inbox.MySql" />
+      <PackageReference Include="Paramore.Brighter.Locking.MySql" />
+      <PackageReference Include="Paramore.Brighter.Outbox.MySql" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Fluent.Brighter\Fluent.Brighter.csproj" />
+    </ItemGroup>
+
+</Project>
