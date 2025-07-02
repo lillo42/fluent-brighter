@@ -17,7 +17,6 @@
       <PackageReference Include="Paramore.Brighter.Inbox.MsSql" />
       <PackageReference Include="Paramore.Brighter.Locking.MsSql" />
       <PackageReference Include="Paramore.Brighter.MessagingGateway.MsSql" />
-      <PackageReference Include="Paramore.Brighter.MsSql" />
       <PackageReference Include="Paramore.Brighter.Outbox.MsSql" />
     </ItemGroup>
 

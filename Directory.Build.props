@@ -22,7 +22,7 @@
 
       <!--  The .NET Version used in all projects -->
     <BrighterTargetFrameworks>netstandard2.0;net8.0;net9.0</BrighterTargetFrameworks>
-    <BrighterFrameworkAndCoreTargetFrameworks>net462;net8.0;net9.0</BrighterFrameworkAndCoreTargetFrameworks>
+    <BrighterFrameworkAndCoreTargetFrameworks>net472;net8.0;net9.0</BrighterFrameworkAndCoreTargetFrameworks>
     <BrighterCoreTargetFrameworks>net8.0;net9.0</BrighterCoreTargetFrameworks>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
    </PropertyGroup>

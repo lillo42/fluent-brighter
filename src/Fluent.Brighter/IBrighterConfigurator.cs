@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Paramore.Brighter;
 using Paramore.Brighter.Extensions.DependencyInjection;
+using Paramore.Brighter.Transforms.Storage;
 
 namespace Fluent.Brighter;
 
@@ -65,9 +66,12 @@ public interface IBrighterConfigurator
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="channelFactory"/> or <paramref name="subscriptions"/> is <see langword="null"/>.</exception>
     IBrighterConfigurator AddChannelFactory(IAmAChannelFactory channelFactory, IEnumerable<Subscription> subscriptions);
     
-    IBrighterConfigurator Outbox(BrighterOutboxConfiguration configuration);
+    IBrighterConfigurator SetOutbox(BrighterOutboxConfiguration configuration);
     
-    IBrighterConfigurator Inbox(InboxConfiguration configuration);
+    IBrighterConfigurator SetInbox(InboxConfiguration configuration);
 
-    IBrighterConfigurator DistributedLock(IDistributedLock? distributedLock);
+    IBrighterConfigurator SetDistributedLock(IDistributedLock distributedLock);
+    
+    IBrighterConfigurator SetLuggageStore<TLuggage>(TLuggage luggage)
+         where TLuggage : class, IAmAStorageProvider, IAmAStorageProviderAsync;
 }

@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Paramore.Brighter;
 using Paramore.Brighter.Extensions.DependencyInjection;
+using Paramore.Brighter.Observability;
+using Paramore.Brighter.Transforms.Storage;
 
 namespace Fluent.Brighter;
 
@@ -29,7 +31,7 @@ internal class BrighterConfigurator(IServiceCollection services, BrighterConfigu
     internal BrighterOutboxConfiguration? OutboxConfiguration { get; set; }
     internal InboxConfiguration InboxConfiguration { get; set; } = new();
     internal IDistributedLock? DistributedLockConfiguration { get; set; }
-
+    
     public IBrighterConfigurator AddExternalBus(IAmAMessageProducerFactory producerRegistry)
     {
         _producerRegistries.Add(producerRegistry);
@@ -46,21 +48,45 @@ internal class BrighterConfigurator(IServiceCollection services, BrighterConfigu
         return this;
     }
 
-    public IBrighterConfigurator Outbox(BrighterOutboxConfiguration configuration)
+    public IBrighterConfigurator SetOutbox(BrighterOutboxConfiguration configuration)
     {
         OutboxConfiguration = configuration;
         return this;
     }
 
-    public IBrighterConfigurator Inbox(InboxConfiguration configuration)
+    public IBrighterConfigurator SetInbox(InboxConfiguration configuration)
     {
         InboxConfiguration = configuration;
         return this;
     }
 
-    public IBrighterConfigurator DistributedLock(IDistributedLock? distributedLock)
+    public IBrighterConfigurator SetDistributedLock(IDistributedLock? distributedLock)
     {
         DistributedLockConfiguration = distributedLock;
+        return this;
+    }
+
+    public IBrighterConfigurator SetLuggageStore<TStoreProvider>(TStoreProvider luggage)
+        where TStoreProvider : class, IAmAStorageProvider, IAmAStorageProviderAsync
+    {
+        Services
+            .AddSingleton(_ =>
+            {
+                luggage.EnsureStoreExistsAsync().GetAwaiter().GetResult();
+                return luggage;
+            })
+            .AddSingleton(provider =>
+            {
+                IAmAStorageProvider store = provider.GetRequiredService<TStoreProvider>();
+                store.Tracer = provider.GetRequiredService<IAmABrighterTracer>();
+                return store;
+            })
+            .AddSingleton(provider =>
+            {
+                IAmAStorageProviderAsync store = provider.GetRequiredService<TStoreProvider>();
+                store.Tracer = provider.GetRequiredService<IAmABrighterTracer>();
+                return store;
+            });
         return this;
     }
 }

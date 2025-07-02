@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>$(BrighterFrameworkAndCoreTargetFrameworks)</TargetFrameworks>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\Fluent.Brighter\Fluent.Brighter.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Paramore.Brighter.Inbox.MongoDb" />
+      <PackageReference Include="Paramore.Brighter.Locking.MongoDb" />
+      <PackageReference Include="Paramore.Brighter.Outbox.MongoDb" />
+      <PackageReference Include="Paramore.Brighter.Transformers.MongoGridFS" />
+    </ItemGroup>
+
+</Project>

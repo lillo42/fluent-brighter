@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.MsSql", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.MsSql.Tests", "tests\Fluent.Brighter.MsSql.Tests\Fluent.Brighter.MsSql.Tests.csproj", "{1DE4FFF5-1911-499F-B586-2AE1C14FC712}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.MongoDb", "src\Fluent.Brighter.MongoDb\Fluent.Brighter.MongoDb.csproj", "{4A9A06CD-8B4B-48A5-9949-484C432FB373}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -229,6 +231,18 @@ Global
 		{1DE4FFF5-1911-499F-B586-2AE1C14FC712}.Release|x64.Build.0 = Release|Any CPU
 		{1DE4FFF5-1911-499F-B586-2AE1C14FC712}.Release|x86.ActiveCfg = Release|Any CPU
 		{1DE4FFF5-1911-499F-B586-2AE1C14FC712}.Release|x86.Build.0 = Release|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Debug|x64.Build.0 = Debug|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Debug|x86.Build.0 = Debug|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Release|x64.ActiveCfg = Release|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Release|x64.Build.0 = Release|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Release|x86.ActiveCfg = Release|Any CPU
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -249,5 +263,6 @@ Global
 		{108FE5A2-6706-47F0-86EE-1182239574A2} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{C644F179-6BE8-4778-99D1-8D31A52E39E0} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{1DE4FFF5-1911-499F-B586-2AE1C14FC712} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
+		{4A9A06CD-8B4B-48A5-9949-484C432FB373} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal

@@ -131,7 +131,7 @@ public class MySqlConfigurator
 
         if (_outboxBuilder != null)
         {
-            register.Outbox(_outboxBuilder
+            register.SetOutbox(_outboxBuilder
                 .SetConnectionIfIsMissing(_configuration)
                 .UnitOfWorkConnectionProvider(provider)
                 .Build());
@@ -139,7 +139,7 @@ public class MySqlConfigurator
 
         if (_inboxBuilder != null)
         {
-            register.Inbox(_inboxBuilder
+            register.SetInbox(_inboxBuilder
                 .SetConnectionIfIsMissing(_configuration)
                 .UnitOfWorkConnectionProvider(provider)
                 .Build());
@@ -147,7 +147,7 @@ public class MySqlConfigurator
 
         if (_distributedLockBuilder != null)
         {
-            register.DistributedLock(_distributedLockBuilder
+            register.SetDistributedLock(_distributedLockBuilder
                 .ConfigurationIfMissing(_configuration)
                 .Build());
         }

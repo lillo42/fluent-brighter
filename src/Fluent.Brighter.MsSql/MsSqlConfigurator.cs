@@ -172,7 +172,7 @@ public class MsSqlConfigurator
 
         if (_outboxBuilder != null)
         {
-            register.Outbox(_outboxBuilder
+            register.SetOutbox(_outboxBuilder
                 .SetConnectionIfIsMissing(_configuration)
                 .UnitOfWorkConnectionProvider(provider)
                 .Build());
@@ -180,7 +180,7 @@ public class MsSqlConfigurator
 
         if (_inboxBuilder != null)
         {
-            register.Inbox(_inboxBuilder
+            register.SetInbox(_inboxBuilder
                 .SetConnectIfIsMissing(_configuration)
                 .UnitOfWorkConnectionProvider(provider)
                 .Build());
@@ -188,7 +188,7 @@ public class MsSqlConfigurator
 
         if (_distributedLockBuilder != null)
         {
-            register.DistributedLock(_distributedLockBuilder
+            register.SetDistributedLock(_distributedLockBuilder
                 .ConfigurationIfMissing(_configuration)
                 .Build());
         }
