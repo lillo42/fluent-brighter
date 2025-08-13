@@ -1,7 +1,5 @@
 <Project>
   <PropertyGroup>
-    <Company>Brighter Command</Company>
-      
     <Authors>Rafael Andrade</Authors>
 
     <SignAssembly>true</SignAssembly>

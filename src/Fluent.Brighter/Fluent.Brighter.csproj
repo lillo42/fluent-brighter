@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
     <IsPackable>true</IsPackable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>The Brighter fluent API</Description>
   </PropertyGroup>
 
   <ItemGroup>

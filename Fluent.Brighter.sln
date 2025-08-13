@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.MsSql.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.MongoDb", "src\Fluent.Brighter.MongoDb\Fluent.Brighter.MongoDb.csproj", "{4A9A06CD-8B4B-48A5-9949-484C432FB373}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgreFullSample", "samples\PostgreFullSample\PostgreFullSample.csproj", "{5F699682-1787-4E3D-AB7D-118FAEB67922}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -243,6 +245,18 @@ Global
 		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Release|x64.Build.0 = Release|Any CPU
 		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Release|x86.ActiveCfg = Release|Any CPU
 		{4A9A06CD-8B4B-48A5-9949-484C432FB373}.Release|x86.Build.0 = Release|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Debug|x64.Build.0 = Debug|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Debug|x86.Build.0 = Debug|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Release|x64.ActiveCfg = Release|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Release|x64.Build.0 = Release|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Release|x86.ActiveCfg = Release|Any CPU
+		{5F699682-1787-4E3D-AB7D-118FAEB67922}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -264,5 +278,6 @@ Global
 		{C644F179-6BE8-4778-99D1-8D31A52E39E0} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{1DE4FFF5-1911-499F-B586-2AE1C14FC712} = {0AB3BF05-4346-4AA6-1389-037BE0695223}
 		{4A9A06CD-8B4B-48A5-9949-484C432FB373} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{5F699682-1787-4E3D-AB7D-118FAEB67922} = {5D20AA90-6969-D8BD-9DCD-8634F4692FDA}
 	EndGlobalSection
 EndGlobal
