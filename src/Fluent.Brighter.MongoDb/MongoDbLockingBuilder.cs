@@ -1,14 +1,15 @@
 using Paramore.Brighter;
+using Paramore.Brighter.Locking.MongoDb;
 using Paramore.Brighter.MongoDb;
 using Paramore.Brighter.Outbox.MongoDb;
 
 namespace Fluent.Brighter.MongoDb;
 
-public sealed class MongoDbOutboxBuilder
+public sealed class MongoDbLockingBuilder
 {
     private IAmAMongoDbConfiguration? _configuration;
 
-    public MongoDbOutboxBuilder SetConfiguration(IAmAMongoDbConfiguration  configuration)
+    public MongoDbLockingBuilder SetConfiguration(IAmAMongoDbConfiguration  configuration)
     {
         _configuration = configuration;
         return this;
@@ -16,7 +17,7 @@ public sealed class MongoDbOutboxBuilder
 
     private IAmAMongoDbConnectionProvider? _connectionProvider;
 
-    public MongoDbOutboxBuilder SetConnectionProvider(IAmAMongoDbConnectionProvider connectionProvider)
+    public MongoDbLockingBuilder SetConnectionProvider(IAmAMongoDbConnectionProvider connectionProvider)
     {
         _connectionProvider = connectionProvider;
         return this;
@@ -24,13 +25,13 @@ public sealed class MongoDbOutboxBuilder
 
     private MongoDbCollectionConfiguration? _collection;
 
-    public MongoDbOutboxBuilder SetCollection(MongoDbCollectionConfiguration collection)
+    public MongoDbLockingBuilder SetCollection(MongoDbCollectionConfiguration collection)
     {
         _collection = collection;
         return this;
     }
     
-    internal MongoDbOutbox Build()
+    internal MongoDbLockingProvider Build()
     {
         if (_configuration == null)
         {
@@ -39,9 +40,9 @@ public sealed class MongoDbOutboxBuilder
 
         if (_collection != null)
         {
-            _configuration.Outbox = _collection;
+            _configuration.Locking = _collection;
         }
         
-        return _connectionProvider == null ? new MongoDbOutbox(_configuration) : new MongoDbOutbox(_connectionProvider, _configuration);
+        return _connectionProvider == null ? new MongoDbLockingProvider(_configuration) : new MongoDbLockingProvider(_connectionProvider, _configuration);
     }
 }

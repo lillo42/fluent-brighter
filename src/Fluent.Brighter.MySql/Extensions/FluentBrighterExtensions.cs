@@ -6,7 +6,7 @@ namespace Fluent.Brighter;
 
 public static class FluentBrighterExtensions
 {
-    public static FluentBrighterBuilder UsingSqlite(this FluentBrighterBuilder builder,
+    public static FluentBrighterBuilder UsingMySql(this FluentBrighterBuilder builder,
         Action<MySqlConfigurator> configure)
     {
         var configurator = new MySqlConfigurator();
