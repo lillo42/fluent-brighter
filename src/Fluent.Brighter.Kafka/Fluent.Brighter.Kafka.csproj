@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    
+    <PropertyGroup>
+        <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Fluent.Brighter\Fluent.Brighter.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Paramore.Brighter.MessagingGateway.Kafka" />
+    </ItemGroup>
+
+</Project>
