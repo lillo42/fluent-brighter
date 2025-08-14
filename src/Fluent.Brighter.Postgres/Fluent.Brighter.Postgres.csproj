@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFrameworks>$(BrighterCoreTargetFrameworks)</TargetFrameworks>
+        <IsPackable>true</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Fluent.Brighter\Fluent.Brighter.csproj" />
+    </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference> 
+    <PackageReference Include="Paramore.Brighter.Inbox.Postgres" />
+    <PackageReference Include="Paramore.Brighter.Locking.PostgresSql" />
+    <PackageReference Include="Paramore.Brighter.MessagingGateway.Postgres" />
+    <PackageReference Include="Paramore.Brighter.Outbox.PostgreSql" />
+  </ItemGroup>
+</Project>

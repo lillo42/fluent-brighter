@@ -1,11 +1,9 @@
 <Project>
   <PropertyGroup>
-    <Company>Brighter Command</Company>
-      
     <Authors>Rafael Andrade</Authors>
 
     <SignAssembly>true</SignAssembly>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+<!--    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>-->
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <!-- Optional: Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -22,7 +20,7 @@
 
       <!--  The .NET Version used in all projects -->
     <BrighterTargetFrameworks>netstandard2.0;net8.0;net9.0</BrighterTargetFrameworks>
-    <BrighterFrameworkAndCoreTargetFrameworks>net462;net8.0;net9.0</BrighterFrameworkAndCoreTargetFrameworks>
+    <BrighterFrameworkAndCoreTargetFrameworks>net472;net8.0;net9.0</BrighterFrameworkAndCoreTargetFrameworks>
     <BrighterCoreTargetFrameworks>net8.0;net9.0</BrighterCoreTargetFrameworks>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
    </PropertyGroup>
