@@ -8,12 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Paramore.Brighter" />
     <PackageReference Include="Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection" />
   </ItemGroup>
-
 </Project>
