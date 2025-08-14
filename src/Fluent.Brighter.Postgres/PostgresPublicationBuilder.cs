@@ -16,7 +16,7 @@ public sealed class PostgresPublicationBuilder
         return this;
     }
 
-    private OnMissingChannel _makeChannels = OnMissingChannel.Create; // Default value from Publication
+    private OnMissingChannel _makeChannels = OnMissingChannel.Create; 
 
     public PostgresPublicationBuilder SetMakeChannels(OnMissingChannel makeChannels)
     {
@@ -52,7 +52,7 @@ public sealed class PostgresPublicationBuilder
 
     private RoutingKey? _topic;
 
-    public PostgresPublicationBuilder SetTopic(RoutingKey? topic)
+    public PostgresPublicationBuilder SetQueue(RoutingKey? topic)
     {
         _topic = topic;
         return this;

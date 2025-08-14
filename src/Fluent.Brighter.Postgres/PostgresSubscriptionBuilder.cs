@@ -16,17 +16,11 @@ public sealed class PostgresSubscriptionBuilder
     }
     
     private ChannelName? _channelName;
-    public PostgresSubscriptionBuilder SetChannelName(ChannelName channelName)
+    private RoutingKey? _routingKey;
+    public PostgresSubscriptionBuilder SetQueue(ChannelName channelName)
     {
         _channelName = channelName;
-        return this;
-    }
-    
-    private RoutingKey? _routingKey;
-
-    public PostgresSubscriptionBuilder SetRoutingKey(RoutingKey routingKey)
-    {
-        _routingKey = routingKey;
+        _routingKey = new RoutingKey(channelName.Value);
         return this;
     }
     
@@ -35,14 +29,14 @@ public sealed class PostgresSubscriptionBuilder
     public PostgresSubscriptionBuilder SetDataType(Type? dataType)
     {
         _dataType = dataType;
-        if (_dataType == null)
+        if (dataType == null)
         {
             return this;
         }
         
         if (_subscriptionName == null)
         {
-            _subscriptionName = new SubscriptionName(_dataType.ToString());
+            _subscriptionName = new SubscriptionName(dataType.ToString());
         }
 
         if (ChannelName.IsNullOrEmpty(_channelName))
@@ -103,7 +97,7 @@ public sealed class PostgresSubscriptionBuilder
         return this;
     }
     
-    private int _unacceptableMessageLimit = 0;
+    private int _unacceptableMessageLimit;
     public PostgresSubscriptionBuilder SetUnacceptableMessageLimit(int unacceptableMessageLimit)
     {
         _unacceptableMessageLimit = unacceptableMessageLimit ;
@@ -126,55 +120,55 @@ public sealed class PostgresSubscriptionBuilder
     }
     
     private OnMissingChannel _onMissingChannel = OnMissingChannel.Create;
-    public PostgresSubscriptionBuilder SetOnMissingChannel(OnMissingChannel onMissingChannel)
+    public PostgresSubscriptionBuilder SetMakeChannels(OnMissingChannel onMissingChannel)
     {
         _onMissingChannel = onMissingChannel;
         return this;
     }
 
-    private TimeSpan? _emptyChannelDelay = null;
+    private TimeSpan? _emptyChannelDelay;
     public PostgresSubscriptionBuilder SetEmptyChannelDelay(TimeSpan? emptyChannelDelay)
     {
         _emptyChannelDelay = emptyChannelDelay;
         return this;
     }
 
-    private TimeSpan? _channelFailureDelay = null;
+    private TimeSpan? _channelFailureDelay;
     public PostgresSubscriptionBuilder SetChannelFailureDelay(TimeSpan? channelFailureDelay)
     {
         _channelFailureDelay = channelFailureDelay;
         return this;
     }
 
-    private string? _schemaName = null;
+    private string? _schemaName;
     public PostgresSubscriptionBuilder SetSchemaName(string? schemaName)
     {
         _schemaName = schemaName;
         return this;
     }
 
-    private string? _queueStoreTable = null;
+    private string? _queueStoreTable;
     public PostgresSubscriptionBuilder SetQueueStoreTable(string? queueStoreTable)
     {
         _queueStoreTable = queueStoreTable;
         return this;
     }
 
-    private TimeSpan? _visibleTimeout = null;
+    private TimeSpan? _visibleTimeout;
     public PostgresSubscriptionBuilder SetVisibleTimeout(TimeSpan? visibleTimeout)
     {
         _visibleTimeout = visibleTimeout;
         return this;
     }
 
-    private bool _tableWithLargeMessage = false;
+    private bool _tableWithLargeMessage;
     public PostgresSubscriptionBuilder SetTableWithLargeMessage(bool tableWithLargeMessage)
     {
         _tableWithLargeMessage = tableWithLargeMessage;
         return this;
     }
 
-    private bool? _binaryMessagePayload = null;
+    private bool? _binaryMessagePayload;
     public PostgresSubscriptionBuilder SetBinaryMessagePayload(bool? binaryMessagePayload)
     {
         _binaryMessagePayload = binaryMessagePayload;

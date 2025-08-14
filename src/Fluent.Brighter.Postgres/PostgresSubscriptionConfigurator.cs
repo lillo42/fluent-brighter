@@ -6,30 +6,30 @@ using Paramore.Brighter.MessagingGateway.Postgres;
 
 namespace Fluent.Brighter.Postgres;
 
-public class PostgresSubscriptionConfiguration(PostgresChannelFactory channelFactory)
+public class PostgresSubscriptionConfigurator(PostgresChannelFactory channelFactory)
 {
     internal List<PostgresSubscription> Subscriptions { get; } = [];
 
-    public PostgresSubscriptionConfiguration AddPostgresSubscription(PostgresSubscription subscription)
+    public PostgresSubscriptionConfigurator AddSubscription(PostgresSubscription subscription)
     {
         Subscriptions.Add(subscription);
         return this;
     }
     
-    public PostgresSubscriptionConfiguration AddPostgresSubscription(Action<PostgresSubscriptionBuilder> configure)
+    public PostgresSubscriptionConfigurator AddSubscription(Action<PostgresSubscriptionBuilder> configure)
     {
         var builder = new PostgresSubscriptionBuilder();
         configure(builder);
         builder.SetChannelFactory(channelFactory);
-        return AddPostgresSubscription(builder.Build());
+        return AddSubscription(builder.Build());
     }
 
 
-    public PostgresSubscriptionConfiguration AddPostgresSubscription<TRequest>(
+    public PostgresSubscriptionConfigurator AddSubscription<TRequest>(
         Action<PostgresSubscriptionBuilder> configure)
         where TRequest : class, IRequest
     {
-        return AddPostgresSubscription(cfg =>
+        return AddSubscription(cfg =>
         {
             cfg.SetDataType(typeof(TRequest));
             configure(cfg);

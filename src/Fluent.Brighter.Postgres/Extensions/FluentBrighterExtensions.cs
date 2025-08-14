@@ -6,12 +6,12 @@ namespace Fluent.Brighter;
 
 public static class FluentBrighterExtensions
 {
-    public static FluentBrighterBuilder UsePostgres(this FluentBrighterBuilder fluentBrighter,
+    public static FluentBrighterBuilder UsingPostgres(this FluentBrighterBuilder builder,
         Action<PostgresConfigurator> configure)
     {
-        var builder = new PostgresConfigurator();
-        configure(builder);
-        builder.SetFluentBrighter(fluentBrighter);
-        return fluentBrighter;
+        var configurator = new PostgresConfigurator();
+        configure(configurator);
+        configurator.SetFluentBrighter(builder);
+        return builder;
     }
 }

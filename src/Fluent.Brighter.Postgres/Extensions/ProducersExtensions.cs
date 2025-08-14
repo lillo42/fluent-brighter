@@ -9,32 +9,42 @@ namespace Fluent.Brighter;
 
 public static class ProducersExtensions
 {
-    public static ProducerBuilder AddPostgresPublication(this ProducerBuilder producer,
-        Action<PostgresMessageProducerFactoryBuilder> configuration)
+    public static ProducerBuilder AddPostgresPublication(this ProducerBuilder builder,
+        Action<PostgresMessageProducerFactoryBuilder> configure)
     {
-        var builder = new PostgresMessageProducerFactoryBuilder();
-        configuration(builder);
+        var factory = new PostgresMessageProducerFactoryBuilder();
+        configure(factory);
 
-        return producer.AddMessageProducerFactory(builder.Build());
+        return builder.AddMessageProducerFactory(factory.Build());
     }
 
-    public static ProducerBuilder UsePostgresOutbox(this ProducerBuilder producer,
+
+    public static ProducerBuilder UsePostgresOutbox(this ProducerBuilder builder,
+        Action<RelationalDatabaseConfigurationBuilder> configure)
+    {
+        var configuration = new RelationalDatabaseConfigurationBuilder();
+        configure(configuration);
+        return builder.UsePostgresOutbox(configuration.Build());
+    }
+
+    public static ProducerBuilder UsePostgresOutbox(this ProducerBuilder builder,
         RelationalDatabaseConfiguration configuration)
     {
-        return producer.UsePostgresOutbox(cfg => cfg.SetConfiguration(configuration));
+        return builder.UsePostgresOutbox(cfg => cfg.SetConfiguration(configuration));
     }
     
-    public static ProducerBuilder UsePostgresOutbox(this ProducerBuilder producer,
+    public static ProducerBuilder UsePostgresOutbox(this ProducerBuilder builder,
         Action<PostgresOutboxBuilder> configuration)
     {
-        var builder = new PostgresOutboxBuilder();
-        configuration(builder);
-        producer.SetOutbox(builder.Build());
-        return producer;
+        var outbox = new PostgresOutboxBuilder();
+        configuration(outbox);
+        builder.SetOutbox(outbox.Build());
+        return builder;
     }
 
-    public static ProducerBuilder UsePostgresDistributedLock(this ProducerBuilder producer, IAmARelationalDatabaseConfiguration configuration)
-        => producer.UsePostgresDistributedLock(configuration.ConnectionString);
-    public static ProducerBuilder UsePostgresDistributedLock(this ProducerBuilder producer, string connectionString) 
-        => producer.SetDistributedLock(new PostgresLockingProvider(new PostgresLockingProviderOptions(connectionString)));
+    public static ProducerBuilder UsePostgresDistributedLock(this ProducerBuilder builder, IAmARelationalDatabaseConfiguration configuration)
+        => builder.UsePostgresDistributedLock(configuration.ConnectionString);
+    
+    public static ProducerBuilder UsePostgresDistributedLock(this ProducerBuilder builder, string connectionString) 
+        => builder.SetDistributedLock(new PostgresLockingProvider(new PostgresLockingProviderOptions(connectionString)));
 }

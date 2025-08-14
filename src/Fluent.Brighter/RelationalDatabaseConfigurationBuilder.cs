@@ -6,12 +6,7 @@ public sealed class RelationalDatabaseConfigurationBuilder
 {
     private string? _connectionString;
 
-    /// <summary>
-    /// Sets the connection string for the database. This is a required parameter.
-    /// </summary>
-    /// <param name="connectionString">The database connection string.</param>
-    /// <returns>The current builder instance.</returns>
-    public RelationalDatabaseConfigurationBuilder WithConnectionString(string connectionString)
+    public RelationalDatabaseConfigurationBuilder SetConnectionString(string connectionString)
     {
         _connectionString = connectionString;
         return this;
@@ -63,7 +58,6 @@ public sealed class RelationalDatabaseConfigurationBuilder
         return this;
     }
 
-
     public RelationalDatabaseConfiguration Build()
     {
         if (string.IsNullOrEmpty(_connectionString))
@@ -72,7 +66,7 @@ public sealed class RelationalDatabaseConfigurationBuilder
         }
 
         return new RelationalDatabaseConfiguration(
-            connectionString: _connectionString!, // Use ! to assert non-null after check
+            connectionString: _connectionString!, 
             databaseName: _databaseName,
             outBoxTableName: _outBoxTableName,
             inboxTableName: _inboxTableName,
