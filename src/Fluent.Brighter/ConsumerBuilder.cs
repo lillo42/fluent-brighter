@@ -14,10 +14,22 @@ using Polly.Registry;
 
 namespace Fluent.Brighter;
 
+/// <summary>
+/// Fluent builder for configuring Brighter service activator consumers
+/// </summary>
+/// <remarks>
+/// Provides a fluent interface to configure consumer options including lifetimes, 
+/// instrumentation, policies, subscriptions, and channel factories.
+/// </remarks>
 public sealed class ConsumerBuilder
 {
     private ServiceLifetime _commandProcessorLifetime = ServiceLifetime.Transient;
 
+    /// <summary>
+    /// Sets the service lifetime for Command Processors
+    /// </summary>
+    /// <param name="commandProcessorLifetime">The service lifetime (default: Transient)</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetCommandProcessorLifetime(ServiceLifetime commandProcessorLifetime)
     {
         _commandProcessorLifetime = commandProcessorLifetime;
@@ -25,6 +37,12 @@ public sealed class ConsumerBuilder
     }
 
     private ServiceLifetime _handlerLifetime = ServiceLifetime.Transient;
+    
+    /// <summary>
+    /// Sets the service lifetime for message handlers
+    /// </summary>
+    /// <param name="handlerLifetime">The service lifetime (default: Transient)</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetHandlerLifetime(ServiceLifetime handlerLifetime)
     {
         _handlerLifetime = handlerLifetime;
@@ -33,6 +51,11 @@ public sealed class ConsumerBuilder
 
     private ServiceLifetime _mapperLifetime = ServiceLifetime.Transient;
 
+    /// <summary>
+    /// Sets the service lifetime for message mappers
+    /// </summary>
+    /// <param name="mapperLifetime">The service lifetime (default: Transient)</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetMapperLifetime(ServiceLifetime mapperLifetime)
     {
         _mapperLifetime = mapperLifetime;
@@ -41,6 +64,11 @@ public sealed class ConsumerBuilder
 
     private ServiceLifetime _transformerLifetime = ServiceLifetime.Transient;
 
+    /// <summary>
+    /// Sets the service lifetime for message transformers
+    /// </summary>
+    /// <param name="transformerLifetime">The service lifetime (default: Transient)</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetTransformerLifetime(ServiceLifetime transformerLifetime)
     {
         _transformerLifetime = transformerLifetime;
@@ -49,6 +77,11 @@ public sealed class ConsumerBuilder
 
     private InstrumentationOptions _instrumentation = InstrumentationOptions.All;
 
+    /// <summary>
+    /// Configures instrumentation options for monitoring
+    /// </summary>
+    /// <param name="options">Instrumentation configuration flags (default: All)</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetInstrumentation(InstrumentationOptions options)
     {
         _instrumentation = options;
@@ -57,6 +90,11 @@ public sealed class ConsumerBuilder
 
     private IAmAFeatureSwitchRegistry? _featureSwitchRegistry;
 
+    /// <summary>
+    /// Sets the feature switch registry for enabling/disabling features
+    /// </summary>
+    /// <param name="featureSwitchRegistry">The feature switch registry instance</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetFeatureSwitchRegistry(IAmAFeatureSwitchRegistry? featureSwitchRegistry)
     {
         _featureSwitchRegistry = featureSwitchRegistry;
@@ -65,6 +103,11 @@ public sealed class ConsumerBuilder
 
     private IAmARequestContextFactory _requestContextFactory = new InMemoryRequestContextFactory();
 
+    /// <summary>
+    /// Sets the request context factory implementation
+    /// </summary>
+    /// <param name="requestContextFactory">Factory for request contexts (default: InMemoryRequestContextFactory)</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetRequestContextFactory(IAmARequestContextFactory requestContextFactory)
     {
         _requestContextFactory = requestContextFactory;
@@ -73,12 +116,25 @@ public sealed class ConsumerBuilder
 
     private IPolicyRegistry<string> _policyRegistry = new DefaultPolicy();
 
+    /// <summary>
+    /// Sets the policy registry for Polly policies
+    /// </summary>
+    /// <remarks>Obsolete: Prefer resilience pipelines for new development</remarks>
+    /// <param name="policyRegistry">The policy registry instance</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetPolicyRegistry(IPolicyRegistry<string> policyRegistry)
     {
         _policyRegistry = policyRegistry;
         return this;
     }
 
+    /// <summary>
+    /// Adds a Polly policy to the registry
+    /// </summary>
+    /// <typeparam name="TPolicy">The policy type (IsPolicy)</typeparam>
+    /// <param name="key">The policy lookup key</param>
+    /// <param name="policy">The policy instance</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder AddPolicy<TPolicy>(string key, TPolicy policy)
         where TPolicy : IsPolicy
     {
@@ -89,6 +145,11 @@ public sealed class ConsumerBuilder
     private ResiliencePipelineRegistry<string> _resiliencePipelineRegistry = new ResiliencePipelineRegistry<string>()
         .AddBrighterDefault();
 
+    /// <summary>
+    /// Sets the resilience pipeline registry for Polly v8 pipelines
+    /// </summary>
+    /// <param name="resiliencePipelineRegistry">The pipeline registry instance</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetResiliencePipelineRegistry(
         ResiliencePipelineRegistry<string> resiliencePipelineRegistry)
     {
@@ -96,6 +157,13 @@ public sealed class ConsumerBuilder
         return this;
     }
 
+    /// <summary>
+    /// Adds a resilience pipeline to the registry
+    /// </summary>
+    /// <typeparam name="TPolicy">The policy type</typeparam>
+    /// <param name="key">The pipeline lookup key</param>
+    /// <param name="configure">Configuration action for the pipeline builder</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder AddResiliencePipeline<TPolicy>(string key,
         Action<ResiliencePipelineBuilder, ConfigureBuilderContext<string>> configure)
     {
@@ -104,13 +172,25 @@ public sealed class ConsumerBuilder
     }
 
     private IAmAChannelFactory? _defaultChannelFactory;
+    
+    /// <summary>
+    /// Sets the default channel factory for message consumption
+    /// </summary>
+    /// <param name="channelFactory">The channel factory implementation</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetDefaultChannelFactory(IAmAChannelFactory? channelFactory)
     {
         _defaultChannelFactory = channelFactory;
         return this;
     }
 
-    private List<IAmAChannelFactory> _channelFactories = [];
+    private readonly List<IAmAChannelFactory> _channelFactories = [];
+    
+    /// <summary>
+    /// Adds a channel factory to the configuration
+    /// </summary>
+    /// <param name="channelFactory">The channel factory implementation</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder AddChannelFactory(IAmAChannelFactory channelFactory)
     {
         _channelFactories.Add(channelFactory);
@@ -118,13 +198,25 @@ public sealed class ConsumerBuilder
     }
     
     private InboxConfiguration? _inboxConfiguration = new();
+    
+    /// <summary>
+    /// Configures the inbox settings for idempotency
+    /// </summary>
+    /// <param name="inboxConfiguration">The inbox configuration</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetInbox(InboxConfiguration inboxConfiguration)
     {
         _inboxConfiguration = inboxConfiguration;
         return this;
     }
     
-    private InboxConfigurationBuilder _inboxConfigurationBuilder = new();
+    private readonly InboxConfigurationBuilder _inboxConfigurationBuilder = new();
+    
+    /// <summary>
+    /// Configures the inbox using a builder action
+    /// </summary>
+    /// <param name="configuration">Action to configure inbox settings</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetInbox(Action<InboxConfigurationBuilder> configuration)
     {
         configuration(_inboxConfigurationBuilder);
@@ -133,12 +225,22 @@ public sealed class ConsumerBuilder
 
     private List<Subscription> _subscriptions = new();
 
+    /// <summary>
+    /// Sets the collection of subscriptions
+    /// </summary>
+    /// <param name="subscriptions">Enumerable collection of subscriptions</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetSubscriptions(IEnumerable<Subscription> subscriptions)
     {
         _subscriptions = subscriptions.ToList();
         return this;
     }
-
+    
+    /// <summary>
+    /// Adds a single subscription
+    /// </summary>
+    /// <param name="subscription">The subscription to add</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder AddSubscription(Subscription subscription)
     {
         _subscriptions.Add(subscription);
@@ -147,6 +249,11 @@ public sealed class ConsumerBuilder
 
     private Action<ConsumersOptions>? _configuration;
 
+    /// <summary>
+    /// Sets additional configuration via ConsumersOptions action
+    /// </summary>
+    /// <param name="configuration">Configuration action for ConsumersOptions</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetConfiguration(Action<ConsumersOptions> configuration)
     {
         _configuration = configuration;

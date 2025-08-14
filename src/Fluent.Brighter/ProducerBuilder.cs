@@ -10,10 +10,22 @@ using Paramore.Brighter.Observability;
 
 namespace Fluent.Brighter;
 
+/// <summary>
+/// Fluent builder for configuring Brighter message producers and outbox settings
+/// </summary>
+/// <remarks>
+/// Provides a fluent interface to configure message production, outbox behavior, 
+/// reply handling, and instrumentation for Brighter-based systems.
+/// </remarks>
 public sealed class ProducerBuilder
 {
     private int? _archiveBatchSize;
 
+    /// <summary>
+    /// Sets the batch size for archiving messages (optional)
+    /// </summary>
+    /// <param name="archiveBatchSize">Number of messages to archive in a single batch</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetArchiveBatchSize(int archiveBatchSize)
     {
         _archiveBatchSize = archiveBatchSize;
@@ -21,6 +33,12 @@ public sealed class ProducerBuilder
     }
     
     private IAmAnArchiveProvider? _archiveProvider;
+    
+    /// <summary>
+    /// Sets the archive provider for message storage (optional)
+    /// </summary>
+    /// <param name="archiveProvider">The archive provider implementation</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetArchiveProvider(IAmAnArchiveProvider archiveProvider)
     {
         _archiveProvider = archiveProvider;
@@ -29,6 +47,11 @@ public sealed class ProducerBuilder
     
     private Type? _connectionProvider;
 
+    /// <summary>
+    /// Sets the connection provider type for producer connections (optional)
+    /// </summary>
+    /// <param name="connectionProvider">Type of connection provider</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetConnectionProvider(Type connectionProvider)
     {
         _connectionProvider = connectionProvider;
@@ -37,6 +60,11 @@ public sealed class ProducerBuilder
     
     private Type? _transactionProvider ;
 
+    /// <summary>
+    /// Sets the transaction provider type for managing transactions (optional)
+    /// </summary>
+    /// <param name="transactionProvider">Type of transaction provider</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetTransactionProvider(Type transactionProvider)
     {
         _transactionProvider = transactionProvider;
@@ -45,6 +73,11 @@ public sealed class ProducerBuilder
     
     private IDistributedLock? _distributedLock;
 
+    /// <summary>
+    /// Sets the distributed lock implementation for concurrency control (optional)
+    /// </summary>
+    /// <param name="distributedLock">Distributed lock implementation</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetDistributedLock(IDistributedLock distributedLock)
     {
         _distributedLock = distributedLock;
@@ -53,6 +86,11 @@ public sealed class ProducerBuilder
     
     private IAmAnOutbox? _outbox;
 
+    /// <summary>
+    /// Sets the outbox implementation for reliable messaging (optional)
+    /// </summary>
+    /// <param name="outbox">Outbox implementation</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetOutbox(IAmAnOutbox outbox)
     {
         _outbox = outbox;
@@ -61,6 +99,11 @@ public sealed class ProducerBuilder
 
     private int? _outboxBulkChunkSize;
 
+    /// <summary>
+    /// Sets the chunk size for bulk outbox operations (optional)
+    /// </summary>
+    /// <param name="outboxBulkChunkSize">Number of messages per bulk operation</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetOutboxBulkChunkSize(int outboxBulkChunkSize)
     {
         _outboxBulkChunkSize = outboxBulkChunkSize;
@@ -68,7 +111,12 @@ public sealed class ProducerBuilder
     }
 
     private int? _outboxTimeout;
-
+    
+    /// <summary>
+    /// Sets the timeout for outbox operations (optional)
+    /// </summary>
+    /// <param name="outboxTimeout">Timeout duration in milliseconds</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetOutboxTimeout(int outboxTimeout)
     {
         _outboxTimeout = outboxTimeout;
@@ -77,6 +125,11 @@ public sealed class ProducerBuilder
 
     private Dictionary<string, object>? _outboxBag;
 
+    /// <summary>
+    /// Sets additional context data for outbox operations (optional)
+    /// </summary>
+    /// <param name="outboxBag">Dictionary of contextual data</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetOutboxBag(Dictionary<string, object> outboxBag)
     {
         _outboxBag = outboxBag;
@@ -85,6 +138,11 @@ public sealed class ProducerBuilder
 
     private int? _maxOutStandingMessages;
 
+    /// <summary>
+    /// Sets the maximum number of outstanding messages before throttling (optional)
+    /// </summary>
+    /// <param name="maxOutStandingMessages">Maximum allowed unacknowledged messages</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetMaxOutStandingMessages(int maxOutStandingMessages)
     {
         _maxOutStandingMessages = maxOutStandingMessages;
@@ -93,6 +151,11 @@ public sealed class ProducerBuilder
 
     private TimeSpan _maxOutStandingCheckInterval = TimeSpan.Zero;
 
+    /// <summary>
+    /// Sets the interval for checking outstanding message counts (optional)
+    /// </summary>
+    /// <param name="maxOutStandingCheckInterval">Check interval duration</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetMaxOutStandingCheckInterval(TimeSpan maxOutStandingCheckInterval)
     {
         _maxOutStandingCheckInterval = maxOutStandingCheckInterval;
@@ -101,6 +164,11 @@ public sealed class ProducerBuilder
 
     private IAmAProducerRegistry? _producerRegistry;
 
+    /// <summary>
+    /// Sets the producer registry implementation (optional)
+    /// </summary>
+    /// <param name="producerRegistry">Producer registry instance</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetProducerRegistry(IAmAProducerRegistry producerRegistry)
     {
         _producerRegistry =  producerRegistry;
@@ -109,6 +177,11 @@ public sealed class ProducerBuilder
 
     private List<IAmAMessageProducerFactory> _messageProducerFactories = [];
 
+    /// <summary>
+    /// Adds a message producer factory to the configuration (optional)
+    /// </summary>
+    /// <param name="factory">Producer factory implementation</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder AddMessageProducerFactory(IAmAMessageProducerFactory factory)
     {
         _messageProducerFactories.Add(factory);
@@ -117,12 +190,22 @@ public sealed class ProducerBuilder
 
     private List<Subscription>? _replySubscriptions;
 
+    /// <summary>
+    /// Sets the collection of reply subscriptions (optional)
+    /// </summary>
+    /// <param name="replySubscriptions">Enumerable collection of reply subscriptions</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetReplySubscription(IEnumerable<Subscription> replySubscriptions)
     {
         _replySubscriptions = replySubscriptions.ToList();
         return this;
     }
 
+    /// <summary>
+    /// Adds a single reply subscription to the configuration (optional)
+    /// </summary>
+    /// <param name="replySubscription">Reply subscription to add</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder AddReplySubscription(Subscription replySubscription)
     {
         _replySubscriptions ??= [];
@@ -132,6 +215,11 @@ public sealed class ProducerBuilder
 
     private IAmAChannelFactory? _defaultReplyChannelFactory;
 
+    /// <summary>
+    /// Sets the default channel factory for reply messages (optional)
+    /// </summary>
+    /// <param name="defaultReplyChannelFactory">Channel factory implementation</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetDefaultReplyChannelFactory(IAmAChannelFactory defaultReplyChannelFactory)
     {
         _defaultReplyChannelFactory = defaultReplyChannelFactory;
@@ -140,6 +228,11 @@ public sealed class ProducerBuilder
     
     private IAmARequestContextFactory? _defaultRequestContextFactory;
 
+    /// <summary>
+    /// Sets the default request context factory (optional)
+    /// </summary>
+    /// <param name="defaultRequestContextFactory">Request context factory implementation</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetDefaultRequestContextFactory(IAmARequestContextFactory defaultRequestContextFactory)
     {
         _defaultRequestContextFactory = defaultRequestContextFactory;
@@ -148,6 +241,11 @@ public sealed class ProducerBuilder
 
     private IAmAMessageSchedulerFactory? _messageSchedulerFactory;
 
+    /// <summary>
+    /// Sets the message scheduler factory (optional)
+    /// </summary>
+    /// <param name="messageSchedulerFactory">Scheduler factory implementation</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetMessageSchedulerFactory(IAmAMessageSchedulerFactory messageSchedulerFactory)
     {
         _messageSchedulerFactory = messageSchedulerFactory;
@@ -156,6 +254,11 @@ public sealed class ProducerBuilder
 
     private InstrumentationOptions _instrumentation = InstrumentationOptions.All;
 
+    /// <summary>
+    /// Configures instrumentation options for monitoring (optional)
+    /// </summary>
+    /// <param name="instrumentation">Instrumentation configuration flags</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetInstrumentation(InstrumentationOptions instrumentation)
     {
         _instrumentation = instrumentation;
@@ -164,6 +267,11 @@ public sealed class ProducerBuilder
     
     private Action<ProducersConfiguration>? _configuration;
 
+    /// <summary>
+    /// Sets additional configuration via ProducersConfiguration action (optional)
+    /// </summary>
+    /// <param name="configuration">Configuration action</param>
+    /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetConfiguration(Action<ProducersConfiguration> configuration)
     {
         _configuration = configuration;
@@ -172,7 +280,6 @@ public sealed class ProducerBuilder
 
     internal void SetProducer(IBrighterBuilder builder)
     {
-        
         builder.AddProducers(producer =>
         {
             producer.ArchiveBatchSize = _archiveBatchSize;
