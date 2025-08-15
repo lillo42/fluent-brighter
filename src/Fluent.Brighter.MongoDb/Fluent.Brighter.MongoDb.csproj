@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFrameworks>$(BrighterFrameworkAndCoreTargetFrameworks)</TargetFrameworks>
+        <IsPackable>true</IsPackable>
         <Nullable>enable</Nullable>
     </PropertyGroup>
     
