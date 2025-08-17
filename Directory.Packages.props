@@ -25,6 +25,7 @@
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.Postgres" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.RMQ.Sync" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.RMQ.Async" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Outbox.Hosting" Version="10.0.0-preview.8" />
     <PackageVersion Include="Paramore.Brighter.Outbox.MongoDb" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.MsSql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.MySql" Version="$(BrighterVersion)" />

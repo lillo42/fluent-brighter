@@ -25,7 +25,10 @@ var host = new HostBuilder()
             .AddHostedService<ServiceActivatorHostedService>()
             .AddFluentBrighter(builder =>
             {
-                builder.UsingPostgres(cfg =>
+                builder
+                    .UseDbTransactionOutboxArchive()
+                    .UseOutboxSweeper()
+                    .UsingPostgres(cfg =>
                 {
                     cfg.SetConnection(new RelationalDatabaseConfiguration("Host=localhost;Username=postgres;Password=password;Database=brightertests;"));
 

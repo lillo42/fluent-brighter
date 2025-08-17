@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Paramore.Brighter" />
+    <PackageReference Include="Paramore.Brighter.Outbox.Hosting" />
     <PackageReference Include="Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection" />
   </ItemGroup>
 </Project>
