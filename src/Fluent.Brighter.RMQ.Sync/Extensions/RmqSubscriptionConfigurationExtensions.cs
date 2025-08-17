@@ -12,6 +12,33 @@ namespace Fluent.Brighter;
 public static class RmqSubscriptionConfigurationExtensions
 {
     /// <summary>
+    /// Configures the RabbitMQ connection using a fluent builder
+    /// </summary>
+    /// <param name="builder">Producer factory builder</param>
+    /// <param name="configure">Action to configure connection parameters</param>
+    /// <returns>Configured producer factory builder</returns>
+    /// <remarks>
+    /// This method provides a streamlined way to configure both the connection
+    /// and publications in a single fluent chain.
+    /// </remarks>
+    /// <example>
+    /// var factoryBuilder = new RmqMessageProducerFactoryBuilder()
+    ///     .SetConnection(conn => conn
+    ///         .SetAmpq("amqp://localhost")
+    ///         .SetExchange("app.events"))
+    ///     .AddPublication(pub => pub
+    ///         .SetTopic("order.created"));
+    /// </example>
+    public static RmqMessageProducerFactoryBuilder SetConnection(
+        this RmqMessageProducerFactoryBuilder builder,
+        Action<RmqMessagingGatewayConnectionBuilder> configure)
+    {
+        var conn = new RmqMessagingGatewayConnectionBuilder();
+        configure(conn);
+        return builder.SetConnection(conn.Build());
+    }
+
+    /// <summary>
     /// Adds a publication configuration using a fluent builder
     /// </summary>
     /// <param name="builder">The producer factory builder</param>

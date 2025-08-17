@@ -59,6 +59,29 @@ public static class RmqMessagingGatewayConnectionBuilderExtensions
         configure(specification);
         return builder.SetAmpq(specification.Build());
     }
+    
+    /// <summary>
+    /// Configures the primary exchange using just the exchange name
+    /// </summary>
+    /// <param name="builder">Connection builder</param>
+    /// <param name="exchangeName">Name of the RabbitMQ exchange</param>
+    /// <returns>Configured connection builder</returns>
+    /// <remarks>
+    /// For advanced configuration, use the overload with ExchangeBuilder action.
+    /// </remarks>
+    /// <example>
+    /// // Basic exchange configuration
+    /// builder.SetExchange("orders.exchange");
+    /// 
+    /// // Equivalent advanced configuration
+    /// builder.SetExchange(cfg => cfg.SetName("orders.exchange"));
+    /// </example>
+    public static RmqMessagingGatewayConnectionBuilder SetExchange(
+        this RmqMessagingGatewayConnectionBuilder builder,
+        string exchangeName)
+    {
+        return builder.SetExchange(cfg => cfg.SetName(exchangeName));
+    }
 
     /// <summary>
     /// Configures the primary exchange using a fluent builder
