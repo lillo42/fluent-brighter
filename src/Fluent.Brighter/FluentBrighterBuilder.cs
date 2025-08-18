@@ -1,6 +1,8 @@
 using System;
 
+using Paramore.Brighter;
 using Paramore.Brighter.Extensions.DependencyInjection;
+using Paramore.Brighter.Outbox.Hosting;
 using Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection;
 
 namespace Fluent.Brighter;
@@ -84,6 +86,92 @@ public class FluentBrighterBuilder
         configure(_producerBuilder);
         return this;
     }
+
+    private Action<TimedOutboxSweeperOptions>? _outboxSweeperOptions;
+    
+    /// <summary>
+    /// Use the timed outbox sweeper with the specified configuration options
+    /// </summary>
+    /// <param name="options">The configuration action for TimedOutboxSweeperOptions. Allows configuring sweep interval, batch size, message age, and other outbox parameters.</param>
+    /// <returns>The FluentBrighterBuilder instance for method chaining</returns>
+    /// <remarks>
+    /// This method configures the background message sweeper that periodically checks the outbox for unsent messages.
+    /// Use this to customize:
+    /// - Timer interval (in seconds)
+    /// - Minimum message age (TimeSpan)
+    /// - Batch size (number of messages per sweep)
+    /// - Bulk dispatch mode
+    /// - Custom outbox arguments via Args dictionary
+    /// 
+    /// Example usage:
+    /// <code>
+    /// .EnableSweeper(options => 
+    /// {
+    ///     options.TimerInterval = 10;
+    ///     options.MinimumMessageAge = TimeSpan.FromSeconds(30);
+    ///     options.BatchSize = 200;
+    ///     options.WithArg("TableName", "Outbox");
+    /// })
+    /// </code>
+    /// </remarks>
+    public FluentBrighterBuilder UseOutboxSweeper(Action<TimedOutboxSweeperOptions> options)
+    {
+        _outboxSweeperOptions = options;
+        return this;
+    }
+
+
+    private Action<IBrighterBuilder>? _archiverConfiguration;
+    
+    /// <summary>
+    /// Configures and enables outbox archiving using a specified archive provider
+    /// </summary>
+    /// <typeparam name="TTransaction">The transaction type used by the underlying outbox</typeparam>
+    /// <param name="archiveProvider">The archive provider implementation to use for storing archived messages</param>
+    /// <param name="timedOutboxArchiverOptionsAction">Optional configuration action for customizing archiver behavior</param>
+    /// <returns>The FluentBrighterBuilder instance for method chaining</returns>
+    /// <remarks>
+    /// <para>
+    /// This method enables periodic archiving of messages from the outbox. Archived messages are moved from
+    /// the active outbox to long-term storage using the provided archive provider.
+    /// </para>
+    /// <para>
+    /// Example usage:
+    /// <code>
+    /// var archiveProvider = new SqlArchiveProvider(connectionString);
+    /// 
+    /// builder.UseOutboxArchiver&lt;SqlTransaction&gt;(
+    ///     archiveProvider,
+    ///     options => 
+    ///     {
+    ///         options.TimerInterval = 3600; // Run hourly
+    ///         options.MinimumAge = TimeSpan.FromDays(7);
+    ///         options.ArchiveBatchSize = 500;
+    ///     });
+    /// </code>
+    /// </para>
+    /// <para>
+    /// The archiver runs on a timer with configurable:
+    /// - <b>TimerInterval</b>: Execution frequency in seconds
+    /// - <b>MinimumAge</b>: Messages must be this old to be archived
+    /// - <b>ArchiveBatchSize</b>: Number of messages processed per execution
+    /// </para>
+    /// <para>
+    /// When not provided, the archiver uses default options:
+    /// - TimerInterval: 15 seconds
+    /// - MinimumAge: 24 hours
+    /// - ArchiveBatchSize: 100 messages
+    /// </para>
+    /// <para>
+    /// Note: The actual archiving process will be started during service initialization
+    /// </para>
+    /// </remarks>
+    public FluentBrighterBuilder UseOutboxArchiver<TTransaction>(IAmAnArchiveProvider archiveProvider,
+        Action<TimedOutboxArchiverOptions>? timedOutboxArchiverOptionsAction = null)
+    {
+        _archiverConfiguration = builder => builder.UseOutboxArchiver<TTransaction>(archiveProvider, timedOutboxArchiverOptionsAction);
+        return this;
+    }
     
     internal void SetConsumerOptions(ConsumersOptions options)
         =>  _consumerBuilder.SetConsumerOptions(options);
@@ -94,5 +182,15 @@ public class FluentBrighterBuilder
         _mapperBuilder.SetMappers(builder);
         _transformerBuilder.SetTransforms(builder);
         _producerBuilder.SetProducer(builder);
+        
+        if (_outboxSweeperOptions != null)
+        {
+            builder.UseOutboxSweeper(opt => _outboxSweeperOptions(opt));
+        }
+
+        if (_archiverConfiguration != null)
+        {
+            _archiverConfiguration(builder);
+        } 
     }
 }
