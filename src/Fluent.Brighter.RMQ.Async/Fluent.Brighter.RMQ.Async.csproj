@@ -2,6 +2,8 @@
     <PropertyGroup>
         <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
         <IsPackable>true</IsPackable>
+        <PackageTags>Brighter; RabbitMQ; AMQP; Messaging; MessageQueue; EventDriven; Microservices; DistributedSystems; Fluent; Configuration; Builder; Publisher; Subscriber; Producer; Consumer; CloudEvents</PackageTags>
+        <Description>Fluent configuration extensions for RabbitMQ messaging with Paramore.Brighter</Description>
     </PropertyGroup>
 
     <ItemGroup>
