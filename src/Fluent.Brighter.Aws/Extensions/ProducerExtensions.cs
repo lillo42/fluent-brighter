@@ -2,6 +2,9 @@ using System;
 
 using Fluent.Brighter.Aws;
 
+using Paramore.Brighter.MessagingGateway.AWSSQS;
+using Paramore.Brighter.Outbox.DynamoDB;
+
 namespace Fluent.Brighter;
 
 public static class ProducerExtensions
@@ -20,5 +23,22 @@ public static class ProducerExtensions
         var factory = new SqsMessageProducerFactoryBuilder();
         configure(factory);
         return builder.AddMessageProducerFactory(factory.Build());
-    }  
+    }
+
+    public static ProducerBuilder UseDynamoDbOutbox(this ProducerBuilder builder,
+        AWSMessagingGatewayConnection connection) => builder
+        .UseDynamoDbOutbox(x => x.SetConnection(connection));
+
+    public static ProducerBuilder UseDynamoDbOutbox(this ProducerBuilder builder,
+        Action<DynamoDbOutboxBuilder> configure)
+    {
+        var outbox = new  DynamoDbOutboxBuilder();
+        configure(outbox);
+        return builder.UseDynamoDbOutbox(outbox.Build());
+    }
+
+    public static ProducerBuilder UseDynamoDbOutbox(this ProducerBuilder builder, DynamoDbOutbox outbox) 
+        => builder.SetOutbox(outbox);
+    
+    
 }

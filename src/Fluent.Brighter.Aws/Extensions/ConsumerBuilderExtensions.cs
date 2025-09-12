@@ -4,6 +4,7 @@ using Amazon.Runtime.Internal;
 
 using Fluent.Brighter.Aws;
 
+using Paramore.Brighter.Inbox.DynamoDB;
 using Paramore.Brighter.MessagingGateway.AWSSQS;
 
 namespace Fluent.Brighter;
@@ -39,4 +40,19 @@ public static class ConsumerBuilderExtensions
         configure(subscription);
         return builder.AddChannelFactory(new ChannelFactory(subscription.Build()));
     }
+
+    public static ConsumerBuilder UseDynamoDbInbox(this ConsumerBuilder builder, Action<DynamoDbInboxBuilder> configure)
+    {
+        var configuration = new DynamoDbInboxBuilder();
+        configure(configuration);
+        return builder.UseDynamoDbInbox(configuration.Build());
+    }
+    
+    public static ConsumerBuilder UseDynamoDbInbox(this ConsumerBuilder builder, AWSMessagingGatewayConnection connection)
+    {
+        return builder.UseDynamoDbInbox(cfg => cfg.SetConnection(connection));
+    }
+
+    public static ConsumerBuilder UseDynamoDbInbox(this ConsumerBuilder builder, DynamoDbInbox inbox) 
+        => builder.SetInbox(cfg => cfg.SetInbox(inbox));
 }

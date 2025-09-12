@@ -73,6 +73,47 @@ public sealed class AwsConfigurator
         return this;
     }
 
+    public AwsConfigurator UseDynamoDbInbox()
+    {
+        _action += fluent => fluent.Subscriptions(s => s.UseDynamoDbInbox(_connection!));
+        return this;
+    }
+    
+    public AwsConfigurator UseDynamoDbInbox(string tableName)
+    {
+        _action += fluent => fluent.Subscriptions(x => x
+            .UseDynamoDbInbox(cfg => cfg
+                .SetConnection(_connection!)
+                .SetTableName(tableName)));
+        return this;
+    }
+
+    public AwsConfigurator UseDynamoDbOutbox()
+    {
+        _action += fluent => fluent.Producers(p => p.UseDynamoDbOutbox(_connection!));
+        return this;
+    }
+    
+    public AwsConfigurator UseDynamoDbOutbox(string tableName)
+    {
+        _action += fluent => fluent
+            .Producers(p => p
+                .UseDynamoDbOutbox(o => o
+                    .SetConnection(_connection!)
+                    .SetConfiguration(c => c.SetTableName(tableName))));
+        return this;
+    }
+    
+    public AwsConfigurator UseDynamoDbOutbox(Action<DynamoDbOutboxConfigurationBuilder> configure)
+    {
+        _action += fluent => fluent
+            .Producers(p => p
+                .UseDynamoDbOutbox(o => o
+                    .SetConnection(_connection!)
+                    .SetConfiguration(configure)));
+        return this;
+    }
+
     internal void SetFluentBrighter(FluentBrighterBuilder builder)
     {
         if (_connection == null)
