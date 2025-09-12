@@ -18,6 +18,13 @@ public sealed class SqsSubscriptionBuilder
     public SqsSubscriptionBuilder SetQueue(ChannelName channelName)
     {
         _channelName = channelName;
+        if (RoutingKey.IsNullOrEmpty(_routingKey))
+        {
+            _routingKey = new RoutingKey(channelName.Value);
+        }
+
+        _channelType ??= ChannelType.PointToPoint;
+        
         return this;
     }
     
@@ -25,10 +32,11 @@ public sealed class SqsSubscriptionBuilder
     public SqsSubscriptionBuilder SetTopic(RoutingKey routingKey)
     {
         _routingKey = routingKey;
+        _channelType = ChannelType.PubSub;
         return this;
     }
     
-    private ChannelType _channelType;
+    private ChannelType? _channelType;
     public SqsSubscriptionBuilder SetChannelType(ChannelType channelType)
     {
         _channelType = channelType;
@@ -209,7 +217,7 @@ public sealed class SqsSubscriptionBuilder
         return new SqsSubscription(
             subscriptionName:_subscriptionName,
             channelName: _channelName,
-            channelType: _channelType,
+            channelType: _channelType.GetValueOrDefault(),
             routingKey:_routingKey,
             requestType: _requestType,
             getRequestType: _getRequestType,

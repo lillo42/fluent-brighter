@@ -41,7 +41,7 @@ public static class SnsPublicationBuilderExtensions
     #endregion
     
     #region Make channels
-    public static SnsPublicationBuilder CreateIfNotExists(this SnsPublicationBuilder builder)
+    public static SnsPublicationBuilder CreateTopicIfMissing(this SnsPublicationBuilder builder)
         => builder.SetMakeChannels(OnMissingChannel.Create);
     
     public static SnsPublicationBuilder ValidateIfNotExists(this SnsPublicationBuilder builder)

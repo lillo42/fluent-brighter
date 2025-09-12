@@ -8,8 +8,6 @@ using Paramore.Brighter.ServiceActivator.Extensions.Hosting;
 
 using RmqTaskQueue.Commands;
 
-Console.WriteLine("Hello, World!");
-
 var host = new HostBuilder()
     .ConfigureServices((_, services) =>
     {

@@ -42,7 +42,7 @@ public static class SqsPublicationBuilderExtensions
     #endregion
     
     #region Make channels
-    public static SqsPublicationBuilder CreateIfNotExists(this SqsPublicationBuilder builder)
+    public static SqsPublicationBuilder CreateIfMissing(this SqsPublicationBuilder builder)
         => builder.SetMakeChannels(OnMissingChannel.Create);
     
     public static SqsPublicationBuilder ValidateIfNotExists(this SqsPublicationBuilder builder)

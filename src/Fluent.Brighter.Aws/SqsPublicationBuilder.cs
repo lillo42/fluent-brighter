@@ -82,9 +82,10 @@ public sealed class SqsPublicationBuilder
 
     private RoutingKey? _topic;
     
-    public SqsPublicationBuilder SetQueue(RoutingKey? topic)
+    public SqsPublicationBuilder SetQueue(RoutingKey topic)
     {
         _topic = topic;
+        _channelName = new ChannelName(_topic.Value);
         return this;
     }
 

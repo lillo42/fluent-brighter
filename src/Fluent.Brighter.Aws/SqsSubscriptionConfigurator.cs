@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-using Amazon.Runtime.Internal;
-
+using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.AWSSQS;
 
 namespace Fluent.Brighter.Aws;
