@@ -10,9 +10,9 @@ public sealed class AwsConfigurator
     private AWSMessagingGatewayConnection? _connection;
     private Action<FluentBrighterBuilder> _action = _ => { };
 
-    public AwsConfigurator SetConnection(Action<AWSMessagingGatewayConnectionBuidler> configure)
+    public AwsConfigurator SetConnection(Action<AWSMessagingGatewayConnectionBuilder> configure)
     {
-        var connection = new AWSMessagingGatewayConnectionBuidler();
+        var connection = new AWSMessagingGatewayConnectionBuilder();
         configure(connection);
         _connection = connection.Build();
         return this;
@@ -73,6 +73,7 @@ public sealed class AwsConfigurator
         return this;
     }
 
+    #region Outbox
     public AwsConfigurator UseDynamoDbInbox()
     {
         _action += fluent => fluent.Subscriptions(s => s.UseDynamoDbInbox(_connection!));
@@ -87,7 +88,9 @@ public sealed class AwsConfigurator
                 .SetTableName(tableName)));
         return this;
     }
+    #endregion
 
+    #region Outbox
     public AwsConfigurator UseDynamoDbOutbox()
     {
         _action += fluent => fluent.Producers(p => p.UseDynamoDbOutbox(_connection!));
@@ -113,6 +116,23 @@ public sealed class AwsConfigurator
                     .SetConfiguration(configure)));
         return this;
     }
+    #endregion
+    
+    #region Distributed Lock
+
+    public AwsConfigurator UseDynamoDbDistributedLock(Action<DynamoDbLockingProviderOptionsBuilder> configure)
+    {
+        var options = new DynamoDbLockingProviderOptionsBuilder();
+        configure(options);
+        _action += fluent => fluent
+            .Producers(l => l.UseDynamoDbDistributedLock(cfg => cfg
+                .SetConnection(_connection!)
+                .SetConfiguration(configure)));
+
+        return this;
+    }
+    
+    #endregion
 
     internal void SetFluentBrighter(FluentBrighterBuilder builder)
     {

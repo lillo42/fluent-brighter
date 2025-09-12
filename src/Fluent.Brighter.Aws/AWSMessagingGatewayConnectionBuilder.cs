@@ -7,24 +7,24 @@ using Paramore.Brighter.MessagingGateway.AWSSQS;
 
 namespace Fluent.Brighter.Aws;
 
-public sealed class AWSMessagingGatewayConnectionBuidler
+public sealed class AWSMessagingGatewayConnectionBuilder
 {
     private AWSCredentials _credentials = new AnonymousAWSCredentials();
-    public AWSMessagingGatewayConnectionBuidler SetCredentials(AWSCredentials credentials)
+    public AWSMessagingGatewayConnectionBuilder SetCredentials(AWSCredentials credentials)
     {
         _credentials = credentials;
         return this;
     }
 
     private RegionEndpoint _region = RegionEndpoint.USEast1;
-    public AWSMessagingGatewayConnectionBuidler SetRegion(RegionEndpoint region)
+    public AWSMessagingGatewayConnectionBuilder SetRegion(RegionEndpoint region)
     {
         _region = region;
         return this;
     }
 
     private Action<ClientConfig>? _clientConfigAction;
-    public AWSMessagingGatewayConnectionBuidler SetClientConfigAction(Action<ClientConfig> clientConfigAction)
+    public AWSMessagingGatewayConnectionBuilder SetClientConfigAction(Action<ClientConfig> clientConfigAction)
     {
         _clientConfigAction = clientConfigAction;
         return this;

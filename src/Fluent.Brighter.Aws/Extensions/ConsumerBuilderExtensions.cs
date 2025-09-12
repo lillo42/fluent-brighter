@@ -34,9 +34,9 @@ public static class ConsumerBuilderExtensions
     public static ConsumerBuilder AddAwsChannelFactory(this ConsumerBuilder builder, AWSMessagingGatewayConnection configure) 
         => builder.AddChannelFactory(new ChannelFactory(configure));
 
-    public static ConsumerBuilder AddAwsChannelFactory(this ConsumerBuilder builder, Action<AWSMessagingGatewayConnectionBuidler> configure)
+    public static ConsumerBuilder AddAwsChannelFactory(this ConsumerBuilder builder, Action<AWSMessagingGatewayConnectionBuilder> configure)
     {
-        var subscription = new AWSMessagingGatewayConnectionBuidler();
+        var subscription = new AWSMessagingGatewayConnectionBuilder();
         configure(subscription);
         return builder.AddChannelFactory(new ChannelFactory(subscription.Build()));
     }

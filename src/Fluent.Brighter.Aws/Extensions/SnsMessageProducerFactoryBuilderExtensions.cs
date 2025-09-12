@@ -7,9 +7,9 @@ namespace Fluent.Brighter;
 public static class SnsMessageProducerFactoryBuilderExtensions
 {
     public static SnsMessageProducerFactoryBuilder SetConfiguration(this SnsMessageProducerFactoryBuilder builder,
-        Action<AWSMessagingGatewayConnectionBuidler> configure)
+        Action<AWSMessagingGatewayConnectionBuilder> configure)
     {
-        var factory = new AWSMessagingGatewayConnectionBuidler();
+        var factory = new AWSMessagingGatewayConnectionBuilder();
         configure(factory);
         return builder.SetConfiguration(factory.Build());
     }

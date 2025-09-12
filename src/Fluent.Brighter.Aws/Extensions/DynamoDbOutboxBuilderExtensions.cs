@@ -7,9 +7,9 @@ namespace Fluent.Brighter;
 public static class DynamoDbOutboxBuilderExtensions
 {
     public static DynamoDbOutboxBuilder SetConnection(this DynamoDbOutboxBuilder builder,
-        Action<AWSMessagingGatewayConnectionBuidler> configure)
+        Action<AWSMessagingGatewayConnectionBuilder> configure)
     {
-        var connection = new  AWSMessagingGatewayConnectionBuidler();
+        var connection = new  AWSMessagingGatewayConnectionBuilder();
         configure(connection);
         return builder.SetConnection(connection.Build());
     }
