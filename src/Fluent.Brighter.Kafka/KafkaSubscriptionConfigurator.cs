@@ -6,7 +6,7 @@ using Paramore.Brighter.MessagingGateway.Kafka;
 
 namespace Fluent.Brighter.Kafka;
 
-public class KafkaSubscriptionConfigurator(ChannelFactory channelFactory)
+public sealed class KafkaSubscriptionConfigurator(ChannelFactory channelFactory)
 {
     internal List<KafkaSubscription> Subscriptions { get; } = [];
 

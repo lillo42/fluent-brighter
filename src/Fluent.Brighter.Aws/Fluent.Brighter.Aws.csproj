@@ -10,7 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Paramore.Brighter.Inbox.DynamoDB" />
+    <PackageReference Include="Paramore.Brighter.Locking.DynamoDB" />
     <PackageReference Include="Paramore.Brighter.MessagingGateway.AWSSQS" />
+    <PackageReference Include="Paramore.Brighter.Outbox.DynamoDB" />
   </ItemGroup>
 
 </Project>
