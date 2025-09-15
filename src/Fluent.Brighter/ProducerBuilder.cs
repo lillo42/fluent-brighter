@@ -304,8 +304,7 @@ public sealed class ProducerBuilder
 
             if (_producerRegistry == null && _messageProducerFactories.Count > 0 )
             {
-                _producerRegistry = new CombinedProducerRegistryFactory(_messageProducerFactories.ToArray())
-                    .Create();
+                _producerRegistry = new CombinedProducerRegistryFactory(_messageProducerFactories.ToArray()).Create();
             }
             
             producer.ProducerRegistry = _producerRegistry;

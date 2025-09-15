@@ -1,4 +1,5 @@
 ﻿using Amazon;
+using Amazon.Runtime;
 
 using AwsTaskQueue.Commands;
 
@@ -25,8 +26,10 @@ var host = new HostBuilder()
         services
             .AddHostedService<ServiceActivatorHostedService>()
             .AddFluentBrighter(brighter => brighter
+                // .UseOutboxSweeper()
                 .UsingAws(rabbitmq => rabbitmq
                     .SetConnection(conn => conn
+                        .SetCredentials(new BasicAWSCredentials("test", "test"))
                         .SetRegion(RegionEndpoint.USEast1)
                         .SetClientConfigAction(cfg => cfg.ServiceURL = "http://localhost:4566"))
                     .UseSnsPublication(pb => pb
@@ -55,10 +58,15 @@ var host = new HostBuilder()
                 ));
     })
     .Build();
-    
+
+
 await host.StartAsync();
 
-while (true)
+using var cts = new  CancellationTokenSource();
+
+Console.CancelKeyPress += (_, _) => cts.Cancel();
+
+while (!cts.IsCancellationRequested)
 {
     await Task.Delay(TimeSpan.FromSeconds(1));
     Console.Write("Say your name (or q to quit): ");

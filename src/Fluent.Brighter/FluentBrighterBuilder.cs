@@ -1,5 +1,7 @@
 using System;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Paramore.Brighter;
 using Paramore.Brighter.Extensions.DependencyInjection;
 using Paramore.Brighter.Outbox.Hosting;
@@ -120,7 +122,6 @@ public class FluentBrighterBuilder
         return this;
     }
 
-
     private Action<IBrighterBuilder>? _archiverConfiguration;
     
     /// <summary>
@@ -173,6 +174,14 @@ public class FluentBrighterBuilder
         return this;
     }
     
+    private Action<IServiceCollection> _registerServices = _ =>{};
+
+    public FluentBrighterBuilder RegisterServices(Action<IServiceCollection> configure)
+    {
+        _registerServices += configure;
+        return this;
+    }
+    
     internal void SetConsumerOptions(ConsumersOptions options)
         =>  _consumerBuilder.SetConsumerOptions(options);
 
@@ -191,6 +200,8 @@ public class FluentBrighterBuilder
         if (_archiverConfiguration != null)
         {
             _archiverConfiguration(builder);
-        } 
+        }
+
+        _registerServices(builder.Services);
     }
 }

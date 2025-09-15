@@ -46,7 +46,7 @@ public sealed class DynamoDbOutboxBuilder
         _configuration = configuration;
         return this;
     }
-    
+
     internal DynamoDbOutbox Build()
     {
         if (_connection == null)

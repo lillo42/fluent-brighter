@@ -1,6 +1,12 @@
 using System;
 
+using Amazon.DynamoDBv2;
+
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+
 using Paramore.Brighter;
+using Paramore.Brighter.DynamoDb;
 using Paramore.Brighter.MessagingGateway.AWSSQS;
 
 namespace Fluent.Brighter.Aws;
@@ -33,6 +39,7 @@ public sealed class AwsConfigurator
                 cfg.SetConfiguration(_connection!);
                 configure(cfg);
             }));
+            
         };
 
         return this;
@@ -73,7 +80,7 @@ public sealed class AwsConfigurator
         return this;
     }
 
-    #region Outbox
+    #region Inbox 
     public AwsConfigurator UseDynamoDbInbox()
     {
         _action += fluent => fluent.Subscriptions(s => s.UseDynamoDbInbox(_connection!));
@@ -91,31 +98,46 @@ public sealed class AwsConfigurator
     #endregion
 
     #region Outbox
-    public AwsConfigurator UseDynamoDbOutbox()
-    {
-        _action += fluent => fluent.Producers(p => p.UseDynamoDbOutbox(_connection!));
-        return this;
-    }
-    
-    public AwsConfigurator UseDynamoDbOutbox(string tableName)
-    {
-        _action += fluent => fluent
-            .Producers(p => p
-                .UseDynamoDbOutbox(o => o
-                    .SetConnection(_connection!)
-                    .SetConfiguration(c => c.SetTableName(tableName))));
-        return this;
-    }
-    
+    public AwsConfigurator UseDynamoDbOutbox() 
+        => UseDynamoDbOutbox(_ => { });
+
+    public AwsConfigurator UseDynamoDbOutbox(string tableName) 
+        => UseDynamoDbOutbox(c => c.SetTableName(tableName));
+
     public AwsConfigurator UseDynamoDbOutbox(Action<DynamoDbOutboxConfigurationBuilder> configure)
     {
-        _action += fluent => fluent
-            .Producers(p => p
-                .UseDynamoDbOutbox(o => o
-                    .SetConnection(_connection!)
-                    .SetConfiguration(configure)));
+        _action += fluent =>
+            {
+                fluent
+                    .Producers(p => p
+                        .UseDynamoDbOutbox(o => o
+                            .SetConnection(_connection!)
+                            .SetConfiguration(configure)));
+
+                fluent.RegisterServices(services =>
+                {
+                    var config = new AmazonDynamoDBConfig { RegionEndpoint = _connection!.Region };
+                    _connection.ClientConfigAction?.Invoke(config);
+
+                    services.TryAddSingleton<IAmazonDynamoDB>(new AmazonDynamoDBClient(_connection.Credentials, config));
+                    services.AddSingleton<DynamoDbUnitOfWork>()
+                        .AddSingleton<IAmADynamoDbTransactionProvider>(provider => provider.GetRequiredService<DynamoDbUnitOfWork>());
+                });
+            };
         return this;
     }
+
+    public AwsConfigurator UseDynamoDbOutboxArchive()
+    {
+        _action += fluent => fluent.UseDynamoDbTransactionOutboxArchive();
+        return this;
+    }
+
+    public AwsConfigurator UseDynamoDbOutboxArchive(Action<TimedOutboxArchiverOptionsBuilder> configure)
+    {
+        _action += fluent => fluent.UseDynamoDbTransactionOutboxArchive(configure);
+        return this;
+    }    
     #endregion
     
     #region Distributed Lock

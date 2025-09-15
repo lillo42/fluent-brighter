@@ -1,7 +1,10 @@
 using System;
 
+using Amazon.DynamoDBv2.Model;
+
 using Fluent.Brighter.Aws;
 
+using Paramore.Brighter.DynamoDb;
 using Paramore.Brighter.Locking.DynamoDb;
 using Paramore.Brighter.MessagingGateway.AWSSQS;
 using Paramore.Brighter.Outbox.DynamoDB;
@@ -41,8 +44,12 @@ public static class ProducerExtensions
         return builder.UseDynamoDbOutbox(outbox.Build());
     }
 
-    public static ProducerBuilder UseDynamoDbOutbox(this ProducerBuilder builder, DynamoDbOutbox outbox) 
-        => builder.SetOutbox(outbox);
+    public static ProducerBuilder UseDynamoDbOutbox(this ProducerBuilder builder, DynamoDbOutbox outbox)
+    {
+        return builder.SetOutbox(outbox)
+            .SetConnectionProvider(typeof(DynamoDbUnitOfWork))
+            .SetTransactionProvider(typeof(DynamoDbUnitOfWork));
+    }
 
     #endregion
 
