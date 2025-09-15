@@ -24,7 +24,7 @@
     <PackageVersion Include="Paramore.Brighter.Locking.MySql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Locking.PostgresSql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.AWSSQS" Version="$(BrighterVersion)" />
-    <PackageVersion Include="Paramore.Brighter.MessagingGateway.AWS.V4" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.MessagingGateway.AWSSQS.V4" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.Kafka" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.MsSql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.Postgres" Version="$(BrighterVersion)" />
