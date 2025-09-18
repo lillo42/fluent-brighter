@@ -1,6 +1,7 @@
 using System;
 
 using Paramore.Brighter.Outbox.DynamoDB;
+using Paramore.Brighter.Outbox.DynamoDB.V4;
 
 namespace Fluent.Brighter.AWS.V4;
 

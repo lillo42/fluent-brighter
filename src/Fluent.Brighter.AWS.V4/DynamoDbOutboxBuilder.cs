@@ -6,6 +6,7 @@ using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.AWSSQS.V4;
 using Paramore.Brighter.Observability;
 using Paramore.Brighter.Outbox.DynamoDB;
+using Paramore.Brighter.Outbox.DynamoDB.V4;
 
 namespace Fluent.Brighter.AWS.V4;
 

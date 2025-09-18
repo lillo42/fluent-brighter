@@ -1,9 +1,11 @@
 using System;
 
 using Paramore.Brighter.DynamoDb;
+using Paramore.Brighter.DynamoDb.V4;
 using Paramore.Brighter.Locking.DynamoDB.V4;
 using Paramore.Brighter.MessagingGateway.AWSSQS.V4;
 using Paramore.Brighter.Outbox.DynamoDB;
+using Paramore.Brighter.Outbox.DynamoDB.V4;
 
 namespace Fluent.Brighter.AWS.V4.Extensions;
 

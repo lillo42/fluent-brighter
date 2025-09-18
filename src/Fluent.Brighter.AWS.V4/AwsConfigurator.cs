@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 using Paramore.Brighter;
 using Paramore.Brighter.DynamoDb;
+using Paramore.Brighter.DynamoDb.V4;
 using Paramore.Brighter.MessagingGateway.AWSSQS.V4;
 
 namespace Fluent.Brighter.AWS.V4;
