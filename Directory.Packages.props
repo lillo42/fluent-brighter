@@ -40,6 +40,8 @@
     <PackageVersion Include="Paramore.Brighter.Outbox.Sqlite" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.ServiceActivator.Extensions.Hosting" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Tranformers.AWS" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Tranformers.AWS.V4" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Transformers.MongoGridFS" Version="$(BrighterVersion)" />
     <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageVersion Include="xunit" Version="2.9.3" />

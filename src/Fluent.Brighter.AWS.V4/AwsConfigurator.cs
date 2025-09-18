@@ -158,6 +158,25 @@ public sealed class AwsConfigurator
     }
     
     #endregion
+    
+    #region S3
+
+    public AwsConfigurator UseS3LuggageStore(string bucketName)
+        => UseS3LuggageStore(cfg => cfg.SetBucketName(bucketName));
+    
+    public AwsConfigurator UseS3LuggageStore(Action<S3LuggageStoreBuilder> configure)
+    {
+        _action += fluent => fluent
+            .LuggageStore(store => store
+                .UseS3LuggageStore(cfg =>
+                {
+                    cfg.SetConnection(_connection!);
+                    configure(cfg);
+                }));
+        return this;
+    }
+
+    #endregion
 
     internal void SetFluentBrighter(FluentBrighterBuilder builder)
     {

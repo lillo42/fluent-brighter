@@ -181,6 +181,13 @@ public class FluentBrighterBuilder
         _registerServices += configure;
         return this;
     }
+
+    private readonly LuggageStoreBuilder _luggageStoreBuilder = new(); 
+    public FluentBrighterBuilder LuggageStore(Action<LuggageStoreBuilder> configure)
+    {
+        configure(_luggageStoreBuilder);
+        return this;
+    }
     
     internal void SetConsumerOptions(ConsumersOptions options)
         =>  _consumerBuilder.SetConsumerOptions(options);
@@ -191,6 +198,7 @@ public class FluentBrighterBuilder
         _mapperBuilder.SetMappers(builder);
         _transformerBuilder.SetTransforms(builder);
         _producerBuilder.SetProducer(builder);
+        _luggageStoreBuilder.SetLuggageStore(builder);
         
         if (_outboxSweeperOptions != null)
         {
