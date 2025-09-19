@@ -7,9 +7,21 @@ using Paramore.Brighter.Observability;
 
 namespace Fluent.Brighter.Aws;
 
+/// <summary>
+/// Builder class for fluently configuring a DynamoDB inbox for Paramore.Brighter's message store.
+/// Provides methods to set AWS DynamoDB client, connection configuration, table name,
+/// and instrumentation options for storing and retrieving messages from Amazon DynamoDB.
+/// </summary>
 public sealed class DynamoDbInboxBuilder
 {
     private IAmazonDynamoDB? _client;
+    
+    /// <summary>
+    /// Sets the pre-configured DynamoDB client instance for accessing Amazon DynamoDB.
+    /// If not provided, a client will be created using the connection configuration.
+    /// </summary>
+    /// <param name="client">The pre-configured DynamoDB client</param>
+    /// <returns>The builder instance for method chaining</returns>
     public DynamoDbInboxBuilder SetClient(IAmazonDynamoDB client)
     {
         _client = client;
@@ -17,6 +29,13 @@ public sealed class DynamoDbInboxBuilder
     }
     
     private AWSMessagingGatewayConnection? _connection;
+    
+    /// <summary>
+    /// Sets the AWS messaging gateway connection configuration for creating
+    /// a DynamoDB client, including credentials, region, and client configuration.
+    /// </summary>
+    /// <param name="connection">The AWS connection configuration</param>
+    /// <returns>The builder instance for method chaining</returns>
     public DynamoDbInboxBuilder SetConnection(AWSMessagingGatewayConnection connection)
     {
         _connection = connection;
@@ -24,6 +43,13 @@ public sealed class DynamoDbInboxBuilder
     }
     
     private string _tableName = "brighter_inbox";
+    
+    /// <summary>
+    /// Sets the name of the DynamoDB table used for storing inbox messages.
+    /// Defaults to "brighter_inbox" if not specified.
+    /// </summary>
+    /// <param name="tableName">The name of the DynamoDB table</param>
+    /// <returns>The builder instance for method chaining</returns>
     public DynamoDbInboxBuilder SetTableName(string tableName)
     {
         _tableName = tableName;
@@ -31,6 +57,12 @@ public sealed class DynamoDbInboxBuilder
     }
 
     private InstrumentationOptions _instrumentation = InstrumentationOptions.All;
+    
+    /// <summary>
+    /// Sets the instrumentation options for monitoring and tracing the DynamoDB inbox operations.
+    /// </summary>
+    /// <param name="instrumentation">The instrumentation options</param>
+    /// <returns>The builder instance for method chaining</returns>
     public DynamoDbInboxBuilder SetInstrumentation(InstrumentationOptions instrumentation)
     {
         _instrumentation = instrumentation;

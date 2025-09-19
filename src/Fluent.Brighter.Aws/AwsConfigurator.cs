@@ -11,11 +11,21 @@ using Paramore.Brighter.MessagingGateway.AWSSQS;
 
 namespace Fluent.Brighter.Aws;
 
+/// <summary>
+/// Central configuration class for setting up AWS-related services in Paramore.Brighter.
+/// Provides fluent methods to configure connections, message producers (SNS/SQS), subscriptions,
+/// inbox/outbox patterns with DynamoDB, distributed locking, and S3-based luggage storage.
+/// </summary>
 public sealed class AwsConfigurator
 {
     private AWSMessagingGatewayConnection? _connection;
     private Action<FluentBrighterBuilder> _action = _ => { };
 
+    /// <summary>
+    /// Sets the AWS connection configuration using a builder pattern.
+    /// </summary>
+    /// <param name="configure">Action to configure the AWS connection builder</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator SetConnection(Action<AWSMessagingGatewayConnectionBuilder> configure)
     {
         var connection = new AWSMessagingGatewayConnectionBuilder();
@@ -24,12 +34,22 @@ public sealed class AwsConfigurator
         return this;
     }
 
+    /// <summary>
+    /// Sets the AWS connection configuration directly with a pre-built connection.
+    /// </summary>
+    /// <param name="configure">Pre-configured AWS connection</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator SetConnection(AWSMessagingGatewayConnection configure)
     {
         _connection = configure;
         return this;
     }
 
+    /// <summary>
+    /// Configures SNS (Simple Notification Service) for message publication.
+    /// </summary>
+    /// <param name="configure">Action to configure SNS publication settings</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseSnsPublication(Action<SnsMessageProducerFactoryBuilder> configure)
     {
         _action += fluent =>
@@ -45,6 +65,11 @@ public sealed class AwsConfigurator
         return this;
     }
     
+    /// <summary>
+    /// Configures SQS (Simple Queue Service) for message publication.
+    /// </summary>
+    /// <param name="configure">Action to configure SQS publication settings</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseSqsPublication(Action<SqsMessageProducerFactoryBuilder> configure)
     {
         _action += fluent =>
@@ -59,6 +84,11 @@ public sealed class AwsConfigurator
         return this;
     }
 
+    /// <summary>
+    /// Configures SQS subscriptions for message consumption.
+    /// </summary>
+    /// <param name="configure">Action to configure SQS subscription settings</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseSqsSubscription(Action<SqsSubscriptionConfigurator> configure)
     {
         _action += fluent =>
@@ -81,12 +111,22 @@ public sealed class AwsConfigurator
     }
 
     #region Inbox 
+    
+    /// <summary>
+    /// Configures DynamoDB as the inbox store using default settings.
+    /// </summary>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseDynamoDbInbox()
     {
         _action += fluent => fluent.Subscriptions(s => s.UseDynamoDbInbox(_connection!));
         return this;
     }
     
+    /// <summary>
+    /// Configures DynamoDB as the inbox store with a specific table name.
+    /// </summary>
+    /// <param name="tableName">Name of the DynamoDB table to use</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseDynamoDbInbox(string tableName)
     {
         _action += fluent => fluent.Subscriptions(x => x
@@ -98,12 +138,27 @@ public sealed class AwsConfigurator
     #endregion
 
     #region Outbox
+    
+    /// <summary>
+    /// Configures DynamoDB as the outbox store using default settings.
+    /// </summary>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseDynamoDbOutbox() 
         => UseDynamoDbOutbox(_ => { });
 
+    /// <summary>
+    /// Configures DynamoDB as the outbox store with a specific table name.
+    /// </summary>
+    /// <param name="tableName">Name of the DynamoDB table to use</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseDynamoDbOutbox(string tableName) 
         => UseDynamoDbOutbox(c => c.SetTableName(tableName));
 
+    /// <summary>
+    /// Configures DynamoDB as the outbox store with custom settings.
+    /// </summary>
+    /// <param name="configure">Action to configure DynamoDB outbox settings</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseDynamoDbOutbox(Action<DynamoDbOutboxConfigurationBuilder> configure)
     {
         _action += fluent =>
@@ -126,13 +181,22 @@ public sealed class AwsConfigurator
             };
         return this;
     }
-
+    
+    /// <summary>
+    /// Configures DynamoDB as the outbox archive store using default settings.
+    /// </summary>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseDynamoDbOutboxArchive()
     {
         _action += fluent => fluent.UseDynamoDbTransactionOutboxArchive();
         return this;
     }
 
+    /// <summary>
+    /// Configures DynamoDB as the outbox archive store with custom settings.
+    /// </summary>
+    /// <param name="configure">Action to configure outbox archiver options</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseDynamoDbOutboxArchive(Action<TimedOutboxArchiverOptionsBuilder> configure)
     {
         _action += fluent => fluent.UseDynamoDbTransactionOutboxArchive(configure);
@@ -142,6 +206,11 @@ public sealed class AwsConfigurator
     
     #region Distributed Lock
 
+    /// <summary>
+    /// Configures DynamoDB for distributed locking with custom settings.
+    /// </summary>
+    /// <param name="configure">Action to configure distributed locking options</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseDynamoDbDistributedLock(Action<DynamoDbLockingProviderOptionsBuilder> configure)
     {
         var options = new DynamoDbLockingProviderOptionsBuilder();
@@ -158,9 +227,19 @@ public sealed class AwsConfigurator
 
     #region S3
 
+    /// <summary>
+    /// Configures S3 as the luggage store with a specific bucket name.
+    /// </summary>
+    /// <param name="bucketName">Name of the S3 bucket to use</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseS3LuggageStore(string bucketName)
         => UseS3LuggageStore(cfg => cfg.SetBucketName(bucketName));
     
+    /// <summary>
+    /// Configures S3 as the luggage store with custom settings.
+    /// </summary>
+    /// <param name="configure">Action to configure S3 luggage store settings</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public AwsConfigurator UseS3LuggageStore(Action<S3LuggageStoreBuilder> configure)
     {
         _action += fluent => fluent
