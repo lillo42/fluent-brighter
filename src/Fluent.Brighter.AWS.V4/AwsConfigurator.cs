@@ -167,7 +167,7 @@ public sealed class AwsConfigurator
     public AwsConfigurator UseS3LuggageStore(Action<S3LuggageStoreBuilder> configure)
     {
         _action += fluent => fluent
-            .LuggageStore(store => store
+            .SetLuggageStore(store => store
                 .UseS3LuggageStore(cfg =>
                 {
                     cfg.SetConnection(_connection!);

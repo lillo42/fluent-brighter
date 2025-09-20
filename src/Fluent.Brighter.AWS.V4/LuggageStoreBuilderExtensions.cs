@@ -19,7 +19,7 @@ public static class LuggageStoreBuilderExtensions
     
     public static LuggageStoreBuilder UseS3LuggageStore(this LuggageStoreBuilder builder, S3LuggageStore store)
     {
-        builder.EnableLuggageStore(store);
+        builder.UseLuggageStore(store);
         return builder;
     }
 }

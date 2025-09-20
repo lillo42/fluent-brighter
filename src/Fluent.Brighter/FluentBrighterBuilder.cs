@@ -176,6 +176,11 @@ public class FluentBrighterBuilder
     
     private Action<IServiceCollection> _registerServices = _ =>{};
 
+    /// <summary>
+    /// Registers additional services with the dependency injection container
+    /// </summary>
+    /// <param name="configure">Action to configure the service collection</param>
+    /// <returns>The FluentBrighterBuilder instance for method chaining</returns>
     public FluentBrighterBuilder RegisterServices(Action<IServiceCollection> configure)
     {
         _registerServices += configure;
@@ -183,7 +188,27 @@ public class FluentBrighterBuilder
     }
 
     private readonly LuggageStoreBuilder _luggageStoreBuilder = new(); 
-    public FluentBrighterBuilder LuggageStore(Action<LuggageStoreBuilder> configure)
+    
+    
+    /// <summary>
+    /// Configures the luggage store for handling large messages that exceed normal message size limits
+    /// </summary>
+    /// <param name="configure">Action to configure the luggage store builder</param>
+    /// <returns>The FluentBrighterBuilder instance for method chaining</returns>
+    /// <remarks>
+    /// The luggage store is used to handle message payloads that are too large for direct
+    /// transmission through messaging systems. Large messages are stored externally (e.g., in S3)
+    /// with only a reference included in the actual message.
+    /// 
+    /// Example usage:
+    /// <code>
+    /// .SetLuggageStore(store => store
+    ///     .UseS3LuggageStore(cfg => cfg
+    ///         .SetBucketName("my-bucket")
+    ///         .SetRegion(RegionEndpoint.USWest2)))
+    /// </code>
+    /// </remarks>
+    public FluentBrighterBuilder SetLuggageStore(Action<LuggageStoreBuilder> configure)
     {
         configure(_luggageStoreBuilder);
         return this;
