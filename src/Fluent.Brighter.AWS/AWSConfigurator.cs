@@ -16,7 +16,7 @@ namespace Fluent.Brighter.AWS;
 /// Provides fluent methods to configure connections, message producers (SNS/SQS), subscriptions,
 /// inbox/outbox patterns with DynamoDB, distributed locking, and S3-based luggage storage.
 /// </summary>
-public sealed class AwsConfigurator
+public sealed class AWSConfigurator
 {
     private AWSMessagingGatewayConnection? _connection;
     private Action<FluentBrighterBuilder> _action = static _ => { };
@@ -26,7 +26,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="configure">Action to configure the AWS connection builder</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator SetConnection(Action<AWSMessagingGatewayConnectionBuilder> configure)
+    public AWSConfigurator SetConnection(Action<AWSMessagingGatewayConnectionBuilder> configure)
     {
         var connection = new AWSMessagingGatewayConnectionBuilder();
         configure(connection);
@@ -39,7 +39,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="configure">Pre-configured AWS connection</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator SetConnection(AWSMessagingGatewayConnection configure)
+    public AWSConfigurator SetConnection(AWSMessagingGatewayConnection configure)
     {
         _connection = configure;
         return this;
@@ -50,7 +50,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="configure">Action to configure SNS publication settings</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseSnsPublication(Action<SnsMessageProducerFactoryBuilder> configure)
+    public AWSConfigurator UseSnsPublication(Action<SnsMessageProducerFactoryBuilder> configure)
     {
         _action += fluent => fluent
             .Producers(producer => producer.AddSnsPublication(cfg =>
@@ -67,7 +67,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="configure">Action to configure SQS publication settings</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseSqsPublication(Action<SqsMessageProducerFactoryBuilder> configure)
+    public AWSConfigurator UseSqsPublication(Action<SqsMessageProducerFactoryBuilder> configure)
     {
         _action += fluent => fluent
             .Producers(producer => producer.AddSqsPublication(cfg =>
@@ -84,7 +84,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="configure">Action to configure SQS subscription settings</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseSqsSubscription(Action<SqsSubscriptionConfigurator> configure)
+    public AWSConfigurator UseSqsSubscription(Action<SqsSubscriptionConfigurator> configure)
     {
         _action += fluent => fluent
             .Subscriptions(sub =>
@@ -109,7 +109,7 @@ public sealed class AwsConfigurator
     /// Configures DynamoDB as the inbox store using default settings.
     /// </summary>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseDynamoDbInbox()
+    public AWSConfigurator UseDynamoDbInbox()
     {
         _action += fluent => fluent.Subscriptions(s => s.UseDynamoDbInbox(_connection!));
         return this;
@@ -120,7 +120,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="tableName">Name of the DynamoDB table to use</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseDynamoDbInbox(string tableName)
+    public AWSConfigurator UseDynamoDbInbox(string tableName)
     {
         _action += fluent => fluent.Subscriptions(x => x
             .UseDynamoDbInbox(cfg => cfg
@@ -136,7 +136,7 @@ public sealed class AwsConfigurator
     /// Configures DynamoDB as the outbox store using default settings.
     /// </summary>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseDynamoDbOutbox()
+    public AWSConfigurator UseDynamoDbOutbox()
     {
         return UseDynamoDbOutbox(static _ => { });
     }
@@ -146,7 +146,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="tableName">Name of the DynamoDB table to use</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseDynamoDbOutbox(string tableName)
+    public AWSConfigurator UseDynamoDbOutbox(string tableName)
     {
         return UseDynamoDbOutbox(c => c.SetTableName(tableName));
     }
@@ -156,7 +156,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="configure">Action to configure DynamoDB outbox settings</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseDynamoDbOutbox(Action<DynamoDbOutboxConfigurationBuilder> configure)
+    public AWSConfigurator UseDynamoDbOutbox(Action<DynamoDbOutboxConfigurationBuilder> configure)
     {
         _action += fluent =>
             {
@@ -183,7 +183,7 @@ public sealed class AwsConfigurator
     /// Configures DynamoDB as the outbox archive store using default settings.
     /// </summary>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseDynamoDbOutboxArchive()
+    public AWSConfigurator UseDynamoDbOutboxArchive()
     {
         _action += static fluent => fluent.UseDynamoDbTransactionOutboxArchive();
         return this;
@@ -194,7 +194,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="configure">Action to configure outbox archiver options</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseDynamoDbOutboxArchive(Action<TimedOutboxArchiverOptionsBuilder> configure)
+    public AWSConfigurator UseDynamoDbOutboxArchive(Action<TimedOutboxArchiverOptionsBuilder> configure)
     {
         _action += fluent => fluent.UseDynamoDbTransactionOutboxArchive(configure);
         return this;
@@ -208,7 +208,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="configure">Action to configure distributed locking options</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseDynamoDbDistributedLock(Action<DynamoDbLockingProviderOptionsBuilder> configure)
+    public AWSConfigurator UseDynamoDbDistributedLock(Action<DynamoDbLockingProviderOptionsBuilder> configure)
     {
         var options = new DynamoDbLockingProviderOptionsBuilder();
         configure(options);
@@ -229,7 +229,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="bucketName">Name of the S3 bucket to use</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseS3LuggageStore(string bucketName)
+    public AWSConfigurator UseS3LuggageStore(string bucketName)
     {
         return UseS3LuggageStore(cfg => cfg.SetBucketName(bucketName));
     }
@@ -239,7 +239,7 @@ public sealed class AwsConfigurator
     /// </summary>
     /// <param name="configure">Action to configure S3 luggage store settings</param>
     /// <returns>The configurator instance for method chaining</returns>
-    public AwsConfigurator UseS3LuggageStore(Action<S3LuggageStoreBuilder> configure)
+    public AWSConfigurator UseS3LuggageStore(Action<S3LuggageStoreBuilder> configure)
     {
         _action += fluent => fluent
             .SetLuggageStore(store => store
@@ -255,7 +255,7 @@ public sealed class AwsConfigurator
 
     #region Scheduler
 
-    public AwsConfigurator UseScheduler()
+    public AWSConfigurator UseScheduler()
     {
         _action += fluent => fluent
             .SetScheduler(scheduler => scheduler
@@ -264,7 +264,7 @@ public sealed class AwsConfigurator
         return this;
     }
 
-    public AwsConfigurator UseScheduler(Action<SchedulerFactoryBuilder> configure)
+    public AWSConfigurator UseScheduler(Action<SchedulerFactoryBuilder> configure)
     {
         _action += fluent => fluent
             .SetScheduler(scheduler => scheduler
