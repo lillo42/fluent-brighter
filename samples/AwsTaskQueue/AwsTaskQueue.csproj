@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Fluent.Brighter.Aws\Fluent.Brighter.Aws.csproj" />
+      <ProjectReference Include="..\..\src\Fluent.Brighter.AWS\Fluent.Brighter.AWS.csproj" />
     </ItemGroup>
 
 </Project>

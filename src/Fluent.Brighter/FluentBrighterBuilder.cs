@@ -36,9 +36,9 @@ public class FluentBrighterBuilder
         configure(_consumerBuilder);
         return this;
     }
-    
+
     private readonly RequestHandlerBuilder _requestHandlerBuilder = new();
-    
+
     /// <summary>
     /// Configures request handlers (synchronous and asynchronous)
     /// </summary>
@@ -49,7 +49,7 @@ public class FluentBrighterBuilder
         configure(_requestHandlerBuilder);
         return this;
     }
-    
+
     private readonly MapperBuilder _mapperBuilder = new();
 
     /// <summary>
@@ -62,8 +62,8 @@ public class FluentBrighterBuilder
         configure(_mapperBuilder);
         return this;
     }
-    
-    private TransformerBuilder _transformerBuilder = new();
+
+    private readonly TransformerBuilder _transformerBuilder = new();
 
     /// <summary>
     /// Configures message transformers for pipeline processing
@@ -76,7 +76,7 @@ public class FluentBrighterBuilder
         return this;
     }
 
-    private ProducerBuilder _producerBuilder = new();
+    private readonly ProducerBuilder _producerBuilder = new();
 
     /// <summary>
     /// Configures message producers and outbox settings
@@ -90,7 +90,7 @@ public class FluentBrighterBuilder
     }
 
     private Action<TimedOutboxSweeperOptions>? _outboxSweeperOptions;
-    
+
     /// <summary>
     /// Use the timed outbox sweeper with the specified configuration options
     /// </summary>
@@ -123,7 +123,7 @@ public class FluentBrighterBuilder
     }
 
     private Action<IBrighterBuilder>? _archiverConfiguration;
-    
+
     /// <summary>
     /// Configures and enables outbox archiving using a specified archive provider
     /// </summary>
@@ -173,8 +173,8 @@ public class FluentBrighterBuilder
         _archiverConfiguration = builder => builder.UseOutboxArchiver<TTransaction>(archiveProvider, timedOutboxArchiverOptionsAction);
         return this;
     }
-    
-    private Action<IServiceCollection> _registerServices = _ =>{};
+
+    private Action<IServiceCollection> _registerServices = static _ => { };
 
     /// <summary>
     /// Registers additional services with the dependency injection container
@@ -187,9 +187,8 @@ public class FluentBrighterBuilder
         return this;
     }
 
-    private readonly LuggageStoreBuilder _luggageStoreBuilder = new(); 
-    
-    
+    private readonly LuggageStoreBuilder _luggageStoreBuilder = new();
+
     /// <summary>
     /// Configures the luggage store for handling large messages that exceed normal message size limits
     /// </summary>
@@ -213,9 +212,19 @@ public class FluentBrighterBuilder
         configure(_luggageStoreBuilder);
         return this;
     }
-    
+
+    private readonly SchedulerBuilder _schedulerBuilder = new();
+
+    public FluentBrighterBuilder SetScheduler(Action<SchedulerBuilder> configure)
+    {
+        configure(_schedulerBuilder);
+        return this;
+    }
+
     internal void SetConsumerOptions(ConsumersOptions options)
-        =>  _consumerBuilder.SetConsumerOptions(options);
+    {
+        _consumerBuilder.SetConsumerOptions(options);
+    }
 
     internal void SetBrighterBuilder(IBrighterBuilder builder)
     {
@@ -224,17 +233,14 @@ public class FluentBrighterBuilder
         _transformerBuilder.SetTransforms(builder);
         _producerBuilder.SetProducer(builder);
         _luggageStoreBuilder.SetLuggageStore(builder);
-        
+        _schedulerBuilder.SetScheduler(builder);
+
         if (_outboxSweeperOptions != null)
         {
             builder.UseOutboxSweeper(opt => _outboxSweeperOptions(opt));
         }
 
-        if (_archiverConfiguration != null)
-        {
-            _archiverConfiguration(builder);
-        }
-
+        _archiverConfiguration?.Invoke(builder);
         _registerServices(builder.Services);
     }
 }

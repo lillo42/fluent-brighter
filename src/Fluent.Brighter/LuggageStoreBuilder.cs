@@ -12,7 +12,7 @@ namespace Fluent.Brighter;
 /// </summary>
 public sealed class LuggageStoreBuilder
 {
-    private Action<IBrighterBuilder> _store = _ => {};
+    private Action<IBrighterBuilder> _store = static _ => { };
 
     /// <summary>
     /// Use luggage storage using a specified storage provider type that will be resolved
@@ -23,10 +23,10 @@ public sealed class LuggageStoreBuilder
     public LuggageStoreBuilder UseLuggageStore<TStoreProvider>()
         where TStoreProvider : class, IAmAStorageProvider, IAmAStorageProviderAsync
     {
-        _store = fluent => fluent.UseExternalLuggageStore<TStoreProvider>();
+        _store = static fluent => fluent.UseExternalLuggageStore<TStoreProvider>();
         return this;
     }
-    
+
     /// <summary>
     /// Use luggage storage using a pre-configured storage provider instance.
     /// </summary>
@@ -39,7 +39,7 @@ public sealed class LuggageStoreBuilder
         _store = fluent => fluent.UseExternalLuggageStore(storeProvider);
         return this;
     }
-    
+
     /// <summary>
     /// Use luggage storage using a factory function to create the storage provider.
     /// </summary>

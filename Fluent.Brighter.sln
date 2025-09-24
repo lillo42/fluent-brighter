@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter", "src\Fluent.Brighter\Fluent.Brighter.csproj", "{EE2805E2-3F09-4520-A146-499B4B3482CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.Aws", "src\Fluent.Brighter.Aws\Fluent.Brighter.Aws.csproj", "{787F57FC-2287-485D-9288-D2623F112A48}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.AWS", "src\Fluent.Brighter.AWS\Fluent.Brighter.AWS.csproj", "{787F57FC-2287-485D-9288-D2623F112A48}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.RMQ.Sync", "src\Fluent.Brighter.RMQ.Sync\Fluent.Brighter.RMQ.Sync.csproj", "{FF9EB18C-4212-4458-A562-115B03D081F2}"
 EndProject

@@ -23,8 +23,10 @@ public static class FluentBrighterExtensions
     /// - BatchSize: 100 messages
     /// - UseBulk: false
     /// </remarks>
-    public static FluentBrighterBuilder UseOutboxSweeper(this FluentBrighterBuilder builder) 
-        => builder.UseOutboxSweeper(_ => { });
+    public static FluentBrighterBuilder UseOutboxSweeper(this FluentBrighterBuilder builder)
+    {
+        return builder.UseOutboxSweeper(static _ => { });
+    }
 
     /// <summary>
     /// Configures and enables the outbox sweeper using a fluent builder
@@ -82,9 +84,11 @@ public static class FluentBrighterExtensions
     /// - MinimumAge: 24 hours
     /// - ArchiveBatchSize: 100 messages
     /// </remarks>
-    public static FluentBrighterBuilder UseOutboxArchive<TTransaction>(this FluentBrighterBuilder builder) 
-        => builder.UseOutboxArchiver<TTransaction>(new NullOutboxArchiveProvider());
-    
+    public static FluentBrighterBuilder UseOutboxArchive<TTransaction>(this FluentBrighterBuilder builder)
+    {
+        return builder.UseOutboxArchiver<TTransaction>(new NullOutboxArchiveProvider());
+    }
+
     /// <summary>
     /// Enables outbox archiving with a null provider (no-op) and custom configuration
     /// </summary>
@@ -122,9 +126,11 @@ public static class FluentBrighterExtensions
     /// Convenience method for systems using System.Data.Common.DbTransaction.
     /// Registers archiving with a null provider and default configuration.
     /// </remarks>
-    public static FluentBrighterBuilder UseDbTransactionOutboxArchive(this FluentBrighterBuilder builder) 
-        => builder.UseOutboxArchiver<DbTransaction>(new NullOutboxArchiveProvider());
-    
+    public static FluentBrighterBuilder UseDbTransactionOutboxArchive(this FluentBrighterBuilder builder)
+    {
+        return builder.UseOutboxArchiver<DbTransaction>(new NullOutboxArchiveProvider());
+    }
+
     /// <summary>
     /// Enables outbox archiving for DbTransaction with a null provider (no-op) and custom configuration
     /// </summary>
