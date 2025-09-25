@@ -255,6 +255,14 @@ public sealed class AWSConfigurator
 
     #region Scheduler
 
+    /// <summary>
+    /// Configures AWS EventBridge Scheduler for delayed message delivery using default settings.
+    /// </summary>
+    /// <returns>The configurator instance for method chaining</returns>
+    /// <remarks>
+    /// Enables scheduling of messages for future delivery using AWS EventBridge Scheduler.
+    /// Uses default configuration with the provided AWS connection.
+    /// </remarks>
     public AWSConfigurator UseScheduler()
     {
         _action += fluent => fluent
@@ -264,6 +272,15 @@ public sealed class AWSConfigurator
         return this;
     }
 
+    /// <summary>
+    /// Configures AWS EventBridge Scheduler for delayed message delivery with custom settings.
+    /// </summary>
+    /// <param name="configure">Action to configure scheduler factory settings</param>
+    /// <returns>The configurator instance for method chaining</returns>
+    /// <remarks>
+    /// Enables scheduling of messages for future delivery using AWS EventBridge Scheduler
+    /// with custom configuration for scheduling behavior, conflict resolution, and targeting.
+    /// </remarks>
     public AWSConfigurator UseScheduler(Action<SchedulerFactoryBuilder> configure)
     {
         _action += fluent => fluent

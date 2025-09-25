@@ -23,19 +23,6 @@ namespace Fluent.Brighter;
 /// </remarks>
 public sealed class ConsumerBuilder
 {
-    private ServiceLifetime _commandProcessorLifetime = ServiceLifetime.Transient;
-
-    /// <summary>
-    /// Sets the service lifetime for Command Processors
-    /// </summary>
-    /// <param name="commandProcessorLifetime">The service lifetime (default: Transient)</param>
-    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
-    public ConsumerBuilder SetCommandProcessorLifetime(ServiceLifetime commandProcessorLifetime)
-    {
-        _commandProcessorLifetime = commandProcessorLifetime;
-        return this;
-    }
-
     private ServiceLifetime _handlerLifetime = ServiceLifetime.Transient;
     
     /// <summary>
@@ -267,7 +254,6 @@ public sealed class ConsumerBuilder
             _defaultChannelFactory = new CombinedChannelFactory(_channelFactories);
         }
         
-        options.CommandProcessorLifetime = _commandProcessorLifetime;
         options.HandlerLifetime = _handlerLifetime;
         options.MapperLifetime = _mapperLifetime;
         options.TransformerLifetime = _transformerLifetime;

@@ -3,7 +3,7 @@ using System;
 
 using Fluent.Brighter.AWS;
 
-using Paramore.Brighter.MessageScheduler.Aws;
+using Paramore.Brighter.MessageScheduler.AWS;
 
 namespace Fluent.Brighter;
 

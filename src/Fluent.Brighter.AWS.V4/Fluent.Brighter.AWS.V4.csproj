@@ -14,6 +14,6 @@
         <PackageReference Include="Paramore.Brighter.Locking.DynamoDB.V4" />
         <PackageReference Include="Paramore.Brighter.MessagingGateway.AWSSQS.V4" />
         <PackageReference Include="Paramore.Brighter.Outbox.DynamoDB.V4" />
-        <PackageReference Include="Paramore.Brighter.Tranformers.AWS.V4" />
+        <PackageReference Include="Paramore.Brighter.Transformers.AWS.V4" />
     </ItemGroup>
 </Project>

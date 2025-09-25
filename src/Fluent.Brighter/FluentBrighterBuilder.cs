@@ -215,6 +215,24 @@ public class FluentBrighterBuilder
 
     private readonly SchedulerBuilder _schedulerBuilder = new();
 
+    /// <summary>
+    /// Configures message scheduling for delayed message delivery
+    /// </summary>
+    /// <param name="configure">Action to configure the scheduler builder</param>
+    /// <returns>The FluentBrighterBuilder instance for method chaining</returns>
+    /// <remarks>
+    /// The scheduler allows messages to be delivered at a future time or after a delay.
+    /// This is useful for implementing retry patterns, deferred processing, and time-based workflows.
+    /// 
+    /// Example usage with AWS EventBridge Scheduler:
+    /// <code>
+    /// .SetScheduler(scheduler => scheduler
+    ///     .UseAWSScheduler(opt => opt
+    ///         .SetConnection(awsConnection)
+    ///         .SetRole("scheduler-role")
+    ///         .SetGroup("my-application")))
+    /// </code>
+    /// </remarks>
     public FluentBrighterBuilder SetScheduler(Action<SchedulerBuilder> configure)
     {
         configure(_schedulerBuilder);

@@ -6,7 +6,7 @@ using Amazon.S3.Model;
 
 using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.AWSSQS;
-using Paramore.Brighter.Tranformers.AWS;
+using Paramore.Brighter.Transformers.AWS;
 using Paramore.Brighter.Transforms.Storage;
 
 using Polly.Retry;

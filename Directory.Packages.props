@@ -1,6 +1,6 @@
 ﻿<Project>
   <PropertyGroup>
-    <BrighterVersion>10.0.0-preview.9</BrighterVersion>
+    <BrighterVersion>10.0.0-preview.10</BrighterVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
@@ -23,7 +23,7 @@
     <PackageVersion Include="Paramore.Brighter.Locking.MsSql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Locking.MySql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Locking.PostgresSql" Version="$(BrighterVersion)" />
-    <PackageVersion Include="Paramore.Brighter.MessageScheduler.Aws" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.MessageScheduler.AWS" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.AWSSQS" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.AWSSQS.V4" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.Kafka" Version="$(BrighterVersion)" />
@@ -41,8 +41,8 @@
     <PackageVersion Include="Paramore.Brighter.Outbox.Sqlite" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.ServiceActivator.Extensions.Hosting" Version="$(BrighterVersion)" />
-    <PackageVersion Include="Paramore.Brighter.Tranformers.AWS" Version="$(BrighterVersion)" />
-    <PackageVersion Include="Paramore.Brighter.Tranformers.AWS.V4" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Transformers.AWS" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Transformers.AWS.V4" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Transformers.MongoGridFS" Version="$(BrighterVersion)" />
     <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageVersion Include="xunit" Version="2.9.3" />

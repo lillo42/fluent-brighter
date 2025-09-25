@@ -2,7 +2,7 @@ using System;
 
 using Fluent.Brighter.AWS;
 
-using Paramore.Brighter.Tranformers.AWS;
+using Paramore.Brighter.Transformers.AWS;
 
 namespace Fluent.Brighter;
 
