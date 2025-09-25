@@ -12,6 +12,7 @@
     <ItemGroup>
         <PackageReference Include="Paramore.Brighter.Inbox.DynamoDB.V4" />
         <PackageReference Include="Paramore.Brighter.Locking.DynamoDB.V4" />
+        <PackageReference Include="Paramore.Brighter.MessageScheduler.AWS.V4" />
         <PackageReference Include="Paramore.Brighter.MessagingGateway.AWSSQS.V4" />
         <PackageReference Include="Paramore.Brighter.Outbox.DynamoDB.V4" />
         <PackageReference Include="Paramore.Brighter.Transformers.AWS.V4" />

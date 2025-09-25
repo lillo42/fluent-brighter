@@ -1,9 +1,20 @@
 using System;
 
-namespace Fluent.Brighter.AWS.V4.Extensions;
+using Fluent.Brighter.AWS.V4;
 
+namespace Fluent.Brighter;
+
+/// <summary>
+/// Extension methods for DynamoDbLockingProviderBuilder to provide additional configuration options.
+/// </summary>
 public static class DynamoDbLockingProviderBuilderExtensions
 {
+    /// <summary>
+    /// Sets the AWS connection configuration using a builder pattern for the DynamoDB locking provider.
+    /// </summary>
+    /// <param name="builder">The DynamoDB locking provider builder instance</param>
+    /// <param name="configure">Action to configure the AWS connection builder</param>
+    /// <returns>The DynamoDB locking provider builder instance for method chaining</returns>
     public static DynamoDbLockingProviderBuilder SetConnection(this DynamoDbLockingProviderBuilder builder,
         Action<AWSMessagingGatewayConnectionBuilder> configure)
     {
@@ -11,12 +22,18 @@ public static class DynamoDbLockingProviderBuilderExtensions
         configure(connection);
         return builder.SetConnection(connection.Build());
     }
-    
-   public static DynamoDbLockingProviderBuilder SetConfiguration(this DynamoDbLockingProviderBuilder builder,
-        Action<DynamoDbLockingProviderOptionsBuilder> configure)
+
+    /// <summary>
+    /// Sets the locking provider configuration options using a builder pattern.
+    /// </summary>
+    /// <param name="builder">The DynamoDB locking provider builder instance</param>
+    /// <param name="configure">Action to configure the locking provider options builder</param>
+    /// <returns>The DynamoDB locking provider builder instance for method chaining</returns>
+    public static DynamoDbLockingProviderBuilder SetConfiguration(this DynamoDbLockingProviderBuilder builder,
+         Action<DynamoDbLockingProviderOptionsBuilder> configure)
     {
         var connection = new DynamoDbLockingProviderOptionsBuilder();
         configure(connection);
         return builder.SetConfiguration(connection.Build());
-    } 
+    }
 }
