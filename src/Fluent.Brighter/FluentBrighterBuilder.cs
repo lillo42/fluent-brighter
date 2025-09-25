@@ -1,5 +1,7 @@
 using System;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Paramore.Brighter;
 using Paramore.Brighter.Extensions.DependencyInjection;
 using Paramore.Brighter.Outbox.Hosting;
@@ -34,9 +36,9 @@ public class FluentBrighterBuilder
         configure(_consumerBuilder);
         return this;
     }
-    
+
     private readonly RequestHandlerBuilder _requestHandlerBuilder = new();
-    
+
     /// <summary>
     /// Configures request handlers (synchronous and asynchronous)
     /// </summary>
@@ -47,7 +49,7 @@ public class FluentBrighterBuilder
         configure(_requestHandlerBuilder);
         return this;
     }
-    
+
     private readonly MapperBuilder _mapperBuilder = new();
 
     /// <summary>
@@ -60,8 +62,8 @@ public class FluentBrighterBuilder
         configure(_mapperBuilder);
         return this;
     }
-    
-    private TransformerBuilder _transformerBuilder = new();
+
+    private readonly TransformerBuilder _transformerBuilder = new();
 
     /// <summary>
     /// Configures message transformers for pipeline processing
@@ -74,7 +76,7 @@ public class FluentBrighterBuilder
         return this;
     }
 
-    private ProducerBuilder _producerBuilder = new();
+    private readonly ProducerBuilder _producerBuilder = new();
 
     /// <summary>
     /// Configures message producers and outbox settings
@@ -88,7 +90,7 @@ public class FluentBrighterBuilder
     }
 
     private Action<TimedOutboxSweeperOptions>? _outboxSweeperOptions;
-    
+
     /// <summary>
     /// Use the timed outbox sweeper with the specified configuration options
     /// </summary>
@@ -120,9 +122,8 @@ public class FluentBrighterBuilder
         return this;
     }
 
-
     private Action<IBrighterBuilder>? _archiverConfiguration;
-    
+
     /// <summary>
     /// Configures and enables outbox archiving using a specified archive provider
     /// </summary>
@@ -172,9 +173,76 @@ public class FluentBrighterBuilder
         _archiverConfiguration = builder => builder.UseOutboxArchiver<TTransaction>(archiveProvider, timedOutboxArchiverOptionsAction);
         return this;
     }
-    
+
+    private Action<IServiceCollection> _registerServices = static _ => { };
+
+    /// <summary>
+    /// Registers additional services with the dependency injection container
+    /// </summary>
+    /// <param name="configure">Action to configure the service collection</param>
+    /// <returns>The FluentBrighterBuilder instance for method chaining</returns>
+    public FluentBrighterBuilder RegisterServices(Action<IServiceCollection> configure)
+    {
+        _registerServices += configure;
+        return this;
+    }
+
+    private readonly LuggageStoreBuilder _luggageStoreBuilder = new();
+
+    /// <summary>
+    /// Configures the luggage store for handling large messages that exceed normal message size limits
+    /// </summary>
+    /// <param name="configure">Action to configure the luggage store builder</param>
+    /// <returns>The FluentBrighterBuilder instance for method chaining</returns>
+    /// <remarks>
+    /// The luggage store is used to handle message payloads that are too large for direct
+    /// transmission through messaging systems. Large messages are stored externally (e.g., in S3)
+    /// with only a reference included in the actual message.
+    /// 
+    /// Example usage:
+    /// <code>
+    /// .SetLuggageStore(store => store
+    ///     .UseS3LuggageStore(cfg => cfg
+    ///         .SetBucketName("my-bucket")
+    ///         .SetRegion(RegionEndpoint.USWest2)))
+    /// </code>
+    /// </remarks>
+    public FluentBrighterBuilder SetLuggageStore(Action<LuggageStoreBuilder> configure)
+    {
+        configure(_luggageStoreBuilder);
+        return this;
+    }
+
+    private readonly SchedulerBuilder _schedulerBuilder = new();
+
+    /// <summary>
+    /// Configures message scheduling for delayed message delivery
+    /// </summary>
+    /// <param name="configure">Action to configure the scheduler builder</param>
+    /// <returns>The FluentBrighterBuilder instance for method chaining</returns>
+    /// <remarks>
+    /// The scheduler allows messages to be delivered at a future time or after a delay.
+    /// This is useful for implementing retry patterns, deferred processing, and time-based workflows.
+    /// 
+    /// Example usage with AWS EventBridge Scheduler:
+    /// <code>
+    /// .SetScheduler(scheduler => scheduler
+    ///     .UseAWSScheduler(opt => opt
+    ///         .SetConnection(awsConnection)
+    ///         .SetRole("scheduler-role")
+    ///         .SetGroup("my-application")))
+    /// </code>
+    /// </remarks>
+    public FluentBrighterBuilder SetScheduler(Action<SchedulerBuilder> configure)
+    {
+        configure(_schedulerBuilder);
+        return this;
+    }
+
     internal void SetConsumerOptions(ConsumersOptions options)
-        =>  _consumerBuilder.SetConsumerOptions(options);
+    {
+        _consumerBuilder.SetConsumerOptions(options);
+    }
 
     internal void SetBrighterBuilder(IBrighterBuilder builder)
     {
@@ -182,15 +250,15 @@ public class FluentBrighterBuilder
         _mapperBuilder.SetMappers(builder);
         _transformerBuilder.SetTransforms(builder);
         _producerBuilder.SetProducer(builder);
-        
+        _luggageStoreBuilder.SetLuggageStore(builder);
+        _schedulerBuilder.SetScheduler(builder);
+
         if (_outboxSweeperOptions != null)
         {
             builder.UseOutboxSweeper(opt => _outboxSweeperOptions(opt));
         }
 
-        if (_archiverConfiguration != null)
-        {
-            _archiverConfiguration(builder);
-        } 
+        _archiverConfiguration?.Invoke(builder);
+        _registerServices(builder.Services);
     }
 }

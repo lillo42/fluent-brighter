@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{827E0CD3-B72
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter", "src\Fluent.Brighter\Fluent.Brighter.csproj", "{EE2805E2-3F09-4520-A146-499B4B3482CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.Aws", "src\Fluent.Brighter.Aws\Fluent.Brighter.Aws.csproj", "{787F57FC-2287-485D-9288-D2623F112A48}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.AWS", "src\Fluent.Brighter.AWS\Fluent.Brighter.AWS.csproj", "{787F57FC-2287-485D-9288-D2623F112A48}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.RMQ.Sync", "src\Fluent.Brighter.RMQ.Sync\Fluent.Brighter.RMQ.Sync.csproj", "{FF9EB18C-4212-4458-A562-115B03D081F2}"
 EndProject
@@ -30,6 +30,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PostgreFullSample", "samples\PostgreFullSample\PostgreFullSample.csproj", "{5F699682-1787-4E3D-AB7D-118FAEB67922}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.Kafka", "src\Fluent.Brighter.Kafka\Fluent.Brighter.Kafka.csproj", "{286CBCE8-1F51-4DFD-8398-09D82C34C442}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AwsTaskQueue", "samples\AwsTaskQueue\AwsTaskQueue.csproj", "{D594EC21-8AE7-4589-831F-53CB8783FC4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.AWS.V4", "src\Fluent.Brighter.AWS.V4\Fluent.Brighter.AWS.V4.csproj", "{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -173,6 +177,30 @@ Global
 		{286CBCE8-1F51-4DFD-8398-09D82C34C442}.Release|x64.Build.0 = Release|Any CPU
 		{286CBCE8-1F51-4DFD-8398-09D82C34C442}.Release|x86.ActiveCfg = Release|Any CPU
 		{286CBCE8-1F51-4DFD-8398-09D82C34C442}.Release|x86.Build.0 = Release|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Debug|x64.Build.0 = Debug|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Debug|x86.Build.0 = Debug|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Release|x64.ActiveCfg = Release|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Release|x64.Build.0 = Release|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Release|x86.ActiveCfg = Release|Any CPU
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D}.Release|x86.Build.0 = Release|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Debug|x64.Build.0 = Debug|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Debug|x86.Build.0 = Debug|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Release|x64.ActiveCfg = Release|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Release|x64.Build.0 = Release|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Release|x86.ActiveCfg = Release|Any CPU
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -189,5 +217,7 @@ Global
 		{4A9A06CD-8B4B-48A5-9949-484C432FB373} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{5F699682-1787-4E3D-AB7D-118FAEB67922} = {5D20AA90-6969-D8BD-9DCD-8634F4692FDA}
 		{286CBCE8-1F51-4DFD-8398-09D82C34C442} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{D594EC21-8AE7-4589-831F-53CB8783FC4D} = {5D20AA90-6969-D8BD-9DCD-8634F4692FDA}
+		{A0DB7764-85DE-4CDE-9E41-C6688FBD2565} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal

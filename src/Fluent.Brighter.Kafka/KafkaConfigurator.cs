@@ -59,7 +59,6 @@ public sealed class KafkaConfigurator
         return this;
     }
     
-
     internal void SetFluentBrighter(FluentBrighterBuilder fluentBrighter)
     {
         if (_connection == null)

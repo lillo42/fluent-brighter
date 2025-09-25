@@ -16,8 +16,10 @@ public static class RelationalDatabaseConfigurationBuilderExtensions
     /// <returns>The configuration builder for fluent chaining</returns>
     public static RelationalDatabaseConfigurationBuilder EnableBinaryMessagePayload(
         this RelationalDatabaseConfigurationBuilder builder)
-        => builder.SetBinaryMessagePayload(true);
-    
+    {
+        return builder.SetBinaryMessagePayload(true);
+    }
+
     /// <summary>
     /// Disables a binary storage format for message payloads in the database
     /// </summary>
@@ -29,5 +31,7 @@ public static class RelationalDatabaseConfigurationBuilderExtensions
     /// <returns>The configuration builder for fluent chaining</returns>
     public static RelationalDatabaseConfigurationBuilder DisableBinaryMessagePayload(
         this RelationalDatabaseConfigurationBuilder builder)
-        => builder.SetBinaryMessagePayload(false);
+    {
+        return builder.SetBinaryMessagePayload(false);
+    }
 }

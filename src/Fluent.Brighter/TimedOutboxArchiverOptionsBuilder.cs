@@ -87,7 +87,7 @@ public class TimedOutboxArchiverOptionsBuilder
     /// Builds the configuration action
     /// </summary>
     /// <returns>An action that will apply all configured options to a TimedOutboxArchiverOptions instance</returns>
-    internal Action<TimedOutboxArchiverOptions> Build()
+    public Action<TimedOutboxArchiverOptions> Build()
     {
         return _options;
     }

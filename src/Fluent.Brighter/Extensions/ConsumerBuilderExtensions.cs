@@ -9,32 +9,6 @@ namespace Fluent.Brighter;
 /// </summary>
 public static class ConsumerBuilderExtensions
 {
-    #region CommandProcessor
-    /// <summary>
-    /// Configures the Command Processor as a singleton service
-    /// </summary>
-    /// <param name="consumerBuilder">The ConsumerBuilder instance</param>
-    /// <returns>The ConsumerBuilder for fluent chaining</returns>
-    public static ConsumerBuilder UseCommandProcessorAsSingleton(this ConsumerBuilder consumerBuilder) 
-        => consumerBuilder.SetCommandProcessorLifetime(ServiceLifetime.Singleton);
-
-    /// <summary>
-    /// Configures the Command Processor as a scoped service
-    /// </summary>
-    /// <param name="consumerBuilder">The ConsumerBuilder instance</param>
-    /// <returns>The ConsumerBuilder for fluent chaining</returns>
-    public static ConsumerBuilder UseCommandProcessorAsScoped(this ConsumerBuilder consumerBuilder)
-        => consumerBuilder.SetCommandProcessorLifetime(ServiceLifetime.Scoped);
-    
-    /// <summary>
-    /// Configures the Command Processor as a transient service
-    /// </summary>
-    /// <param name="consumerBuilder">The ConsumerBuilder instance</param>
-    /// <returns>The ConsumerBuilder for fluent chaining</returns>
-    public static ConsumerBuilder UseCommandProcessorAsTransient(this ConsumerBuilder consumerBuilder)
-        => consumerBuilder.SetCommandProcessorLifetime(ServiceLifetime.Transient);
-    #endregion
-    
     #region Handlers
     
     /// <summary>

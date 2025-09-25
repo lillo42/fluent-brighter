@@ -30,7 +30,7 @@ public sealed class RequestHandlerBuilder
     public RequestHandlerBuilder()
     {
         _assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a =>
-            !a.IsDynamic && a.FullName.StartsWith("Microsoft.", true, CultureInfo.InvariantCulture) != true &&
+            !a.IsDynamic && a.FullName!.StartsWith("Microsoft.", true, CultureInfo.InvariantCulture) != true &&
             a.FullName?.StartsWith("System.", true, CultureInfo.InvariantCulture) != true));
     }
 
@@ -132,5 +132,6 @@ public sealed class RequestHandlerBuilder
         builder.AsyncHandlers(_asyncRegistration);
         builder.Handlers(_syncRegistration);
         builder.HandlersFromAssemblies(_assemblies);
+        builder.AsyncHandlersFromAssemblies(_assemblies);
     }
 }
