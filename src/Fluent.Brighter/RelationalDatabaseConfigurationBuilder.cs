@@ -106,6 +106,11 @@ public sealed class RelationalDatabaseConfigurationBuilder
         return this;
     }
 
+    /// <summary>
+    /// Create new instance of <see cref="RelationalDatabaseConfiguration"/>
+    /// </summary>
+    /// <returns>New instance of <see cref="RelationalDatabaseConfiguration"/>.</returns>
+    /// <exception cref="ConfigurationException">If the connection string was not set.</exception>
     public RelationalDatabaseConfiguration Build()
     {
         if (string.IsNullOrEmpty(_connectionString))
