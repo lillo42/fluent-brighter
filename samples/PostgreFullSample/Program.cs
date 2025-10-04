@@ -16,7 +16,6 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .CreateLogger();
 
-
 var host = new HostBuilder()
     .UseSerilog()
     .ConfigureServices((_, services) =>
