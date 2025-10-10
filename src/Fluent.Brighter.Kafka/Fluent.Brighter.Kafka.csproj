@@ -2,7 +2,12 @@
     
     <PropertyGroup>
         <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
         <Nullable>enable</Nullable>
+        <SignAssembly>false</SignAssembly>
+        <Title>Fluent Brighter Kafka Integration</Title>
+        <Description>A fluent configuration builder for Paramore.Brighter's Kafka messaging gateway. Provides type-safe, fluent APIs for configuring Kafka producers and consumers with Brighter's command processor and message dispatching patterns.</Description>
+        <PackageTags>Brighter;Kafka;Messaging;MessageBus;Command;Event;Dispatcher;Fluent;Configuration;Builder;Producer;Consumer;Microservices</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

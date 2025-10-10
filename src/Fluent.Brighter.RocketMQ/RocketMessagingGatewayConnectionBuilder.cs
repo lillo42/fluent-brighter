@@ -16,6 +16,13 @@ public sealed class RocketMessagingGatewayConnectionBuilder
 {
     private ClientConfig? _clientConfig;
 
+    /// <summary>
+    /// Sets the client configuration for RocketMQ connection.
+    /// Configures essential client parameters like nameserver endpoints, credentials, and network settings.
+    /// </summary>
+    /// <param name="clientConfig">The client configuration containing RocketMQ connection parameters.</param>
+    /// <returns>The builder instance for fluent chaining.</returns>
+    /// <exception cref="ArgumentNullException">Thrown when clientConfig is null.</exception>
     public RocketMessagingGatewayConnectionBuilder SetClient(ClientConfig clientConfig)
     {
         _clientConfig = clientConfig ?? throw new ArgumentNullException(nameof(clientConfig));

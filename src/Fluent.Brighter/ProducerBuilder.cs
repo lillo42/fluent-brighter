@@ -136,7 +136,7 @@ public sealed class ProducerBuilder
         return this;
     }
 
-    private int? _maxOutStandingMessages;
+    private int _maxOutStandingMessages = -1;
 
     /// <summary>
     /// Sets the maximum number of outstanding messages before throttling (optional)
