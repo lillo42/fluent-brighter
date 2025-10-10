@@ -6,6 +6,7 @@
         <IsPackable>true</IsPackable>
         <PackageTags>Brighter; RocketMQ; Messaging; MessageQueue; EventDriven; Microservices; DistributedSystems; Fluent; Configuration; Builder; Publisher; Subscriber; Producer; Consumer; CloudEvents</PackageTags>
         <Description>Fluent configuration extensions for RocketMQ messaging with Paramore.Brighter</Description>
+        <SignAssembly>false</SignAssembly>
     </PropertyGroup>
 
     <ItemGroup>
