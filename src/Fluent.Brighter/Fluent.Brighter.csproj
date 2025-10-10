@@ -4,7 +4,8 @@
     <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
     <IsPackable>true</IsPackable>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Description>The Brighter fluent API</Description>
+    <Description>A fluent API for configuring Paramore.Brighter - the command processor and message oriented middleware for .NET</Description>
+    <PackageTags>brighter;command;event;messaging;serviceactivator;fluent;api;dependencyinjection;hosting;outbox</PackageTags> 
   </PropertyGroup>
 
   <ItemGroup>
