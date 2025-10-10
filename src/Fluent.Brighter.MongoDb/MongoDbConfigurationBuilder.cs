@@ -27,6 +27,8 @@ public class MongoDbConfigurationBuilder
         _client = client ?? throw new ArgumentNullException(nameof(client));
         return this;
     }
+    
+    internal string? ConnectionString { get; private set; }
 
     /// <summary>
     /// Configures the MongoDB client using a connection string.
@@ -42,6 +44,7 @@ public class MongoDbConfigurationBuilder
         }
         
         _client = new MongoClient(connectionString);
+        ConnectionString = connectionString;
         return this;
     }
 

@@ -1,5 +1,7 @@
 using System;
 
+using MongoDB.Driver;
+
 using Paramore.Brighter;
 using Paramore.Brighter.MongoDb;
 
@@ -11,6 +13,7 @@ namespace Fluent.Brighter.MongoDb;
 /// </summary>
 public sealed class MongoDbConfigurator
 {
+    private string? _connectionString;
     private IAmAMongoDbConfiguration? _configuration;
     private Action<FluentBrighterBuilder> _action = _ => { };
 
@@ -30,6 +33,7 @@ public sealed class MongoDbConfigurator
         
         var builder = new MongoDbConfigurationBuilder();
         configuration(builder);
+        _connectionString = builder.ConnectionString;
         return SetConnection(builder.Build());
     }
 
@@ -53,7 +57,7 @@ public sealed class MongoDbConfigurator
     /// <exception cref="InvalidOperationException">Thrown if called before <see cref="SetConnection(Paramore.Brighter.MongoDb.IAmAMongoDbConfiguration)"/>.</exception>
     public MongoDbConfigurator UseInbox()
     {
-        _action += fluent => fluent.Subscriptions(s => s.UseMongoDbInbox(_configuration!));
+        UseInbox("inbox");
         return this;
     }
 
@@ -108,7 +112,7 @@ public sealed class MongoDbConfigurator
     /// <exception cref="InvalidOperationException">Thrown if called before <see cref="SetConnection(Paramore.Brighter.MongoDb.IAmAMongoDbConfiguration)"/>.</exception>
     public MongoDbConfigurator UseOutbox()
     {
-        _action += fluent => fluent.Producers(x => x.UseMongoDbOutbox(_configuration!));
+        UseOutbox("outbox");
         return this;
     }
 
@@ -161,7 +165,7 @@ public sealed class MongoDbConfigurator
     /// <exception cref="InvalidOperationException">Thrown if called before <see cref="SetConnection(Paramore.Brighter.MongoDb.IAmAMongoDbConfiguration)"/>.</exception>
     public MongoDbConfigurator UseDistributedLock()
     {
-        _action += fluent => fluent.Producers(x => x.UseMongoDbDistributedLock(_configuration!));
+        UseDistributedLock("distributedLock");
         return this;
     }
 
@@ -231,8 +235,61 @@ public sealed class MongoDbConfigurator
             .SetLuggageStore(store => store
                 .UseMongoGridFsLuggageStore(cfg =>
                 {
+                    if (!string.IsNullOrEmpty(_connectionString))
+                    {
+                        cfg.SetConnectionString(_connectionString!);
+                    }
+                    else
+                    {
+                        var settings = _configuration!.Client.Settings;
+                        var builder = new MongoUrlBuilder
+                        {
+                            AllowInsecureTls = settings.AllowInsecureTls, 
+                            ApplicationName = settings.ApplicationName,
+                            AuthenticationMechanism = settings.Credential.Mechanism,
+                            AuthenticationSource = settings.Credential.Source,
+                            Compressors = settings.Compressors,
+                            ConnectTimeout = settings.ConnectTimeout,
+                            DirectConnection = settings.DirectConnection,
+                            HeartbeatInterval = settings.HeartbeatInterval,
+                            HeartbeatTimeout = settings.HeartbeatTimeout,
+                            IPv6 = settings.IPv6,
+                            LoadBalanced = settings.LoadBalanced,
+                            LocalThreshold = settings.LocalThreshold,
+                            MaxConnecting = settings.MaxConnecting,
+                            MaxConnectionIdleTime = settings.MaxConnectionIdleTime,
+                            MaxConnectionLifeTime = settings.MaxConnectionLifeTime,
+                            MaxConnectionPoolSize = settings.MaxConnectionPoolSize,
+                            MinConnectionPoolSize = settings.MinConnectionPoolSize,
+                            Username = settings.Credential.Username,
+                            Password = settings.Credential.Password,
+                            ReadConcernLevel = settings.ReadConcern.Level,
+                            ReadPreference = settings.ReadPreference,
+                            ReplicaSetName = settings.ReplicaSetName,
+                            RetryReads = settings.RetryReads,
+                            RetryWrites = settings.RetryWrites,
+                            Scheme = settings.Scheme,
+                            Server = settings.Server,
+                            Servers = settings.Servers,
+                            ServerMonitoringMode = settings.ServerMonitoringMode,
+                            ServerSelectionTimeout = settings.ServerSelectionTimeout,
+                            SocketTimeout = settings.SocketTimeout,
+                            SrvMaxHosts = settings.SrvMaxHosts,
+                            SrvServiceName = settings.SrvServiceName,
+                            ProxyHost = settings.Socks5ProxySettings.Host,
+                            ProxyPort = settings.Socks5ProxySettings.Port,
+                            // Isn't possible to get username & password from setting
+                            // builder.ProxyUsername = settings.Socks5ProxySettings.Authentication.ToString()
+                            // builder.ProxyPassword = settings.Socks5ProxySettings.Authentication.ToString()
+                            TlsDisableCertificateRevocationCheck = settings.SslSettings.CheckCertificateRevocation,
+                            UseTls = settings.UseTls,
+                            // builder.ComputedWaitQueueSize = settings.WaitQueueTimeout;
+                            WaitQueueTimeout = settings.WaitQueueTimeout
+                        };
+                        cfg.SetConnectionString(builder.ToString());
+                    }
+                    
                     cfg.SetDatabaseName(_configuration!.DatabaseName);
-                    cfg.SetConnectionString(_configuration!.Client.ToString());
                     configure(cfg);
                 }));
         return this;
