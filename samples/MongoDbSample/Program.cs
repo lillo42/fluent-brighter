@@ -3,6 +3,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using MongoDB.Driver;
+
 using MongoDbSample.Commands;
 
 using Paramore.Brighter;
@@ -15,7 +17,7 @@ var host = new HostBuilder()
             .AddHostedService<ServiceActivatorHostedService>()
             .AddFluentBrighter(brighter => brighter
                 .UseOutboxSweeper()
-                .UseOutboxSweeper()
+                .UseOutboxArchiver<IClientSession>(new NullOutboxArchiveProvider())
                 .UsingRabbitMq(rabbitmq => rabbitmq
                     .SetConnection(conn => conn
                         .SetAmpq(amqp => amqp.SetUri("amqp://guest:guest@localhost:5672"))

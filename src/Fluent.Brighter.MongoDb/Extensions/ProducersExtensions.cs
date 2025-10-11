@@ -71,8 +71,9 @@ public static class ProducersExtensions
         
         var outbox = new MongoDbOutboxBuilder();
         configuration(outbox);
-        builder.SetOutbox(outbox.Build());
-        return builder;
+        return builder.SetOutbox(outbox.Build())
+            .SetConnectionProvider(typeof(MongoDbConnectionProvider))
+            .SetTransactionProvider(typeof(MongoDbUnitOfWork));
     }
 
     #endregion

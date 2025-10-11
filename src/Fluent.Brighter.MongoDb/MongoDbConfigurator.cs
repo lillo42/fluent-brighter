@@ -1,5 +1,7 @@
 using System;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using MongoDB.Driver;
 
 using Paramore.Brighter;
@@ -150,10 +152,15 @@ public sealed class MongoDbConfigurator
             throw new ArgumentNullException(nameof(configure));
         }
 
-        _action += fluent => fluent.Producers(x => x
-            .UseMongoDbOutbox(cfg => cfg
-                .SetCollection(configure)
-                .SetConfiguration(_configuration!)));
+        _action += fluent =>
+        {
+            fluent.Producers(x => x
+                    .UseMongoDbOutbox(cfg => cfg
+                        .SetCollection(configure)
+                        .SetConfiguration(_configuration!)))
+                .RegisterServices(services => 
+                    services.AddSingleton(_configuration!));
+        };
         return this;
     }
 
