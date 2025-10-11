@@ -10,6 +10,7 @@ using MongoDbSample.Commands;
 using Paramore.Brighter;
 using Paramore.Brighter.ServiceActivator.Extensions.Hosting;
 
+// TODO: this sample isn't working due a bug in Brighter, waiting it to be fixed
 var host = new HostBuilder()
     .ConfigureServices((_, services) =>
     {
