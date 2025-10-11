@@ -4,6 +4,9 @@
         <TargetFrameworks>$(BrighterFrameworkAndCoreTargetFrameworks)</TargetFrameworks>
         <IsPackable>true</IsPackable>
         <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Description>Fluent configuration extensions for Paramore.Brighter with MongoDB support, including inbox, outbox, locking, and GridFS transformers.</Description>
+        <PackageTags>brighter;mongodb;inbox;outbox;locking;gridfs;messaging;cqrs;fluent</PackageTags>
     </PropertyGroup>
     
     <ItemGroup>

@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Paramore.Brighter.ServiceActivator.Extensions.Hosting" />
+        <PackageReference Include="Serilog.AspNetCore" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\Fluent.Brighter.MongoDb\Fluent.Brighter.MongoDb.csproj" />
+      <ProjectReference Include="..\..\src\Fluent.Brighter.RMQ.Async\Fluent.Brighter.RMQ.Async.csproj" />
+    </ItemGroup>
+
+</Project>

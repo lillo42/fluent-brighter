@@ -29,8 +29,10 @@ public sealed class TransformerBuilder
     public TransformerBuilder()
     {
         _assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a =>
-            !a.IsDynamic && a.FullName?.StartsWith("Microsoft.", true, CultureInfo.InvariantCulture) != true &&
-            a.FullName?.StartsWith("System.", true, CultureInfo.InvariantCulture) != true));
+            !a.IsDynamic 
+            && a.FullName?.StartsWith("Microsoft.", true, CultureInfo.InvariantCulture) == false 
+            && a.FullName?.StartsWith("System.", true, CultureInfo.InvariantCulture) == false
+            && a.FullName?.StartsWith("Paramore.Brighter", true, CultureInfo.InvariantCulture) == false));
     }
     
     /// <summary>
