@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <BrighterVersion>10.0.0</BrighterVersion>
+    <BrighterVersion>10.0.1</BrighterVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />

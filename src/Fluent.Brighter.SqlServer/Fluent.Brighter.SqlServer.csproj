@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
+        <IsPackable>true</IsPackable>
+        <Nullable>enable</Nullable>
+        <Description>Fluent configuration extensions for Paramore.Brighter SQL Server integrations (Inbox, Outbox, Locking, Messaging).</Description>
+        <PackageTags>brighter;fluent;sqlserver;inbox;outbox;message-queue;event-driven</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Fluent.Brighter\Fluent.Brighter.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Paramore.Brighter.Inbox.MsSql" />
+      <PackageReference Include="Paramore.Brighter.Locking.MsSql" />
+      <PackageReference Include="Paramore.Brighter.MessagingGateway.MsSql" />
+      <PackageReference Include="Paramore.Brighter.Outbox.MsSql" />
+    </ItemGroup>
+
+</Project>

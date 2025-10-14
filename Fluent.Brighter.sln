@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KafkaSample", "samples\Kafk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoDbSample", "samples\MongoDbSample\MongoDbSample.csproj", "{523946F8-241E-4DF6-92A3-875B1DDCDF39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.SqlServer", "src\Fluent.Brighter.SqlServer\Fluent.Brighter.SqlServer.csproj", "{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -257,6 +259,18 @@ Global
 		{523946F8-241E-4DF6-92A3-875B1DDCDF39}.Release|x64.Build.0 = Release|Any CPU
 		{523946F8-241E-4DF6-92A3-875B1DDCDF39}.Release|x86.ActiveCfg = Release|Any CPU
 		{523946F8-241E-4DF6-92A3-875B1DDCDF39}.Release|x86.Build.0 = Release|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Debug|x64.Build.0 = Debug|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Debug|x86.Build.0 = Debug|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Release|x64.ActiveCfg = Release|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Release|x64.Build.0 = Release|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Release|x86.ActiveCfg = Release|Any CPU
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -279,5 +293,6 @@ Global
 		{C76F5EA3-FD1C-4F5B-8E46-A5AEFC3417E0} = {5D20AA90-6969-D8BD-9DCD-8634F4692FDA}
 		{2CEFB9CA-306F-4DE7-B5CB-CD068977B4B9} = {5D20AA90-6969-D8BD-9DCD-8634F4692FDA}
 		{523946F8-241E-4DF6-92A3-875B1DDCDF39} = {5D20AA90-6969-D8BD-9DCD-8634F4692FDA}
+		{1BBDF3C1-F4FF-404E-A5A9-6E3A743280BF} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 	EndGlobalSection
 EndGlobal
