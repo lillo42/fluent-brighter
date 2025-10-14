@@ -1,6 +1,7 @@
 using System;
 
 using Paramore.Brighter;
+using Paramore.Brighter.MessagingGateway.MsSql;
 
 namespace Fluent.Brighter.SqlServer;
 
@@ -247,7 +248,7 @@ public sealed class SqlServerSubscriptionBuilder
     /// <exception cref="ConfigurationException">
     /// Thrown if <see cref="SubscriptionName"/>, <see cref="ChannelName"/>, or <see cref="RoutingKey"/> have not been set.
     /// </exception>
-    internal Subscription Build()
+    internal MsSqlSubscription Build()
     {
         if (_subscriptionName == null)
         {
@@ -264,7 +265,7 @@ public sealed class SqlServerSubscriptionBuilder
             throw new ConfigurationException("RoutingKey not set");
         }
         
-        return new Subscription(
+        return new MsSqlSubscription(
             subscriptionName: _subscriptionName,
             channelName: _channelName,
             routingKey: _routingKey,

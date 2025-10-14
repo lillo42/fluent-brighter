@@ -1,5 +1,7 @@
 using System;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.MsSql;
 
@@ -201,5 +203,8 @@ public sealed class SqlServerConfigurator
         }
 
         _action(fluentBrighter);
+        fluentBrighter.RegisterServices(service => service
+            .AddSingleton(_configuration)
+            .AddSingleton<IAmARelationalDatabaseConfiguration>(_configuration));
     }
 }

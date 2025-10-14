@@ -75,7 +75,9 @@ public static class ProducersExtensions
     {
         var outbox = new SqlServerOutboxBuilder();
         configuration(outbox);
-        builder.SetOutbox(outbox.Build());
+        builder.SetOutbox(outbox.Build())
+            .SetConnectionProvider(typeof(MsSqlConnectionProvider))
+            .SetTransactionProvider(typeof(MsSqlTransactionProvider));
         return builder;
     }
     
