@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
+        <TargetFrameworks>$(BrighterFrameworkAndCoreTargetFrameworks)</TargetFrameworks>
         <IsPackable>true</IsPackable>
         <Nullable>enable</Nullable>
         <Description>Fluent configuration extensions for Paramore.Brighter SQL Server integrations (Inbox, Outbox, Locking, Messaging).</Description>
