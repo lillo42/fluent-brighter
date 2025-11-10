@@ -143,6 +143,18 @@ public sealed class ConsumerBuilder
         _resiliencePipelineRegistry = resiliencePipelineRegistry;
         return this;
     }
+    
+    /// <summary>
+    /// Adds a resilience pipeline to the registry
+    /// </summary>
+    /// <param name="key">The pipeline lookup key</param>
+    /// <param name="configure">Configuration action for the pipeline builder</param>
+    /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
+    public ConsumerBuilder AddResiliencePipeline(string key, Action<ResiliencePipelineBuilder, ConfigureBuilderContext<string>> configure)
+    {
+        _resiliencePipelineRegistry.TryAddBuilder(key, configure);
+        return this;
+    }
 
     /// <summary>
     /// Adds a resilience pipeline to the registry
@@ -154,8 +166,7 @@ public sealed class ConsumerBuilder
     public ConsumerBuilder AddResiliencePipeline<TPolicy>(string key,
         Action<ResiliencePipelineBuilder, ConfigureBuilderContext<string>> configure)
     {
-        _resiliencePipelineRegistry.TryAddBuilder(key, configure);
-        return this;
+        return AddResiliencePipeline(key, configure);
     }
 
     private IAmAChannelFactory? _defaultChannelFactory;
@@ -184,8 +195,6 @@ public sealed class ConsumerBuilder
         return this;
     }
     
-    private InboxConfiguration? _inboxConfiguration = new();
-    
     /// <summary>
     /// Configures the inbox settings for idempotency
     /// </summary>
@@ -193,8 +202,12 @@ public sealed class ConsumerBuilder
     /// <returns>The ConsumerBuilder instance for fluent chaining</returns>
     public ConsumerBuilder SetInbox(InboxConfiguration inboxConfiguration)
     {
-        _inboxConfiguration = inboxConfiguration;
-        return this;
+        return SetInbox(i => i
+            .SetInbox(inboxConfiguration.Inbox)
+            .SetActionOnExists(inboxConfiguration.ActionOnExists)
+            .SetContext(inboxConfiguration.Context)
+            .SetOnceOnly(inboxConfiguration.OnceOnly)
+            .SetScope(inboxConfiguration.Scope));
     }
     
     private readonly InboxConfigurationBuilder _inboxConfigurationBuilder = new();
@@ -266,7 +279,7 @@ public sealed class ConsumerBuilder
 #pragma warning restore CS0618 // Type or member is obsolete
         
         options.DefaultChannelFactory = _defaultChannelFactory;
-        options.InboxConfiguration = _inboxConfiguration ?? _inboxConfigurationBuilder.Build();
+        options.InboxConfiguration = _inboxConfigurationBuilder.Build();
         options.Subscriptions = _subscriptions;
         
         _configuration?.Invoke(options);
