@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>$(BrighterCoreTargetFrameworks)</TargetFrameworks>
+        <Nullable>enable</Nullable>
+        <Description>Fluent configuration extensions for Paramore.Brighter Redis messaging: provides fluent APIs to configure Redis publications and subscriptions, CloudEvents metadata, and channel setup for event-driven .NET applications.</Description>
+        <PackageTags>Brighter;Redis;Messaging;MessageQueue;PubSub;EventDriven;Microservices;DistributedSystems;Fluent;Configuration;Builder;Publisher;Subscriber;Producer;Consumer;CloudEvents</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Fluent.Brighter\Fluent.Brighter.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Paramore.Brighter.MessagingGateway.Redis" />
+    </ItemGroup>
+
+</Project>
