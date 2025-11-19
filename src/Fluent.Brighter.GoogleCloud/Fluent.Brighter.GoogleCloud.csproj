@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Paramore.Brighter.Inbox.Firestore" />
+      <PackageReference Include="Paramore.Brighter.Inbox.Spanner" />
+      <PackageReference Include="Paramore.Brighter.Locking.Firestore" />
+      <PackageReference Include="Paramore.Brighter.MessagingGateway.GcpPubSub" />
+      <PackageReference Include="Paramore.Brighter.Outbox.Firestore" />
+      <PackageReference Include="Paramore.Brighter.Outbox.Spanner" />
+      <PackageReference Include="Paramore.Brighter.Transformers.Gcp" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Fluent.Brighter\Fluent.Brighter.csproj" />
+    </ItemGroup>
+
+</Project>
