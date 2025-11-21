@@ -373,6 +373,56 @@ public sealed class GcpConfigurator
 
     #endregion
 
+    #region Outbox Archive
+
+    /// <summary>
+    /// Configures Firestore as the outbox archive store using default settings.
+    /// The outbox archiver moves old messages from the outbox to an archive for long-term storage.
+    /// </summary>
+    /// <returns>The configurator instance for method chaining</returns>
+    public GcpConfigurator UseFirestoreOutboxArchive()
+    {
+        _action += static fluent => fluent.UseFirestoreTransactionOutboxArchive();
+        return this;
+    }
+
+    /// <summary>
+    /// Configures Firestore as the outbox archive store with custom settings.
+    /// The outbox archiver moves old messages from the outbox to an archive for long-term storage.
+    /// </summary>
+    /// <param name="configure">Action to configure outbox archiver options</param>
+    /// <returns>The configurator instance for method chaining</returns>
+    public GcpConfigurator UseFirestoreOutboxArchive(Action<TimedOutboxArchiverOptionsBuilder> configure)
+    {
+        _action += fluent => fluent.UseFirestoreTransactionOutboxArchive(configure);
+        return this;
+    }
+
+    /// <summary>
+    /// Configures Cloud Spanner as the outbox archive store using default settings.
+    /// The outbox archiver moves old messages from the outbox to an archive for long-term storage.
+    /// </summary>
+    /// <returns>The configurator instance for method chaining</returns>
+    public GcpConfigurator UseSpannerOutboxArchive()
+    {
+        _action += static fluent => fluent.UseSpannerTransactionOutboxArchive();
+        return this;
+    }
+
+    /// <summary>
+    /// Configures Cloud Spanner as the outbox archive store with custom settings.
+    /// The outbox archiver moves old messages from the outbox to an archive for long-term storage.
+    /// </summary>
+    /// <param name="configure">Action to configure outbox archiver options</param>
+    /// <returns>The configurator instance for method chaining</returns>
+    public GcpConfigurator UseSpannerOutboxArchive(Action<TimedOutboxArchiverOptionsBuilder> configure)
+    {
+        _action += fluent => fluent.UseSpannerTransactionOutboxArchive(configure);
+        return this;
+    }
+
+    #endregion
+
     /// <summary>
     /// Internal method to apply all configured settings to the FluentBrighterBuilder.
     /// </summary>

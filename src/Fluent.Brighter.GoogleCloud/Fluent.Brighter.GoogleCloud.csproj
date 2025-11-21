@@ -3,6 +3,10 @@
     <PropertyGroup>
         <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
         <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Title>Fluent Brighter Google Cloud Platform Integration</Title>
+        <Description>A fluent configuration builder for Paramore.Brighter's Google Cloud Platform integration. Provides type-safe, fluent APIs for configuring GCP Pub/Sub messaging, Firestore and Spanner inbox/outbox patterns, distributed locking, and GCS luggage store with Brighter's command processor and message dispatching patterns.</Description>
+        <PackageTags>Brighter;GCP;GoogleCloud;PubSub;Firestore;Spanner;CloudStorage;Messaging;MessageBus;Command;Event;Dispatcher;Fluent;Configuration;Builder;Producer;Consumer;Microservices;Outbox;Inbox;DistributedLocking;CloudEvents</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>

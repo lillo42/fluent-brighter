@@ -53,6 +53,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RedisSample", "samples\Redi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fluent.Brighter.GoogleCloud", "src\Fluent.Brighter.GoogleCloud\Fluent.Brighter.GoogleCloud.csproj", "{98813670-F995-41CF-85AB-E12B27AEA35F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GcpSample", "samples\GcpSample\GcpSample.csproj", "{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -327,6 +329,18 @@ Global
 		{98813670-F995-41CF-85AB-E12B27AEA35F}.Release|x64.Build.0 = Release|Any CPU
 		{98813670-F995-41CF-85AB-E12B27AEA35F}.Release|x86.ActiveCfg = Release|Any CPU
 		{98813670-F995-41CF-85AB-E12B27AEA35F}.Release|x86.Build.0 = Release|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Debug|x64.Build.0 = Debug|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Debug|x86.Build.0 = Debug|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Release|x64.ActiveCfg = Release|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Release|x64.Build.0 = Release|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Release|x86.ActiveCfg = Release|Any CPU
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -354,5 +368,6 @@ Global
 		{8DC14D04-F8D0-41CB-8964-B75257CEFE68} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
 		{5CA1F284-5C44-44DF-B5EB-3008A4CBD52F} = {5D20AA90-6969-D8BD-9DCD-8634F4692FDA}
 		{98813670-F995-41CF-85AB-E12B27AEA35F} = {827E0CD3-B72D-47B6-A68D-7590B98EB39B}
+		{FF0AE58C-CFD7-4004-808A-BEF7B24D4997} = {5D20AA90-6969-D8BD-9DCD-8634F4692FDA}
 	EndGlobalSection
 EndGlobal

@@ -51,7 +51,7 @@ public class GcpPublicationFactoryBuilder
         _publications.Add(publication);
         return this;
     }
-
+    
     private InstrumentationOptions? _instrumentation;
     
     /// <summary>
