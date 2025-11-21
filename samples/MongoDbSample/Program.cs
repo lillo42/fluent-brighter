@@ -48,9 +48,9 @@ var host = new HostBuilder()
                     .SetConnection(c => c
                         .SetConnectionString("mongodb://root:example@localhost:27017")
                         .SetDatabaseName("brighter"))
-                    .UseInbox()
-                    .UseOutbox()
-                    .UseDistributedLock()
+                    .UseInbox("inbox")
+                    .UseOutbox("outbox")
+                    .UseDistributedLock("locking")
                     .UseLuggageStore("bucket"))
             );
     })
