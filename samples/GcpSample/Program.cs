@@ -2,6 +2,8 @@
 
 using GcpSample.Commands;
 
+using Google.Apis.Auth.OAuth2;
+
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -25,24 +27,29 @@ var host = new HostBuilder()
             .AddFluentBrighter(brighter => brighter
                 .UseOutboxSweeper()
                 .UsingGcp(gcp => gcp
-                    .SetProjectId("my-gcp-project-id")
+                    .SetConnection(c => c
+                        .SetCredential(GoogleCredential.GetApplicationDefault())
+                        .SetProjectId(Environment.GetEnvironmentVariable("GOOGLE_CLOUD_PROJECT")!))
                     .UsePubSubPublication(pb => pb
                         .AddPublication<GreetingEvent>(p => p
-                            .SetTopicAttributes(t => t.SetName("greeting-event-topic"))
+                            .SetTopic("greeting-event-topic")
                             .SetSource("https://example.com/greeting")))
                     .UsePubSubSubscription(sb => sb
                         .AddSubscription<GreetingEvent>(s => s
                             .SetSubscriptionName("paramore.example.greeting")
-                            .SetTopicAttributes(t => t.SetName("greeting-event-topic"))
-                            .SetNoOfPerformers(5))
+                            .SetSubscription("greeting-event-queue")
+                            .SetTopic("greeting-event-topic")
+                            .SetNoOfPerformers(1))
                         .AddSubscription<FarewellEvent>(s => s
                             .SetSubscriptionName("paramore.example.farewell")
-                            .SetTopicAttributes(t => t.SetName("farewell-event-topic"))
-                            .SetNoOfPerformers(5)))
+                            .SetSubscription("farewell-event-queue")
+                            .SetTopic("farewell-event-topic")
+                            .SetNoOfPerformers(1)))
+                    .SetFirestoreConfiguration("brighter-firestore-database")
                     .UseFirestoreOutbox("outbox")
                     .UseFirestoreInbox("inbox")
-                    .UseFirestoreDistributedLock("locking")
-                    .UseFirestoreOutboxArchive()
+                    // .UseFirestoreDistributedLock("locking")
+                    // .UseFirestoreOutboxArchive()
                 ));
     })
     .Build();

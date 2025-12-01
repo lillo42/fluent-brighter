@@ -1,6 +1,9 @@
 using System;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Paramore.Brighter;
+using Paramore.Brighter.Firestore;
 using Paramore.Brighter.MessagingGateway.GcpPubSub;
 
 namespace Fluent.Brighter.GoogleCloud;
@@ -13,6 +16,7 @@ namespace Fluent.Brighter.GoogleCloud;
 public sealed class GcpConfigurator
 {
     private GcpMessagingGatewayConnection? _connection;
+    private FirestoreConfiguration? _firestoreConfiguration;
     private Action<FluentBrighterBuilder> _action = _ => { };
 
     public GcpConfigurator SetConnection(GcpMessagingGatewayConnection connection)
@@ -26,19 +30,6 @@ public sealed class GcpConfigurator
         var connection = new GcpMessagingGatewayConnectionBuilder();
         configure(connection);
         _connection = connection.Build();
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the Google Cloud Project ID for all GCP services.
-    /// This project ID will be used as the default for Pub/Sub, Firestore, Spanner, and GCS operations.
-    /// </summary>
-    /// <param name="projectId">The Google Cloud Project ID</param>
-    /// <returns>The configurator instance for method chaining</returns>
-    public GcpConfigurator SetProjectId(string projectId)
-    {
-        _connection ??= new GcpMessagingGatewayConnection();
-        _connection.ProjectId = projectId;
         return this;
     }
 
@@ -119,6 +110,43 @@ public sealed class GcpConfigurator
 
     #endregion
 
+    public GcpConfigurator SetFirestoreConfiguration(string database)
+    {
+        if (_connection == null)
+        {
+            throw new ConfigurationException("Google Cloud Project ID was not set. Use SetConfiguration() to configure.");
+        }
+        
+        _firestoreConfiguration = new FirestoreConfiguration(_connection.ProjectId, database)
+        {
+            Credential = _connection.Credential
+        };
+        
+        return this;
+    }
+    
+    public GcpConfigurator SetFirestoreConfiguration(Action<FirestoreConfigurationBuilder> configure)
+    {
+        if (_connection == null)
+        {
+            throw new ConfigurationException("Google Cloud Project ID was not set. Use SetConfiguration() to configure.");
+        }
+        
+        var builder = new FirestoreConfigurationBuilder()
+            .SetProjectId(_connection.ProjectId)
+            .SetCredential(_connection.Credential);
+        configure(builder);
+        
+        _firestoreConfiguration = builder.Build();
+        return this;
+    }
+    
+    public GcpConfigurator SetFirestoreConfiguration(FirestoreConfiguration configuration)
+    {
+        _firestoreConfiguration = configuration;
+        return this;
+    }
+
     #region Firestore Inbox
 
     /// <summary>
@@ -128,10 +156,7 @@ public sealed class GcpConfigurator
     /// <returns>The configurator instance for method chaining</returns>
     public GcpConfigurator UseFirestoreInbox(string tableName)
     {
-        return UseFirestoreOutbox(cfg => cfg
-            .SetConfiguration(c => c
-                .SetInbox(tb => tb
-                    .SetName(tableName))));
+        return UseFirestoreInbox(cfg => cfg.SetName(tableName));
     }
 
     /// <summary>
@@ -159,9 +184,25 @@ public sealed class GcpConfigurator
             .Subscriptions(sub => sub.UseFirestoreInbox(cfg =>
             {
                 cfg.SetConfiguration(c => c
-                    .SetCredential(_connection!.Credential)
-                    .SetProjectId(_connection!.ProjectId));
+                    .SetCredential(_firestoreConfiguration!.Credential)
+                    .SetProjectId(_firestoreConfiguration!.ProjectId)
+                    .SetDatabase(_firestoreConfiguration!.Database));
                 configure(cfg);
+            }));
+
+        return this;
+    }
+    
+    public GcpConfigurator UseFirestoreInbox(Action<FirestoreCollectionBuilder> configure)
+    {
+        _action += fluent => fluent
+            .Subscriptions(sub => sub.UseFirestoreInbox(cfg =>
+            {
+                cfg.SetConfiguration(c => c
+                    .SetCredential(_firestoreConfiguration!.Credential)
+                    .SetProjectId(_firestoreConfiguration!.ProjectId)
+                    .SetDatabase(_firestoreConfiguration!.Database)
+                    .SetInbox(configure));
             }));
 
         return this;
@@ -178,10 +219,7 @@ public sealed class GcpConfigurator
     /// <returns>The configurator instance for method chaining</returns>
     public GcpConfigurator UseFirestoreOutbox(string tableName)
     {
-        return UseFirestoreOutbox(cfg => cfg
-            .SetConfiguration(c => c
-                .SetLocking(tb => tb
-                    .SetName(tableName))));
+        return UseFirestoreOutbox(cfg => cfg.SetName(tableName));
     }
 
     /// <summary>
@@ -208,11 +246,26 @@ public sealed class GcpConfigurator
         _action += fluent => fluent
             .Producers(prod => prod.UseFirestoreOutbox(cfg =>
             {
-                cfg.SetConfiguration(config => config
-                    .SetProjectId(_connection!.ProjectId)
-                    .SetCredential(_connection.Credential)
-                );
+                cfg.SetConfiguration(c => c
+                    .SetCredential(_firestoreConfiguration!.Credential)
+                    .SetProjectId(_firestoreConfiguration!.ProjectId)
+                    .SetDatabase(_firestoreConfiguration!.Database));
                 configure(cfg);
+            }));
+
+        return this;
+    }
+    
+    public GcpConfigurator UseFirestoreOutbox(Action<FirestoreCollectionBuilder> configure)
+    {
+        _action += fluent => fluent
+            .Producers(prod => prod.UseFirestoreOutbox(cfg =>
+            {
+                cfg.SetConfiguration(c => c
+                        .SetCredential(_firestoreConfiguration!.Credential)
+                        .SetProjectId(_firestoreConfiguration!.ProjectId)
+                        .SetDatabase(_firestoreConfiguration!.Database)
+                        .SetOutbox(configure));
             }));
 
         return this;
@@ -291,9 +344,7 @@ public sealed class GcpConfigurator
     /// <returns>The configurator instance for method chaining</returns>
     public GcpConfigurator UseFirestoreDistributedLock(string tableName)
     {
-        return UseFirestoreDistributedLock(cfg => cfg
-            .SetConfiguration(c => c
-                .SetLocking(tb => tb.SetName(tableName))));
+        return UseFirestoreDistributedLock(cfg => cfg.SetName(tableName));
     }
 
     /// <summary>
@@ -318,9 +369,25 @@ public sealed class GcpConfigurator
             .Producers(prod => prod.UseFirestoreDistributedLock(cfg =>
             {
                 cfg.SetConfiguration(c => c
-                    .SetProjectId(_connection!.ProjectId)
-                    .SetCredential(_connection!.Credential));
+                    .SetProjectId(_firestoreConfiguration!.ProjectId)
+                    .SetCredential(_firestoreConfiguration!.Credential)
+                    .SetDatabase(_firestoreConfiguration!.Database));
                 configure(cfg);
+            }));
+
+        return this;
+    }
+    
+    public GcpConfigurator UseFirestoreDistributedLock(Action<FirestoreCollectionBuilder> configure)
+    {
+        _action += fluent => fluent
+            .Producers(prod => prod.UseFirestoreDistributedLock(cfg =>
+            {
+                cfg.SetConfiguration(c => c
+                    .SetProjectId(_firestoreConfiguration!.ProjectId)
+                    .SetCredential(_firestoreConfiguration!.Credential)
+                    .SetDatabase(_firestoreConfiguration!.Database)
+                    .SetLocking(configure));
             }));
 
         return this;
@@ -436,5 +503,9 @@ public sealed class GcpConfigurator
         }
 
         _action(builder);
+        if (_firestoreConfiguration != null)
+        {
+            builder.RegisterServices(s => s.AddSingleton(_firestoreConfiguration));
+        }
     }
 }

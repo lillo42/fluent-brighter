@@ -10,6 +10,13 @@ namespace Fluent.Brighter;
 /// </summary>
 public static class FirestoreConfigurationBuilderExtensions
 {
+    public static FirestoreConfigurationBuilder SetInbox(
+        this FirestoreConfigurationBuilder builder, 
+        string tableName)
+    {
+        return builder.SetInbox(c => c.SetName(tableName));
+    }
+    
     /// <summary>
     /// Sets the inbox Firestore collection using a fluent configuration callback.
     /// </summary>
@@ -25,6 +32,13 @@ public static class FirestoreConfigurationBuilderExtensions
         return builder.SetInbox(collection.Build());
     }
     
+    public static FirestoreConfigurationBuilder SetOutbox(
+        this FirestoreConfigurationBuilder builder, 
+        string tableName)
+    {
+        return builder.SetOutbox(c => c.SetName(tableName));
+    }
+    
     /// <summary>
     /// Sets the outbox Firestore collection using a fluent configuration callback.
     /// </summary>
@@ -38,6 +52,13 @@ public static class FirestoreConfigurationBuilderExtensions
         var collection = new FirestoreCollectionBuilder();
         configure(collection);
         return builder.SetOutbox(collection.Build());
+    }
+    
+    public static FirestoreConfigurationBuilder SetLocking(
+        this FirestoreConfigurationBuilder builder, 
+        string tableName)
+    {
+        return builder.SetLocking(c => c.SetName(tableName));
     }
     
     /// <summary>

@@ -2,6 +2,8 @@ using System;
 
 using Fluent.Brighter.GoogleCloud;
 
+using Paramore.Brighter.Firestore;
+
 namespace Fluent.Brighter;
 
 /// <summary>
