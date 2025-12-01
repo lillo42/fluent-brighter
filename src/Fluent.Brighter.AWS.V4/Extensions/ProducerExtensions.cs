@@ -58,7 +58,7 @@ public static class ProducerExtensions
         AWSMessagingGatewayConnection connection)
     {
         return builder
-        .UseDynamoDbOutbox(x => x.SetConnection(connection));
+            .UseDynamoDbOutbox(x => x.SetConnection(connection));
     }
 
     /// <summary>

@@ -59,8 +59,7 @@ public sealed class MongoDbConfigurator
     /// <exception cref="InvalidOperationException">Thrown if called before <see cref="SetConnection(Paramore.Brighter.MongoDb.IAmAMongoDbConfiguration)"/>.</exception>
     public MongoDbConfigurator UseInbox()
     {
-        UseInbox("inbox");
-        return this;
+        return UseInbox(string.Empty);
     }
 
     /// <summary>
@@ -72,16 +71,13 @@ public sealed class MongoDbConfigurator
     /// <exception cref="InvalidOperationException">Thrown if called before <see cref="SetConnection(Paramore.Brighter.MongoDb.IAmAMongoDbConfiguration)"/>.</exception>
     public MongoDbConfigurator UseInbox(string collectionName)
     {
-        if (string.IsNullOrEmpty(collectionName))
+        return UseInbox(c =>
         {
-            throw new ArgumentException("Collection name cannot be null or empty.", nameof(collectionName));
-        }
-
-        _action += fluent => fluent.Subscriptions(x => x
-            .UseMongoDbInbox(cfg => cfg
-                .SetCollection(collectionName)
-                .SetConfiguration(_configuration!)));
-        return this;
+            if (!string.IsNullOrEmpty(collectionName))
+            {
+                c.SetName(collectionName);
+            }
+        });
     }
 
     /// <summary>
@@ -114,8 +110,7 @@ public sealed class MongoDbConfigurator
     /// <exception cref="InvalidOperationException">Thrown if called before <see cref="SetConnection(Paramore.Brighter.MongoDb.IAmAMongoDbConfiguration)"/>.</exception>
     public MongoDbConfigurator UseOutbox()
     {
-        UseOutbox("outbox");
-        return this;
+        return UseOutbox(string.Empty);
     }
 
     /// <summary>
@@ -124,17 +119,15 @@ public sealed class MongoDbConfigurator
     /// <param name="collectionName">The name of the MongoDB collection to use for the outbox.</param>
     /// <returns>The current <see cref="MongoDbConfigurator"/> instance for method chaining.</returns>
     /// <exception cref="ArgumentException">Thrown if <paramref name="collectionName"/> is null or empty.</exception>
-    /// <exception cref="InvalidOperationException">Thrown if called before <see cref="SetConnection(Paramore.Brighter.MongoDb.IAmAMongoDbConfiguration)"/>.</exception>
     public MongoDbConfigurator UseOutbox(string collectionName)
     {
-        if (string.IsNullOrEmpty(collectionName))
-            throw new ArgumentException("Collection name cannot be null or empty.", nameof(collectionName));
-
-        _action += fluent => fluent.Producers(x => x
-            .UseMongoDbOutbox(cfg => cfg
-                .SetCollection(collectionName)
-                .SetConfiguration(_configuration!)));
-        return this;
+        return UseOutbox(c =>
+        {
+            if (!string.IsNullOrEmpty(collectionName))
+            {
+                c.SetName(collectionName);
+            }
+        });
     }
 
     /// <summary>
@@ -172,8 +165,7 @@ public sealed class MongoDbConfigurator
     /// <exception cref="InvalidOperationException">Thrown if called before <see cref="SetConnection(Paramore.Brighter.MongoDb.IAmAMongoDbConfiguration)"/>.</exception>
     public MongoDbConfigurator UseDistributedLock()
     {
-        UseDistributedLock("distributedLock");
-        return this;
+        return UseDistributedLock(string.Empty);
     }
 
     /// <summary>
@@ -185,14 +177,13 @@ public sealed class MongoDbConfigurator
     /// <exception cref="InvalidOperationException">Thrown if called before <see cref="SetConnection(Paramore.Brighter.MongoDb.IAmAMongoDbConfiguration)"/>.</exception>
     public MongoDbConfigurator UseDistributedLock(string collectionName)
     {
-        if (string.IsNullOrEmpty(collectionName))
-            throw new ArgumentException("Collection name cannot be null or empty.", nameof(collectionName));
-
-        _action += fluent => fluent.Producers(x => x
-            .UseMongoDbDistributedLock(cfg => cfg
-                .SetCollection(collectionName)
-                .SetConfiguration(_configuration!)));
-        return this;
+        return UseDistributedLock(c =>
+        {
+            if (!string.IsNullOrEmpty(collectionName))
+            {
+                c.SetName(collectionName);
+            }
+        });
     }
 
     /// <summary>
@@ -269,10 +260,12 @@ public sealed class MongoDbConfigurator
                             MaxConnectionPoolSize = settings.MaxConnectionPoolSize,
                             MinConnectionPoolSize = settings.MinConnectionPoolSize,
                             Username = settings.Credential.Username,
+#pragma warning disable CS0618 // Type or member is obsolete
                             Password = settings.Credential.Password,
                             ReadConcernLevel = settings.ReadConcern.Level,
                             ReadPreference = settings.ReadPreference,
                             ReplicaSetName = settings.ReplicaSetName,
+#pragma warning restore CS0618 // Type or member is obsolete
                             RetryReads = settings.RetryReads,
                             RetryWrites = settings.RetryWrites,
                             Scheme = settings.Scheme,

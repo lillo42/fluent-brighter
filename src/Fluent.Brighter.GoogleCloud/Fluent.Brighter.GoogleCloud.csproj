@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <Title>Fluent Brighter Google Cloud Platform Integration</Title>
+        <Description>A fluent configuration builder for Paramore.Brighter's Google Cloud Platform integration. Provides type-safe, fluent APIs for configuring GCP Pub/Sub messaging, Firestore and Spanner inbox/outbox patterns, distributed locking, and GCS luggage store with Brighter's command processor and message dispatching patterns.</Description>
+        <PackageTags>Brighter;GCP;GoogleCloud;PubSub;Firestore;Spanner;CloudStorage;Messaging;MessageBus;Command;Event;Dispatcher;Fluent;Configuration;Builder;Producer;Consumer;Microservices;Outbox;Inbox;DistributedLocking;CloudEvents</PackageTags>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Paramore.Brighter.Inbox.Firestore" />
+      <PackageReference Include="Paramore.Brighter.Inbox.Spanner" />
+      <PackageReference Include="Paramore.Brighter.Locking.Firestore" />
+      <PackageReference Include="Paramore.Brighter.MessagingGateway.GcpPubSub" />
+      <PackageReference Include="Paramore.Brighter.Outbox.Firestore" />
+      <PackageReference Include="Paramore.Brighter.Outbox.Spanner" />
+      <PackageReference Include="Paramore.Brighter.Transformers.Gcp" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Fluent.Brighter\Fluent.Brighter.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -12,13 +12,16 @@
     <PackageVersion Include="Paramore.Brighter" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Inbox.DynamoDB" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Inbox.DynamoDB.V4" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Inbox.Firestore" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Inbox.MongoDb" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Inbox.MsSql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Inbox.MySql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Inbox.Postgres" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Inbox.Spanner" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Inbox.Sqlite" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Locking.DynamoDB" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Locking.DynamoDB.V4" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Locking.Firestore" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Locking.MongoDb" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Locking.MsSql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Locking.MySql" Version="$(BrighterVersion)" />
@@ -27,25 +30,29 @@
     <PackageVersion Include="Paramore.Brighter.MessageScheduler.AWS.V4" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.AWSSQS" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.AWSSQS.V4" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.MessagingGateway.GcpPubSub" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.Kafka" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.MsSql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.Postgres" Version="$(BrighterVersion)" />
-    <PackageVersion Include="Paramore.Brighter.MessagingGateway.Redis" Version="10.0.2" />
+    <PackageVersion Include="Paramore.Brighter.MessagingGateway.Redis" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.RMQ.Sync" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.RMQ.Async" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.MessagingGateway.RocketMQ" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.DynamoDB" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.DynamoDB.V4" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Outbox.Firestore" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.Hosting" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.MongoDb" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.MsSql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.MySql" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.PostgreSql" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Outbox.Spanner" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Outbox.Sqlite" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.ServiceActivator.Extensions.Hosting" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Transformers.AWS" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Transformers.AWS.V4" Version="$(BrighterVersion)" />
+    <PackageVersion Include="Paramore.Brighter.Transformers.Gcp" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Transformers.MongoGridFS" Version="$(BrighterVersion)" />
     <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageVersion Include="xunit" Version="2.9.3" />
