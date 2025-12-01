@@ -33,7 +33,10 @@ var host = new HostBuilder()
                     .UsePubSubPublication(pb => pb
                         .AddPublication<GreetingEvent>(p => p
                             .SetTopic("greeting-event-topic")
-                            .SetSource("https://example.com/greeting")))
+                            .SetSource("https://example.com/greeting"))
+                        .AddPublication<FarewellEvent>(p => p
+                            .SetTopic("farewell-event-topic")
+                            .SetSource("https://example.com/farewell")))
                     .UsePubSubSubscription(sb => sb
                         .AddSubscription<GreetingEvent>(s => s
                             .SetSubscriptionName("paramore.example.greeting")
@@ -49,7 +52,7 @@ var host = new HostBuilder()
                     .UseFirestoreOutbox("outbox")
                     .UseFirestoreInbox("inbox")
                     // .UseFirestoreDistributedLock("locking")
-                    // .UseFirestoreOutboxArchive()
+                    .UseFirestoreOutboxArchive()
                 ));
     })
     .Build();
