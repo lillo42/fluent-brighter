@@ -10,6 +10,12 @@ namespace Fluent.Brighter;
 /// </summary>
 public static class FirestoreConfigurationBuilderExtensions
 {
+    /// <summary>
+    /// Sets the inbox Firestore collection name.
+    /// </summary>
+    /// <param name="builder">The Firestore configuration builder instance</param>
+    /// <param name="tableName">The name of the inbox collection</param>
+    /// <returns>The Firestore configuration builder instance for method chaining</returns>
     public static FirestoreConfigurationBuilder SetInbox(
         this FirestoreConfigurationBuilder builder, 
         string tableName)
@@ -32,6 +38,12 @@ public static class FirestoreConfigurationBuilderExtensions
         return builder.SetInbox(collection.Build());
     }
     
+    /// <summary>
+    /// Sets the outbox Firestore collection name.
+    /// </summary>
+    /// <param name="builder">The Firestore configuration builder instance</param>
+    /// <param name="tableName">The name of the outbox collection</param>
+    /// <returns>The Firestore configuration builder instance for method chaining</returns>
     public static FirestoreConfigurationBuilder SetOutbox(
         this FirestoreConfigurationBuilder builder, 
         string tableName)
@@ -54,6 +66,12 @@ public static class FirestoreConfigurationBuilderExtensions
         return builder.SetOutbox(collection.Build());
     }
     
+    /// <summary>
+    /// Sets the locking Firestore collection name.
+    /// </summary>
+    /// <param name="builder">The Firestore configuration builder instance</param>
+    /// <param name="tableName">The name of the locking collection</param>
+    /// <returns>The Firestore configuration builder instance for method chaining</returns>
     public static FirestoreConfigurationBuilder SetLocking(
         this FirestoreConfigurationBuilder builder, 
         string tableName)

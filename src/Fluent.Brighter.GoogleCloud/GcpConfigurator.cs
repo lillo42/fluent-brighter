@@ -19,12 +19,22 @@ public sealed class GcpConfigurator
     private FirestoreConfiguration? _firestoreConfiguration;
     private Action<FluentBrighterBuilder> _action = _ => { };
 
+    /// <summary>
+    /// Sets the GCP messaging gateway connection.
+    /// </summary>
+    /// <param name="connection">The GCP messaging gateway connection.</param>
+    /// <returns>The configurator instance for method chaining.</returns>
     public GcpConfigurator SetConnection(GcpMessagingGatewayConnection connection)
     {
         _connection = connection;
         return this;
     }
     
+    /// <summary>
+    /// Sets the GCP messaging gateway connection using a builder.
+    /// </summary>
+    /// <param name="configure">The action to configure the GCP messaging gateway connection.</param>
+    /// <returns>The configurator instance for method chaining.</returns>
     public GcpConfigurator SetConnection(Action<GcpMessagingGatewayConnectionBuilder> configure)
     {
         var connection = new GcpMessagingGatewayConnectionBuilder();
@@ -110,6 +120,12 @@ public sealed class GcpConfigurator
 
     #endregion
 
+    /// <summary>
+    /// Sets the Firestore configuration.
+    /// </summary>
+    /// <param name="database">The Firestore database name.</param>
+    /// <returns>The configurator instance for method chaining.</returns>
+    /// <exception cref="ConfigurationException">Thrown when the Google Cloud Project ID is not set.</exception>
     public GcpConfigurator SetFirestoreConfiguration(string database)
     {
         if (_connection == null)
@@ -125,6 +141,12 @@ public sealed class GcpConfigurator
         return this;
     }
     
+    /// <summary>
+    /// Sets the Firestore configuration using a builder.
+    /// </summary>
+    /// <param name="configure">The action to configure the Firestore configuration.</param>
+    /// <returns>The configurator instance for method chaining.</returns>
+    /// <exception cref="ConfigurationException">Thrown when the Google Cloud Project ID is not set.</exception>
     public GcpConfigurator SetFirestoreConfiguration(Action<FirestoreConfigurationBuilder> configure)
     {
         if (_connection == null)
@@ -141,6 +163,11 @@ public sealed class GcpConfigurator
         return this;
     }
     
+    /// <summary>
+    /// Sets the Firestore configuration.
+    /// </summary>
+    /// <param name="configuration">The Firestore configuration.</param>
+    /// <returns>The configurator instance for method chaining.</returns>
     public GcpConfigurator SetFirestoreConfiguration(FirestoreConfiguration configuration)
     {
         _firestoreConfiguration = configuration;
@@ -193,6 +220,12 @@ public sealed class GcpConfigurator
         return this;
     }
     
+    /// <summary>
+    /// Configures Firestore as the inbox store with custom configuration.
+    /// The inbox pattern ensures idempotent message processing by tracking received messages.
+    /// </summary>
+    /// <param name="configure">Action to configure Firestore inbox settings</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public GcpConfigurator UseFirestoreInbox(Action<FirestoreCollectionBuilder> configure)
     {
         _action += fluent => fluent
@@ -256,6 +289,12 @@ public sealed class GcpConfigurator
         return this;
     }
     
+    /// <summary>
+    /// Configures Firestore as the outbox store with custom configuration.
+    /// The outbox pattern ensures reliable message publishing by storing messages before sending.
+    /// </summary>
+    /// <param name="configure">Action to configure Firestore outbox settings</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public GcpConfigurator UseFirestoreOutbox(Action<FirestoreCollectionBuilder> configure)
     {
         _action += fluent => fluent
@@ -342,6 +381,11 @@ public sealed class GcpConfigurator
     /// Distributed locks prevent concurrent processing of the same message across multiple instances.
     /// </summary>
     /// <returns>The configurator instance for method chaining</returns>
+    /// <summary>
+    /// Configures Firestore for distributed locking with default settings.
+    /// Distributed locks prevent concurrent processing of the same message across multiple instances.
+    /// </summary>
+    /// <returns>The configurator instance for method chaining</returns>
     public GcpConfigurator UseFirestoreDistributedLock(string tableName)
     {
         return UseFirestoreDistributedLock(cfg => cfg.SetName(tableName));
@@ -378,6 +422,12 @@ public sealed class GcpConfigurator
         return this;
     }
     
+    /// <summary>
+    /// Configures Firestore for distributed locking with custom configuration.
+    /// Distributed locks prevent concurrent processing of the same message across multiple instances.
+    /// </summary>
+    /// <param name="configure">Action to configure Firestore distributed locking settings</param>
+    /// <returns>The configurator instance for method chaining</returns>
     public GcpConfigurator UseFirestoreDistributedLock(Action<FirestoreCollectionBuilder> configure)
     {
         _action += fluent => fluent
