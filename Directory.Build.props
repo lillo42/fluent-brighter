@@ -18,9 +18,9 @@
       <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
 
       <!--  The .NET Version used in all projects -->
-      <BrighterTargetFrameworks>netstandard2.0;net8.0;net9.0</BrighterTargetFrameworks>
-      <BrighterFrameworkAndCoreTargetFrameworks>net472;net8.0;net9.0</BrighterFrameworkAndCoreTargetFrameworks>
-      <BrighterCoreTargetFrameworks>net8.0;net9.0</BrighterCoreTargetFrameworks>
+      <BrighterTargetFrameworks>netstandard2.0;net8.0;net9.0;net10.0</BrighterTargetFrameworks>
+      <BrighterFrameworkAndCoreTargetFrameworks>net472;net8.0;net9.0;net10.0</BrighterFrameworkAndCoreTargetFrameworks>
+      <BrighterCoreTargetFrameworks>net8.0;net9.0;net10.0</BrighterCoreTargetFrameworks>
       <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
       <AssemblyOriginatorKeyFile>../../FluentBrighter.snk</AssemblyOriginatorKeyFile>
    </PropertyGroup>

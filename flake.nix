@@ -1,6 +1,6 @@
 {
 
-  description = ".NET 9 Development Environment";
+  description = ".NET 10 Development Environment";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
@@ -18,7 +18,7 @@
         };
 
         # Define the .NET SDK version you want to use
-        dotnetSdk = pkgs.dotnetCorePackages.sdk_9_0-bin;
+        dotnetSdk = pkgs.dotnetCorePackages.sdk_10_0-bin;
       in
       {
         devShells.default = pkgs.mkShell {
