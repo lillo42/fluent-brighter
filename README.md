@@ -67,14 +67,14 @@ services
                     .CreateTopicIfMissing()))
             .UseSubscriptions(sb => sb
                 .AddSubscription<GreetingEvent>(s => s
-                    .SetSubscriptionName("paramore.example.greeting")
+                    .SetSubscription("paramore.example.greeting")
                     .SetQueue("greeting.event.queue")
                     .SetTopic("greeting.event.topic")
                     .SetTimeout(TimeSpan.FromSeconds(200))
                     .EnableDurable()
                     .EnableHighAvailability())
                 .AddSubscription<FarewellEvent>(s => s
-                    .SetSubscriptionName("paramore.example.farewell")
+                    .SetSubscription("paramore.example.farewell")
                     .SetQueue("farewell.event.queue")
                     .SetTopic("farewell.event.topic")))
         ));
@@ -111,28 +111,32 @@ services.AddFluentBrighter(brighter => brighter
 ```csharp
 services.AddFluentBrighter(brighter => brighter
     .UsingGcp(gcp => gcp
-        .SetProjectId("my-gcp-project")
+        .SetConnection(c => c
+            .SetProjectId("my-gcp-project"))
         .UsePubSubPublication(pb => pb
             .AddPublication<UserRegisteredEvent>(p => p
-                .SetTopicAttributes(t => t.SetName("user-registered-topic"))
+                .SetTopic("user-registered-topic")
                 .SetSource("https://example.com/users"))
             .AddPublication<UserDeletedEvent>(p => p
-                .SetTopicAttributes(t => t.SetName("user-deleted-topic"))
+                .SetTopic("user-deleted-topic")
                 .SetSource("https://example.com/users")))
         .UsePubSubSubscription(sb => sb
             .AddSubscription<UserRegisteredEvent>(s => s
                 .SetSubscriptionName("user-registration-handler")
-                .SetTopicAttributes(t => t.SetName("user-registered-topic"))
+                .SetSubscription("user-registered-queue")
+                .SetTopic("user-registered-topic")
                 .SetNoOfPerformers(5))
             .AddSubscription<UserDeletedEvent>(s => s
                 .SetSubscriptionName("user-deletion-handler")
-                .SetTopicAttributes(t => t.SetName("user-deleted-topic"))
+                .SetSubscription("user-deleted-queue")
+                .SetTopic("user-deleted-topic")
                 .SetNoOfPerformers(3)))
+        .SetFirestoreConfiguration("my-firestore-database")
         .UseFirestoreOutbox("outbox")
         .UseFirestoreInbox("inbox")
         .UseFirestoreOutboxArchive(cfg => cfg
             .SetMinimumAge(TimeSpan.FromDays(7))
-            .SetBatchSize(100))));
+            .SetArchiveBatchSize(100))));
 ```
 
 ### Apache Kafka
@@ -140,17 +144,17 @@ services.AddFluentBrighter(brighter => brighter
 ```csharp
 services.AddFluentBrighter(brighter => brighter
     .UsingKafka(kafka => kafka
-        .SetBootstrapServers("localhost:9092")
+        .SetConnection(c => c
+            .SetBootstrapServers("localhost:9092"))
         .UsePublications(pb => pb
             .AddPublication<PaymentProcessedEvent>(p => p
-                .SetTopic("payments-processed")
-                .SetMessageIdHeaderKey("message-id")))
+                .SetTopic("payments-processed")))
         .UseSubscriptions(sb => sb
             .AddSubscription<PaymentProcessedEvent>(s => s
-                .SetSubscriptionName("payment-notification-service")
+                .SetSubscription("payment-notification-service")
                 .SetTopic("payments-processed")
-                .SetGroupId("payment-consumers")
-                .SetNoOfPerformers(10)))));
+                .SetConsumerGroupId("payment-consumers")
+                .SetNumberOfPerformers(10)))));
 ```
 
 ### PostgreSQL with Outbox Pattern
@@ -161,13 +165,13 @@ services.AddFluentBrighter(brighter => brighter
     .Producers(producer => producer
         .UsePostgresOutbox(cfg => cfg
             .SetConnectionString("Host=localhost;Database=brighter;")
-            .SetTableName("outbox")))
+            .SetOutboxTableName("outbox")))
     .Subscriptions(sub => sub
         .UsePostgresInbox(cfg => cfg
             .SetConnectionString("Host=localhost;Database=brighter;")
-            .SetTableName("inbox")))
+            .SetInboxTableName("inbox")))
     .UseOutboxSweeper(cfg => cfg
-        .SetTimerInterval(TimeSpan.FromSeconds(30))
+        .SetTimerInterval(30)
         .SetBatchSize(100)));
 ```
 
@@ -177,12 +181,10 @@ services.AddFluentBrighter(brighter => brighter
 services.AddFluentBrighter(brighter => brighter
     .UsingRabbitMq(rabbitmq => /* ... RabbitMQ config ... */)
     .Producers(producer => producer
-        .UseSqlServerOutbox(cfg => cfg
+        .UseMicrosoftSqlServerOutbox(cfg => cfg
             .SetConnectionString("Server=localhost;Database=Brighter;")
-            .SetTableName("Outbox"))
-        .UseSqlServerDistributedLock(cfg => cfg
-            .SetConnectionString("Server=localhost;Database=Brighter;")
-            .SetTableName("DistributedLock"))));
+            .SetOutboxTableName("Outbox"))
+        .UseMicrosoftSqlServerDistributedLock("Server=localhost;Database=Brighter;")));
 ```
 
 ## 🎯 Key Concepts
