@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <BrighterVersion>10.0.5</BrighterVersion>
+    <BrighterVersion>[10.0.0, 11.0.0)</BrighterVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
@@ -54,7 +54,7 @@
     <PackageVersion Include="Paramore.Brighter.Transformers.AWS.V4" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Transformers.Gcp" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Transformers.MongoGridFS" Version="$(BrighterVersion)" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1">
       <PrivateAssets>all</PrivateAssets>
