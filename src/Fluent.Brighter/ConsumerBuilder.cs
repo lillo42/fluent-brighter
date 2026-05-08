@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
 using Paramore.Brighter;
+using Paramore.Brighter.Extensions;
 using Paramore.Brighter.FeatureSwitch;
 using Paramore.Brighter.Observability;
 using Paramore.Brighter.ServiceActivator.Extensions.DependencyInjection;

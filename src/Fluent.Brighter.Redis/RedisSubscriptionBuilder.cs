@@ -1,5 +1,4 @@
 using System;
-
 using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.Redis;
 
@@ -13,7 +12,7 @@ namespace Fluent.Brighter.Redis;
 public sealed class RedisSubscriptionBuilder
 {
     private SubscriptionName _subscriptionName = new(Uuid.New().ToString("N"));
-    
+
     /// <summary>
     /// Sets the subscription name that uniquely identifies this subscription.
     /// The subscription name is used to track and manage the subscription within the Brighter framework.
@@ -25,10 +24,10 @@ public sealed class RedisSubscriptionBuilder
         _subscriptionName = subscriptionName;
         return this;
     }
-    
+
     private ChannelName? _channelName;
     private RoutingKey? _routingKey;
-    
+
     /// <summary>
     /// Sets the channel name and routing key for the subscription.
     /// The channel represents the Redis queue/topic from which messages will be consumed.
@@ -41,7 +40,7 @@ public sealed class RedisSubscriptionBuilder
         _channelName = channelName;
         return this;
     }
-    
+
     /// <summary>
     /// Sets the routing key (topic) for the subscription.
     /// This determines which messages will be routed to this subscription based on the topic pattern.
@@ -53,9 +52,9 @@ public sealed class RedisSubscriptionBuilder
         _routingKey = routingKey;
         return this;
     }
-    
+
     private Type? _dataType;
-    
+
     /// <summary>
     /// Sets the data type for messages in this subscription.
     /// When provided, this method will automatically configure the subscription name, channel name,
@@ -66,7 +65,7 @@ public sealed class RedisSubscriptionBuilder
     public RedisSubscriptionBuilder SetDataType(Type? dataType)
     {
         _dataType = dataType;
-        
+
         if (dataType != null)
         {
             var typeName = dataType.FullName!;
@@ -74,12 +73,12 @@ public sealed class RedisSubscriptionBuilder
             _channelName ??= new ChannelName(typeName);
             _routingKey ??= new RoutingKey(typeName);
         }
-        
+
         return this;
     }
-    
+
     private Func<Message, Type>? _getRequestType;
-    
+
     /// <summary>
     /// Sets a function that determines the request type dynamically based on the message content.
     /// This allows for polymorphic message handling where different message types can be processed by different handlers.
@@ -91,9 +90,9 @@ public sealed class RedisSubscriptionBuilder
         _getRequestType = getRequestType;
         return this;
     }
-    
+
     private int _bufferSize = 1;
-    
+
     /// <summary>
     /// Sets the buffer size for the message channel.
     /// The buffer size determines how many messages can be queued in memory before processing,
@@ -106,9 +105,9 @@ public sealed class RedisSubscriptionBuilder
         _bufferSize = bufferSize;
         return this;
     }
-    
+
     private int _noOfPerformers = 1;
-    
+
     /// <summary>
     /// Sets the number of performer threads that will process messages concurrently.
     /// Multiple performers allow parallel message processing, improving throughput for I/O-bound operations.
@@ -120,9 +119,9 @@ public sealed class RedisSubscriptionBuilder
         _noOfPerformers = noOfPerformers;
         return this;
     }
-    
+
     private TimeSpan? _timeOut;
-    
+
     /// <summary>
     /// Sets the timeout duration for message processing operations.
     /// If a message handler takes longer than this timeout, the operation will be cancelled.
@@ -134,9 +133,9 @@ public sealed class RedisSubscriptionBuilder
         _timeOut = timeout;
         return this;
     }
-    
+
     private int _requeueCount = -1;
-    
+
     /// <summary>
     /// Sets the maximum number of times a failed message will be requeued for retry.
     /// Messages that fail processing can be retried up to this limit before being moved to a dead letter queue or discarded.
@@ -148,9 +147,9 @@ public sealed class RedisSubscriptionBuilder
         _requeueCount = requeueCount;
         return this;
     }
-    
+
     private TimeSpan? _requeueDelay;
-    
+
     /// <summary>
     /// Sets the delay before a failed message is requeued for retry.
     /// This provides a backoff period before attempting to process the message again, which can help with transient failures.
@@ -162,9 +161,9 @@ public sealed class RedisSubscriptionBuilder
         _requeueDelay = requeueDelay;
         return this;
     }
-    
+
     private int _unacceptableMessageLimit;
-    
+
     /// <summary>
     /// Sets the limit for the number of unacceptable messages that can be received before the channel stops processing.
     /// Unacceptable messages are those that cannot be deserialized or are malformed. This limit prevents endless processing of bad messages.
@@ -176,9 +175,9 @@ public sealed class RedisSubscriptionBuilder
         _unacceptableMessageLimit = unacceptableMessageLimit;
         return this;
     }
-    
+
     private MessagePumpType _messagePumpType = MessagePumpType.Proactor;
-    
+
     /// <summary>
     /// Sets the message pump type that determines how messages are processed.
     /// Proactor uses async/await patterns for non-blocking I/O, while Reactor uses synchronous processing.
@@ -190,9 +189,9 @@ public sealed class RedisSubscriptionBuilder
         _messagePumpType = messagePumpType;
         return this;
     }
-    
+
     private IAmAChannelFactory? _channelFactory;
-    
+
     /// <summary>
     /// Sets a custom channel factory for creating message channels.
     /// Use this when you need to provide custom channel creation logic beyond the default Redis channel factory.
@@ -204,9 +203,9 @@ public sealed class RedisSubscriptionBuilder
         _channelFactory = channelFactory;
         return this;
     }
-    
+
     private OnMissingChannel _onMissingChannel = OnMissingChannel.Create;
-    
+
     /// <summary>
     /// Sets the behavior for handling missing channels/topics in Redis.
     /// Determines whether to create, validate, or assume the existence of channels when they are not found.
@@ -218,9 +217,9 @@ public sealed class RedisSubscriptionBuilder
         _onMissingChannel = onMissingChannel;
         return this;
     }
-    
+
     private TimeSpan? _emptyChannelDelay;
-    
+
     /// <summary>
     /// Sets the delay before checking for messages again when the channel is empty.
     /// This prevents tight polling loops and reduces load on Redis when no messages are available.
@@ -232,9 +231,9 @@ public sealed class RedisSubscriptionBuilder
         _emptyChannelDelay = emptyChannelDelay;
         return this;
     }
-    
+
     private TimeSpan? _channelFailureDelay;
-    
+
     /// <summary>
     /// Sets the delay before retrying channel operations after a failure.
     /// This provides a backoff period when channel errors occur, preventing rapid retry loops that could overwhelm the system.
@@ -246,7 +245,7 @@ public sealed class RedisSubscriptionBuilder
         _channelFailureDelay = channelFailureDelay;
         return this;
     }
-    
+
     /// <summary>
     /// Builds and returns a configured <see cref="RedisSubscription"/> instance.
     /// This method is called internally to create the subscription with all the configured settings
@@ -260,18 +259,18 @@ public sealed class RedisSubscriptionBuilder
         {
             throw new ConfigurationException("Subscription name is required");
         }
-        
+
         if (_channelName == null)
         {
             throw new ConfigurationException("Channel name is required");
         }
-        
+
         if (_routingKey == null)
         {
             throw new ConfigurationException("Routing key is required");
         }
-        
-        return new TmpRedisSubscription(
+
+        return new RedisSubscription(
             subscriptionName: _subscriptionName,
             channelName: _channelName,
             routingKey: _routingKey,
@@ -290,39 +289,4 @@ public sealed class RedisSubscriptionBuilder
             channelFailureDelay: _channelFailureDelay
         );
     }
-
-    private class TmpRedisSubscription(
-        SubscriptionName subscriptionName,
-        ChannelName channelName,
-        RoutingKey routingKey,
-        Type? requestType = null,
-        Func<Message, Type>? getRequestType = null,
-        int bufferSize = 1,
-        int noOfPerformers = 1,
-        TimeSpan? timeOut = null,
-        int requeueCount = -1,
-        TimeSpan? requeueDelay = null,
-        int unacceptableMessageLimit = 0,
-        MessagePumpType messagePumpType = MessagePumpType.Proactor,
-        IAmAChannelFactory? channelFactory = null,
-        OnMissingChannel makeChannels = OnMissingChannel.Create,
-        TimeSpan? emptyChannelDelay = null,
-        TimeSpan? channelFailureDelay = null) : RedisSubscription(
-        subscriptionName, 
-        channelName, 
-        routingKey, 
-        requestType, 
-        getRequestType, 
-        bufferSize, 
-        noOfPerformers, 
-        timeOut, 
-        requeueCount, 
-        requeueDelay, 
-        unacceptableMessageLimit, 
-        messagePumpType, 
-        channelFactory, 
-        makeChannels, 
-        emptyChannelDelay, 
-        channelFailureDelay 
-        );
 }
