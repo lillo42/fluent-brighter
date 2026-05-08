@@ -19,7 +19,7 @@ public sealed class RedisSubscriptionConfigurator(ChannelFactory channelFactory)
     /// This property is used internally to collect all subscriptions that have been added to the configurator.
     /// </summary>
     internal List<RedisSubscription> Subscriptions { get; } = [];
-    
+
     /// <summary>
     /// Adds a pre-configured Redis subscription to the configurator.
     /// </summary>
@@ -30,7 +30,7 @@ public sealed class RedisSubscriptionConfigurator(ChannelFactory channelFactory)
         Subscriptions.Add(subscription);
         return this;
     }
-    
+
     /// <summary>
     /// Adds a Redis subscription using a builder configuration action.
     /// This method creates a new <see cref="RedisSubscriptionBuilder"/>, applies the provided configuration,
@@ -45,7 +45,7 @@ public sealed class RedisSubscriptionConfigurator(ChannelFactory channelFactory)
         configure(sub);
         return AddSubscription(sub.Build());
     }
-    
+
     /// <summary>
     /// Adds a Redis subscription for a specific request type using a builder configuration action.
     /// This method automatically configures the subscription with the specified <typeparamref name="TRequest"/> type

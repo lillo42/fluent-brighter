@@ -37,7 +37,7 @@ public sealed class KafkaConfigurator
         _connection = connection;
         return this;
     }
-    
+
     /// <summary>
     /// Configures Kafka message publications (producers) for the Brighter pipeline.
     /// </summary>
@@ -56,7 +56,7 @@ public sealed class KafkaConfigurator
         };
         return this;
     }
-    
+
     /// <summary>
     /// Configures Kafka message subscriptions (consumers) for the Brighter pipeline.
     /// </summary>
@@ -73,7 +73,7 @@ public sealed class KafkaConfigurator
                 configure(configurator);
 
                 sub.AddChannelFactory(channel);
-                
+
                 foreach (var subscription in configurator.Subscriptions)
                 {
                     sub.AddKafkaSubscription(subscription);
@@ -82,7 +82,7 @@ public sealed class KafkaConfigurator
         };
         return this;
     }
-    
+
     /// <summary>
     /// Applies the configured Kafka settings to the provided Brighter builder.
     /// </summary>
@@ -94,7 +94,7 @@ public sealed class KafkaConfigurator
         {
             throw new ConfigurationException("No MessagingGatewayConnection was set");
         }
-        
+
         _action(fluentBrighter);
     }
 }

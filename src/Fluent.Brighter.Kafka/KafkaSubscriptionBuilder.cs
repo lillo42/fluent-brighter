@@ -26,7 +26,7 @@ public sealed class KafkaSubscriptionBuilder
         _subscriptionName = subscriptionName;
         return this;
     }
-    
+
     private ChannelName? _channelName;
     private RoutingKey? _routingKey;
 
@@ -42,7 +42,7 @@ public sealed class KafkaSubscriptionBuilder
         _channelName = new ChannelName(routingKey.Value);
         return this;
     }
-    
+
     private Type? _dataType;
 
     /// <summary>
@@ -59,7 +59,7 @@ public sealed class KafkaSubscriptionBuilder
         {
             return this;
         }
-        
+
         if (_subscriptionName == null)
         {
             _subscriptionName = new SubscriptionName(dataType.ToString());
@@ -74,10 +74,10 @@ public sealed class KafkaSubscriptionBuilder
         {
             _routingKey = new RoutingKey(dataType.Name);
         }
-        
+
         return this;
     }
-    
+
     private Func<Message, Type>? _getRequestType;
 
     /// <summary>
@@ -104,8 +104,8 @@ public sealed class KafkaSubscriptionBuilder
         _bufferSize = bufferSize;
         return this;
     }
-    
-    private int _noOfPerformers  = 1;
+
+    private int _noOfPerformers = 1;
 
     /// <summary>
     /// Configures the number of parallel performers (handlers) processing messages from the channel.
@@ -117,7 +117,7 @@ public sealed class KafkaSubscriptionBuilder
         _noOfPerformers = noOfPerformers;
         return this;
     }
-    
+
     private TimeSpan? _timeOut;
 
     /// <summary>
@@ -130,7 +130,7 @@ public sealed class KafkaSubscriptionBuilder
         _timeOut = timeout;
         return this;
     }
-    
+
     private int _requeueCount = -1;
 
     /// <summary>
@@ -144,7 +144,7 @@ public sealed class KafkaSubscriptionBuilder
         _requeueCount = requeueCount;
         return this;
     }
-    
+
     private TimeSpan? _requeueDelay;
 
     /// <summary>
@@ -157,7 +157,7 @@ public sealed class KafkaSubscriptionBuilder
         _requeueDelay = timeout;
         return this;
     }
-    
+
     private int _unacceptableMessageLimit;
 
     /// <summary>
@@ -168,10 +168,10 @@ public sealed class KafkaSubscriptionBuilder
     /// <returns>The current builder instance for chaining.</returns>
     public KafkaSubscriptionBuilder SetUnacceptableMessageLimit(int unacceptableMessageLimit)
     {
-        _unacceptableMessageLimit = unacceptableMessageLimit ;
+        _unacceptableMessageLimit = unacceptableMessageLimit;
         return this;
     }
-    
+
     private MessagePumpType _messagePumpType = MessagePumpType.Proactor;
 
     /// <summary>
@@ -197,7 +197,7 @@ public sealed class KafkaSubscriptionBuilder
         _channelFactory = channelFactory;
         return this;
     }
-    
+
     private OnMissingChannel _onMissingChannel = OnMissingChannel.Create;
 
     /// <summary>
@@ -238,7 +238,7 @@ public sealed class KafkaSubscriptionBuilder
     }
 
     private long _commitBatchSize = 10;
-    
+
     /// <summary>
     /// Sets the number of messages processed before committing offsets to Kafka.
     /// </summary>
@@ -262,9 +262,9 @@ public sealed class KafkaSubscriptionBuilder
         _configHook = configHook;
         return this;
     }
-    
+
     private string? _groupId = null;
-    
+
     /// <summary>
     /// Sets the Kafka consumer group ID. If not provided, Brighter may generate one.
     /// </summary>
@@ -275,7 +275,7 @@ public sealed class KafkaSubscriptionBuilder
         _groupId = groupId;
         return this;
     }
-    
+
     private IsolationLevel _isolationLevel = IsolationLevel.ReadCommitted;
 
     /// <summary>
@@ -288,7 +288,7 @@ public sealed class KafkaSubscriptionBuilder
         _isolationLevel = isolationLevel;
         return this;
     }
-    
+
     private TimeSpan _maxPollInterval = TimeSpan.FromMilliseconds(300000);
 
     /// <summary>
@@ -301,7 +301,7 @@ public sealed class KafkaSubscriptionBuilder
         _maxPollInterval = maxPollInterval;
         return this;
     }
-    
+
     private int _numPartitions = 1;
 
     /// <summary>
@@ -405,7 +405,7 @@ public sealed class KafkaSubscriptionBuilder
         _topicFindTimeout = topicFindTimeout;
         return this;
     }
-    
+
     /// <summary>
     /// Builds a new instance of <see cref="KafkaSubscription"/> with the configured settings.
     /// </summary>
@@ -417,7 +417,7 @@ public sealed class KafkaSubscriptionBuilder
         {
             throw new ConfigurationException("SubscriptionName not set");
         }
-        
+
         if (_channelName == null)
         {
             throw new ConfigurationException("ChannelName not set");
@@ -427,7 +427,7 @@ public sealed class KafkaSubscriptionBuilder
         {
             throw new ConfigurationException("RoutingKey not set");
         }
-        
+
         return new KafkaSubscription(
             subscriptionName: _subscriptionName,
             channelName: _channelName,
@@ -443,7 +443,7 @@ public sealed class KafkaSubscriptionBuilder
             messagePumpType: _messagePumpType,
             channelFactory: _channelFactory,
             makeChannels: _onMissingChannel,
-            emptyChannelDelay: _emptyChannelDelay, 
+            emptyChannelDelay: _emptyChannelDelay,
             channelFailureDelay: _channelFailureDelay,
             commitBatchSize: _commitBatchSize,
             configHook: _configHook,

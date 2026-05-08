@@ -26,7 +26,7 @@ public static class RmqSubscriptionBuilderExtensions
     /// <returns>Configured subscription builder</returns>
     public static RmqSubscriptionBuilder UseProactorMode(this RmqSubscriptionBuilder builder)
         => builder.SetMessagePumpType(MessagePumpType.Proactor);
-    
+
     /// <summary>
     /// Configures the subscription to use Reactor message pump mode
     /// </summary>
@@ -39,7 +39,7 @@ public static class RmqSubscriptionBuilderExtensions
     public static RmqSubscriptionBuilder UseReactorMode(this RmqSubscriptionBuilder builder)
         => builder.SetMessagePumpType(MessagePumpType.Reactor);
     #endregion
-    
+
     #region MakeChannels
     /// <summary>
     /// Configures the subscription to create required infrastructure (queues/exchanges) if missing
@@ -51,7 +51,7 @@ public static class RmqSubscriptionBuilderExtensions
     /// <returns>Configured subscription builder</returns>
     public static RmqSubscriptionBuilder CreateInfrastructureIfMissing(this RmqSubscriptionBuilder builder)
         => builder.SetMakeChannels(OnMissingChannel.Create);
-    
+
     /// <summary>
     /// Configures the subscription to validate infrastructure existence on startup
     /// </summary>
@@ -63,7 +63,7 @@ public static class RmqSubscriptionBuilderExtensions
     /// <returns>Configured subscription builder</returns>
     public static RmqSubscriptionBuilder ValidIfInfrastructureExists(this RmqSubscriptionBuilder builder)
         => builder.SetMakeChannels(OnMissingChannel.Validate);
-    
+
     /// <summary>
     /// Configures the subscription to assume infrastructure exists
     /// </summary>
@@ -76,7 +76,7 @@ public static class RmqSubscriptionBuilderExtensions
     public static RmqSubscriptionBuilder AssumeInfrastructureExists(this RmqSubscriptionBuilder builder)
         => builder.SetMakeChannels(OnMissingChannel.Assume);
     #endregion
-    
+
     #region QueueType
     /// <summary>
     /// Configures the queue as a Classic RabbitMQ queue
@@ -88,7 +88,7 @@ public static class RmqSubscriptionBuilderExtensions
     /// <returns>Configured subscription builder</returns>
     public static RmqSubscriptionBuilder UseClassicQueue(this RmqSubscriptionBuilder builder)
         => builder.SetQueueType(QueueType.Classic);
-    
+
     /// <summary>
     /// Configures the queue as a Quorum queue
     /// </summary>
@@ -113,7 +113,7 @@ public static class RmqSubscriptionBuilderExtensions
     /// <returns>Configured subscription builder</returns>
     public static RmqSubscriptionBuilder EnableDurable(this RmqSubscriptionBuilder builder)
         => builder.SetIsDurable(true);
-    
+
     /// <summary>
     /// Disables queue durability (transient queues)
     /// </summary>
@@ -125,7 +125,7 @@ public static class RmqSubscriptionBuilderExtensions
     public static RmqSubscriptionBuilder DisableDurable(this RmqSubscriptionBuilder builder)
         => builder.SetIsDurable(false);
     #endregion
-    
+
     #region HighAvailability 
     /// <summary>
     /// Enables queue mirroring across cluster nodes
@@ -138,7 +138,7 @@ public static class RmqSubscriptionBuilderExtensions
     /// <returns>Configured subscription builder</returns>
     public static RmqSubscriptionBuilder EnableHighAvailability(this RmqSubscriptionBuilder builder)
         => builder.SethHighAvailability(true);
-    
+
     /// <summary>
     /// Disables queue mirroring
     /// </summary>

@@ -30,7 +30,7 @@ public static class MongoDbInboxBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var configuration = new MongoDbConfigurationBuilder();
         configure(configuration);
         return builder.SetConfiguration(configuration.Build());
@@ -67,7 +67,7 @@ public static class MongoDbInboxBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var collection = new MongoDbCollectionConfigurationBuilder();
         configure(collection);
         return builder.SetCollection(collection.Build());

@@ -22,21 +22,21 @@ public static class ConsumerBuilderExtensions
     /// <returns>The consumer builder for chaining.</returns>
     public static ConsumerBuilder AddKafkaSubscription(this ConsumerBuilder builder, KafkaSubscription subscription)
         => builder.AddSubscription(subscription);
-    
+
     /// <summary>
     /// Adds a Kafka subscription by configuring it through a builder action.
     /// </summary>
     /// <param name="builder">The Brighter consumer builder instance.</param>
     /// <param name="configure">An action that configures a <see cref="KafkaSubscriptionBuilder"/>.</param>
     /// <returns>The consumer builder for chaining.</returns>
-    public static ConsumerBuilder AddKafkaSubscription(this ConsumerBuilder builder, 
+    public static ConsumerBuilder AddKafkaSubscription(this ConsumerBuilder builder,
         Action<KafkaSubscriptionBuilder> configure)
     {
         var sub = new KafkaSubscriptionBuilder();
         configure(sub);
         return builder.AddSubscription(sub.Build());
     }
-    
+
     /// <summary>
     /// Adds a Kafka subscription for a specific request type with type-safe configuration.
     /// The request type is automatically registered, and additional settings can be applied.
@@ -45,7 +45,7 @@ public static class ConsumerBuilderExtensions
     /// <param name="builder">The Brighter consumer builder instance.</param>
     /// <param name="configure">An action to further configure the subscription builder.</param>
     /// <returns>The consumer builder for chaining.</returns>
-    public static ConsumerBuilder AddKafkaSubscription<TRequest>(this ConsumerBuilder builder, 
+    public static ConsumerBuilder AddKafkaSubscription<TRequest>(this ConsumerBuilder builder,
         Action<KafkaSubscriptionBuilder> configure)
         where TRequest : class, IRequest
     {
@@ -68,7 +68,7 @@ public static class ConsumerBuilderExtensions
         configure(connection);
         return builder.AddKafkaChannelFactory(connection.Build());
     }
-    
+
     /// <summary>
     /// Adds a Kafka channel factory using a pre-built connection configuration.
     /// </summary>

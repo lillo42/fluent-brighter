@@ -23,7 +23,7 @@ public sealed class SqlServerSubscriptionBuilder
         _subscriptionName = subscriptionName;
         return this;
     }
-    
+
     private ChannelName? _channelName;
     private RoutingKey? _routingKey;
 
@@ -42,7 +42,7 @@ public sealed class SqlServerSubscriptionBuilder
         _routingKey = new RoutingKey(channelName.Value);
         return this;
     }
-    
+
     private Type? _dataType;
 
     /// <summary>
@@ -59,7 +59,7 @@ public sealed class SqlServerSubscriptionBuilder
         {
             return this;
         }
-        
+
         if (_subscriptionName == null)
         {
             _subscriptionName = new SubscriptionName(dataType.ToString());
@@ -74,10 +74,10 @@ public sealed class SqlServerSubscriptionBuilder
         {
             _routingKey = new RoutingKey(dataType.Name);
         }
-        
+
         return this;
     }
-    
+
     private Func<Message, Type>? _getRequestType;
 
     /// <summary>
@@ -104,7 +104,7 @@ public sealed class SqlServerSubscriptionBuilder
         _bufferSize = bufferSize;
         return this;
     }
-    
+
     private int _noOfPerformers = 1;
 
     /// <summary>
@@ -118,7 +118,7 @@ public sealed class SqlServerSubscriptionBuilder
         _noOfPerformers = noOfPerformers;
         return this;
     }
-    
+
     private TimeSpan? _timeOut;
 
     /// <summary>
@@ -132,7 +132,7 @@ public sealed class SqlServerSubscriptionBuilder
         _timeOut = timeout;
         return this;
     }
-    
+
     private int _requeueCount = -1;
 
     /// <summary>
@@ -146,7 +146,7 @@ public sealed class SqlServerSubscriptionBuilder
         _requeueCount = requeueCount;
         return this;
     }
-    
+
     private TimeSpan? _requeueDelay;
 
     /// <summary>
@@ -159,7 +159,7 @@ public sealed class SqlServerSubscriptionBuilder
         _requeueDelay = requeueDelay;
         return this;
     }
-    
+
     private int _unacceptableMessageLimit;
 
     /// <summary>
@@ -173,7 +173,7 @@ public sealed class SqlServerSubscriptionBuilder
         _unacceptableMessageLimit = unacceptableMessageLimit;
         return this;
     }
-    
+
     private MessagePumpType _messagePumpType = MessagePumpType.Proactor;
 
     /// <summary>
@@ -200,7 +200,7 @@ public sealed class SqlServerSubscriptionBuilder
         _channelFactory = channelFactory;
         return this;
     }
-    
+
     private OnMissingChannel _onMissingChannel = OnMissingChannel.Create;
 
     /// <summary>
@@ -240,7 +240,7 @@ public sealed class SqlServerSubscriptionBuilder
         _channelFailureDelay = channelFailureDelay;
         return this;
     }
-    
+
     /// <summary>
     /// Builds and returns a configured <see cref="Subscription"/> instance.
     /// </summary>
@@ -254,7 +254,7 @@ public sealed class SqlServerSubscriptionBuilder
         {
             throw new ConfigurationException("SubscriptionName not set");
         }
-        
+
         if (_channelName == null)
         {
             throw new ConfigurationException("ChannelName not set");
@@ -264,7 +264,7 @@ public sealed class SqlServerSubscriptionBuilder
         {
             throw new ConfigurationException("RoutingKey not set");
         }
-        
+
         return new MsSqlSubscription(
             subscriptionName: _subscriptionName,
             channelName: _channelName,
@@ -280,7 +280,7 @@ public sealed class SqlServerSubscriptionBuilder
             messagePumpType: _messagePumpType,
             channelFactory: _channelFactory,
             makeChannels: _onMissingChannel,
-            emptyChannelDelay: _emptyChannelDelay, 
+            emptyChannelDelay: _emptyChannelDelay,
             channelFailureDelay: _channelFailureDelay);
     }
 }

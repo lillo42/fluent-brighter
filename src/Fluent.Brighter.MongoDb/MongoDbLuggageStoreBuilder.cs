@@ -10,7 +10,7 @@ namespace Fluent.Brighter.MongoDb;
 /// <summary>
 /// Provides a fluent builder for configuring <see cref="MongoDbLuggageStoreOptions"/>.
 /// </summary>
-public sealed class MongoDbLuggageStoreBuilder 
+public sealed class MongoDbLuggageStoreBuilder
 {
     private string _connectionString = string.Empty;
 
@@ -24,7 +24,7 @@ public sealed class MongoDbLuggageStoreBuilder
         _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
         return this;
     }
-    
+
     private string _databaseName = string.Empty;
 
     /// <summary>
@@ -37,7 +37,7 @@ public sealed class MongoDbLuggageStoreBuilder
         _databaseName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));
         return this;
     }
-    
+
     private string _bucketName = string.Empty;
 
     /// <summary>
@@ -52,7 +52,7 @@ public sealed class MongoDbLuggageStoreBuilder
     }
 
     private GridFSDownloadByNameOptions? _downloadOptions;
-    
+
     /// <summary>
     /// Sets the download options for GridFS operations.
     /// </summary>
@@ -63,7 +63,7 @@ public sealed class MongoDbLuggageStoreBuilder
         _downloadOptions = options;
         return this;
     }
-    
+
     private GridFSUploadOptions? _uploadOptions;
 
     /// <summary>
@@ -87,12 +87,12 @@ public sealed class MongoDbLuggageStoreBuilder
         {
             throw new ConfigurationException("ConnectionString must be provided.");
         }
-        
+
         if (string.IsNullOrEmpty(_databaseName))
         {
             throw new ConfigurationException("DatabaseName must be provided.");
         }
-        
+
         if (string.IsNullOrEmpty(_bucketName))
         {
             throw new ConfigurationException("BucketName must be provided.");

@@ -27,7 +27,7 @@ public class MongoDbConfigurationBuilder
         _client = client ?? throw new ArgumentNullException(nameof(client));
         return this;
     }
-    
+
     internal string? ConnectionString { get; private set; }
 
     /// <summary>
@@ -42,7 +42,7 @@ public class MongoDbConfigurationBuilder
         {
             throw new ArgumentException("Connection string cannot be null or empty.", nameof(connectionString));
         }
-        
+
         _client = new MongoClient(connectionString);
         ConnectionString = connectionString;
         return this;
@@ -62,7 +62,7 @@ public class MongoDbConfigurationBuilder
         {
             throw new ArgumentException("Database name cannot be null or empty.", nameof(databaseName));
         }
-        
+
         _databaseName = databaseName;
         return this;
     }

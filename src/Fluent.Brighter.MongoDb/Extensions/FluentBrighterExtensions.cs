@@ -31,7 +31,7 @@ public static class FluentBrighterExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var configurator = new MongoDbConfigurator();
         configure(configurator);
         configurator.SetFluentBrighter(builder);

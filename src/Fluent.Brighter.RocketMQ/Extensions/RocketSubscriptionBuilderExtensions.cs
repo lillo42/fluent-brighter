@@ -24,7 +24,7 @@ public static class RocketSubscriptionBuilderExtensions
     /// <returns>Configured subscription builder</returns>
     public static RocketSubscriptionBuilder UseProactorMode(this RocketSubscriptionBuilder builder)
         => builder.SetMessagePumpType(MessagePumpType.Proactor);
-    
+
     /// <summary>
     /// Configures the subscription to use Reactor message pump mode
     /// </summary>
@@ -37,7 +37,7 @@ public static class RocketSubscriptionBuilderExtensions
     public static RocketSubscriptionBuilder UseReactorMode(this RocketSubscriptionBuilder builder)
         => builder.SetMessagePumpType(MessagePumpType.Reactor);
     #endregion
-    
+
     #region MakeChannels
     /// <summary>
     /// Configures the subscription to create required infrastructure (queues/exchanges) if missing
@@ -49,7 +49,7 @@ public static class RocketSubscriptionBuilderExtensions
     /// <returns>Configured subscription builder</returns>
     public static RocketSubscriptionBuilder CreateInfrastructureIfMissing(this RocketSubscriptionBuilder builder)
         => builder.SetMakeChannels(OnMissingChannel.Create);
-    
+
     /// <summary>
     /// Configures the subscription to validate infrastructure existence on startup
     /// </summary>
@@ -61,7 +61,7 @@ public static class RocketSubscriptionBuilderExtensions
     /// <returns>Configured subscription builder</returns>
     public static RocketSubscriptionBuilder ValidIfInfrastructureExists(this RocketSubscriptionBuilder builder)
         => builder.SetMakeChannels(OnMissingChannel.Validate);
-    
+
     /// <summary>
     /// Configures the subscription to assume infrastructure exists
     /// </summary>

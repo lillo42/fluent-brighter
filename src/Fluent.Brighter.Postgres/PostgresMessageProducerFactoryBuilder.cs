@@ -23,9 +23,9 @@ public sealed class PostgresMessageProducerFactoryBuilder
         _connection = connection;
         return this;
     }
-    
+
     private readonly List<PostgresPublication> _publications = [];
-    
+
     /// <summary>
     /// Adds a publication configuration that defines how messages are published to PostgreSQL.
     /// Publications define the mapping between message types and PostgreSQL topics/tables.
@@ -50,7 +50,7 @@ public sealed class PostgresMessageProducerFactoryBuilder
         {
             throw new ConfigurationException("No connection configured");
         }
-        
+
         return new PostgresMessageProducerFactory(_connection, _publications);
     }
 }

@@ -49,7 +49,7 @@ public static class GcpPubSubSubscriptionBuilderExtensions
     {
         return builder.SetEnableMessageOrdering(true);
     }
-    
+
     /// <summary>
     /// Disables message ordering for the subscription.
     /// Messages will be delivered in the order received by Pub/Sub, which may not match publishing order.
@@ -60,7 +60,7 @@ public static class GcpPubSubSubscriptionBuilderExtensions
     {
         return builder.SetEnableMessageOrdering(false);
     }
-    
+
     /// <summary>
     /// Enables exactly-once delivery for the subscription.
     /// When enabled, Pub/Sub guarantees that each message is delivered and acknowledged exactly once,
@@ -72,7 +72,7 @@ public static class GcpPubSubSubscriptionBuilderExtensions
     {
         return builder.SetEnableExactlyOnceDelivery(true);
     }
-    
+
     /// <summary>
     /// Disables exactly-once delivery for the subscription.
     /// Messages may be delivered more than once (at-least-once delivery semantics).
@@ -96,7 +96,7 @@ public static class GcpPubSubSubscriptionBuilderExtensions
     {
         return builder.SetSubscriptionMode(SubscriptionMode.Stream);
     }
-    
+
     /// <summary>
     /// Configures the subscription to use pull mode for message consumption.
     /// In pull mode, the subscriber explicitly requests messages from Pub/Sub,
@@ -134,7 +134,7 @@ public static class GcpPubSubSubscriptionBuilderExtensions
         configure(policy);
         return builder.SetDeadLetter(policy.Build());
     }
-    
+
     /// <summary>
     /// Configures the subscription to use the Proactor message pump type for asynchronous message processing.
     /// The Proactor pattern processes messages using async/await, allowing for concurrent message handling

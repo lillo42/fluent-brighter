@@ -27,7 +27,7 @@ public static class MongoDbConfigurationBuilderExtensions
         {
             throw new ArgumentException("Collection name cannot be null or empty.", nameof(collectionName));
         }
-        
+
         return builder.SetOutbox(new MongoDbCollectionConfiguration { Name = collectionName });
     }
 
@@ -45,7 +45,7 @@ public static class MongoDbConfigurationBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var collection = new MongoDbCollectionConfigurationBuilder();
         configure(collection);
         return builder.SetOutbox(collection.Build());
@@ -68,7 +68,7 @@ public static class MongoDbConfigurationBuilderExtensions
         {
             throw new ArgumentException("Collection name cannot be null or empty.", nameof(collectionName));
         }
-        
+
         return builder.SetInbox(new MongoDbCollectionConfiguration { Name = collectionName });
     }
 
@@ -86,7 +86,7 @@ public static class MongoDbConfigurationBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var collection = new MongoDbCollectionConfigurationBuilder();
         configure(collection);
         return builder.SetInbox(collection.Build());
@@ -109,7 +109,7 @@ public static class MongoDbConfigurationBuilderExtensions
         {
             throw new ArgumentException("Collection name cannot be null or empty.", nameof(collectionName));
         }
-        
+
         return builder.SetLocking(new MongoDbCollectionConfiguration { Name = collectionName });
     }
 
@@ -127,7 +127,7 @@ public static class MongoDbConfigurationBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var collection = new MongoDbCollectionConfigurationBuilder();
         configure(collection);
         return builder.SetLocking(collection.Build());

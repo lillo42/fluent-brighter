@@ -31,9 +31,9 @@ public sealed class ProducerBuilder
         _archiveBatchSize = archiveBatchSize;
         return this;
     }
-    
+
     private IAmAnArchiveProvider? _archiveProvider;
-    
+
     /// <summary>
     /// Sets the archive provider for message storage (optional)
     /// </summary>
@@ -44,7 +44,7 @@ public sealed class ProducerBuilder
         _archiveProvider = archiveProvider;
         return this;
     }
-    
+
     private Type? _connectionProvider;
 
     /// <summary>
@@ -57,8 +57,8 @@ public sealed class ProducerBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
-    private Type? _transactionProvider ;
+
+    private Type? _transactionProvider;
 
     /// <summary>
     /// Sets the transaction provider type for managing transactions (optional)
@@ -70,7 +70,7 @@ public sealed class ProducerBuilder
         _transactionProvider = transactionProvider;
         return this;
     }
-    
+
     private IDistributedLock? _distributedLock;
 
     /// <summary>
@@ -83,7 +83,7 @@ public sealed class ProducerBuilder
         _distributedLock = distributedLock;
         return this;
     }
-    
+
     private IAmAnOutbox? _outbox;
 
     /// <summary>
@@ -111,7 +111,7 @@ public sealed class ProducerBuilder
     }
 
     private int? _outboxTimeout;
-    
+
     /// <summary>
     /// Sets the timeout for outbox operations (optional)
     /// </summary>
@@ -171,11 +171,11 @@ public sealed class ProducerBuilder
     /// <returns>The builder instance for fluent chaining</returns>
     public ProducerBuilder SetProducerRegistry(IAmAProducerRegistry producerRegistry)
     {
-        _producerRegistry =  producerRegistry;
+        _producerRegistry = producerRegistry;
         return this;
     }
 
-    private List<IAmAMessageProducerFactory> _messageProducerFactories = [];
+    private readonly List<IAmAMessageProducerFactory> _messageProducerFactories = [];
 
     /// <summary>
     /// Adds a message producer factory to the configuration (optional)
@@ -225,7 +225,7 @@ public sealed class ProducerBuilder
         _defaultReplyChannelFactory = defaultReplyChannelFactory;
         return this;
     }
-    
+
     private IAmARequestContextFactory? _defaultRequestContextFactory;
 
     /// <summary>
@@ -264,7 +264,7 @@ public sealed class ProducerBuilder
         _instrumentation = instrumentation;
         return this;
     }
-    
+
     private Action<ProducersConfiguration>? _configuration;
 
     /// <summary>
@@ -280,15 +280,20 @@ public sealed class ProducerBuilder
 
     internal void SetProducer(IBrighterBuilder builder)
     {
+        if (_producerRegistry == null && _messageProducerFactories.Count == 0 && _configuration == null)
+        {
+            return;
+        }
+
         builder.AddProducers(producer =>
         {
             producer.ArchiveBatchSize = _archiveBatchSize;
             producer.ArchiveProvider = _archiveProvider;
-            
+
             producer.ConnectionProvider = _connectionProvider;
-            producer.TransactionProvider =  _transactionProvider;
+            producer.TransactionProvider = _transactionProvider;
             producer.DistributedLock = _distributedLock;
-            
+
             producer.Outbox = _outbox;
             producer.OutboxBulkChunkSize = _outboxBulkChunkSize;
             producer.OutboxTimeout = _outboxTimeout;
@@ -298,15 +303,15 @@ public sealed class ProducerBuilder
             {
                 builder.Services.AddSingleton(producer.Outbox);
             }
-            
+
             producer.MaxOutStandingMessages = _maxOutStandingMessages;
             producer.MaxOutStandingCheckInterval = _maxOutStandingCheckInterval;
 
-            if (_producerRegistry == null && _messageProducerFactories.Count > 0 )
+            if (_producerRegistry == null && _messageProducerFactories.Count > 0)
             {
                 _producerRegistry = new CombinedProducerRegistryFactory(_messageProducerFactories.ToArray()).Create();
             }
-            
+
             producer.ProducerRegistry = _producerRegistry;
 
             producer.ReplyQueueSubscriptions = _replySubscriptions;
@@ -315,7 +320,7 @@ public sealed class ProducerBuilder
             producer.MessageSchedulerFactory = _messageSchedulerFactory;
 
             producer.InstrumentationOptions = _instrumentation;
-            
+
             _configuration?.Invoke(producer);
         });
     }

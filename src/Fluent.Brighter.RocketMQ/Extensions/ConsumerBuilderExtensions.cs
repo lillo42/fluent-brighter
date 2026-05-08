@@ -19,10 +19,10 @@ public static class ConsumerBuilderExtensions
     /// <param name="subscription">Pre-built subscription configuration</param>
     /// <returns>Configured consumer builder</returns>
     public static ConsumerBuilder AddRocketMqSubscription(
-        this ConsumerBuilder builder, 
+        this ConsumerBuilder builder,
         RocketSubscription subscription)
         => builder.AddSubscription(subscription);
-    
+
     /// <summary>
     /// Adds and configures a RocketMQ subscription using a fluent builder
     /// </summary>
@@ -37,14 +37,14 @@ public static class ConsumerBuilderExtensions
     /// )
     /// </example>
     public static ConsumerBuilder AddRocketMqSubscription(
-        this ConsumerBuilder builder, 
+        this ConsumerBuilder builder,
         Action<RocketSubscriptionBuilder> configure)
     {
         var subBuilder = new RocketSubscriptionBuilder();
         configure(subBuilder);
         return builder.AddSubscription(subBuilder.Build());
     }
-    
+
     /// <summary>
     /// Adds and configures a strongly-typed RocketMQ subscription
     /// </summary>
@@ -63,7 +63,7 @@ public static class ConsumerBuilderExtensions
     /// )
     /// </example>
     public static ConsumerBuilder AddRocketMqSubscription<TRequest>(
-        this ConsumerBuilder builder, 
+        this ConsumerBuilder builder,
         Action<RocketSubscriptionBuilder> configure)
         where TRequest : class, IRequest
     {
@@ -92,7 +92,7 @@ public static class ConsumerBuilderExtensions
         configure(connectionBuilder);
         return builder.AddRocketMqChannelFactory(connectionBuilder.Build());
     }
-    
+
     /// <summary>
     /// Sets the RocketMQ channel factory using a pre-configured connection
     /// </summary>
@@ -100,7 +100,7 @@ public static class ConsumerBuilderExtensions
     /// <param name="connection">Pre-built connection configuration</param>
     /// <returns>Configured consumer builder</returns>
     public static ConsumerBuilder AddRocketMqChannelFactory(
-        this ConsumerBuilder builder, 
+        this ConsumerBuilder builder,
         RocketMessagingGatewayConnection connection)
     {
         return builder.AddChannelFactory(new RocketMqChannelFactory(new RocketMessageConsumerFactory(connection)));

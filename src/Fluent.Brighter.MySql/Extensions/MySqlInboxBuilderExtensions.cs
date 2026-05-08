@@ -18,7 +18,7 @@ public static class MySqlInboxBuilderExtensions
     /// <param name="builder">The inbox builder instance to configure</param>
     /// <param name="configure">Action that defines the database configuration settings</param>
     /// <returns>The original builder for fluent chaining</returns>
-    public static MySqlInboxBuilder SetConfiguration(this MySqlInboxBuilder  builder,
+    public static MySqlInboxBuilder SetConfiguration(this MySqlInboxBuilder builder,
         Action<RelationalDatabaseConfigurationBuilder> configure)
     {
         var configuration = new RelationalDatabaseConfigurationBuilder();

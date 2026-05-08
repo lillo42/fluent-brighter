@@ -3,6 +3,7 @@ using System;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.PubSub.V1;
 using Google.Cloud.ResourceManager.V3;
+
 using Paramore.Brighter.MessagingGateway.GcpPubSub;
 
 namespace Fluent.Brighter.GoogleCloud;
@@ -14,7 +15,7 @@ namespace Fluent.Brighter.GoogleCloud;
 public class GcpMessagingGatewayConnectionBuilder
 {
     private ICredential? _credential;
-    
+
     /// <summary>
     /// Sets the <see cref="ICredential"/> to use for authentication with Google Cloud Pub/Sub.
     /// </summary>
@@ -25,9 +26,9 @@ public class GcpMessagingGatewayConnectionBuilder
         _credential = credential;
         return this;
     }
-    
+
     private string _projectId = string.Empty;
-    
+
     /// <summary>
     /// Sets the Google Cloud project ID.
     /// </summary>
@@ -38,9 +39,9 @@ public class GcpMessagingGatewayConnectionBuilder
         _projectId = projectId;
         return this;
     }
-    
+
     private Action<PublisherServiceApiClientBuilder>? _topicManagerConfiguration;
-    
+
     /// <summary>
     /// Sets an action to configure the <see cref="PublisherServiceApiClientBuilder"/> used for topic management.
     /// </summary>
@@ -51,9 +52,9 @@ public class GcpMessagingGatewayConnectionBuilder
         _topicManagerConfiguration = configure;
         return this;
     }
-    
+
     private Action<PublisherClientBuilder>? _publisherConfiguration;
-    
+
     /// <summary>
     /// Sets an action to configure the <see cref="PublisherClientBuilder"/> used to publish messages to a topic.
     /// </summary>
@@ -64,9 +65,9 @@ public class GcpMessagingGatewayConnectionBuilder
         _publisherConfiguration = configure;
         return this;
     }
-    
+
     private Action<SubscriberServiceApiClientBuilder>? _subscriptionManagerConfiguration;
-    
+
     /// <summary>
     /// Sets an action to configure the <see cref="SubscriberServiceApiClientBuilder"/> used for subscription management.
     /// </summary>
@@ -77,9 +78,9 @@ public class GcpMessagingGatewayConnectionBuilder
         _subscriptionManagerConfiguration = configure;
         return this;
     }
-    
+
     private Action<SubscriberClientBuilder>? _streamConfiguration;
-    
+
     /// <summary>
     /// Sets an action to configure the <see cref="SubscriberClientBuilder"/> used for pull mode message consumption.
     /// </summary>
@@ -90,9 +91,9 @@ public class GcpMessagingGatewayConnectionBuilder
         _streamConfiguration = configure;
         return this;
     }
-    
+
     private Action<ProjectsClientBuilder>? _projectsClientConfiguration;
-    
+
     /// <summary>
     /// Sets an action to configure the <see cref="ProjectsClientBuilder"/> used for managing projects.
     /// </summary>
@@ -103,7 +104,7 @@ public class GcpMessagingGatewayConnectionBuilder
         _projectsClientConfiguration = configure;
         return this;
     }
-    
+
     /// <summary>
     /// Builds the <see cref="GcpMessagingGatewayConnection"/> with the configured settings.
     /// </summary>
@@ -115,7 +116,7 @@ public class GcpMessagingGatewayConnectionBuilder
         {
             throw new InvalidOperationException("Project ID must be set before building the connection.");
         }
-        
+
         return new GcpMessagingGatewayConnection
         {
             Credential = _credential,

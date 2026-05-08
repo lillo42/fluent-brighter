@@ -10,7 +10,7 @@ namespace RmqTaskQueue.Mappers;
 public class GreetingEventMessageMapper : IAmAMessageMapperAsync<GreetingEvent>
 {
     public IRequestContext? Context { get; set; }
-    
+
     public Task<Message> MapToMessageAsync(GreetingEvent request, Publication publication, CancellationToken ct = default)
     {
         var header = new MessageHeader(messageId: request.Id, topic: "greeting.event", messageType: MessageType.MT_EVENT);

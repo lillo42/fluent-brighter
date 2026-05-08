@@ -16,7 +16,7 @@ namespace Fluent.Brighter.RocketMQ;
 public sealed class RocketSubscriptionBuilder
 {
     private SubscriptionName? _subscriptionName;
-    
+
     /// <summary>
     /// Sets the unique identifier for this subscription
     /// </summary>
@@ -27,9 +27,9 @@ public sealed class RocketSubscriptionBuilder
         _subscriptionName = subscriptionName;
         return this;
     }
-    
+
     private RoutingKey? _routingKey;
-    
+
     /// <summary>
     /// Sets the binding key for topic-based routing
     /// </summary>
@@ -40,7 +40,7 @@ public sealed class RocketSubscriptionBuilder
         _routingKey = routingKey;
         return this;
     }
-    
+
     private Type? _requestType;
 
     /// <summary>
@@ -53,7 +53,7 @@ public sealed class RocketSubscriptionBuilder
         _requestType = requestType ?? throw new ArgumentNullException(nameof(requestType));
         return this;
     }
-    
+
     private Func<Message, Type>? _getRequestType;
 
     /// <summary>
@@ -66,10 +66,10 @@ public sealed class RocketSubscriptionBuilder
         _getRequestType = getRequestType ?? throw new ArgumentNullException(nameof(getRequestType));
         return this;
     }
-    
+
     private string? _consumerGroup;
     private ChannelName? _channelName;
-    
+
     /// <summary>
     /// Sets the consumer group for RocketMQ message consumption.
     /// Identifies a group of consumers working as a cluster for parallel processing.
@@ -79,10 +79,10 @@ public sealed class RocketSubscriptionBuilder
     public RocketSubscriptionBuilder SetConsumerGroup(string consumerGroup)
     {
         _consumerGroup = consumerGroup ?? throw new ArgumentNullException(nameof(consumerGroup));
-        _channelName = new  ChannelName(consumerGroup);
+        _channelName = new ChannelName(consumerGroup);
         return this;
     }
-    
+
     private int _bufferSize = 1;
 
     /// <summary>
@@ -94,11 +94,11 @@ public sealed class RocketSubscriptionBuilder
     {
         if (bufferSize < 1 || bufferSize > 10)
             throw new ArgumentException("Buffer size must be between 1 and 10", nameof(bufferSize));
-        
+
         _bufferSize = bufferSize;
         return this;
     }
-    
+
     private int _noOfPerformers = 1;
 
     /// <summary>
@@ -110,11 +110,11 @@ public sealed class RocketSubscriptionBuilder
     {
         if (noOfPerformers < 1)
             throw new ArgumentException("Number of performers must be at least 1", nameof(noOfPerformers));
-        
+
         _noOfPerformers = noOfPerformers;
         return this;
     }
-    
+
     private TimeSpan? _timeOut;
 
     /// <summary>
@@ -127,7 +127,7 @@ public sealed class RocketSubscriptionBuilder
         _timeOut = timeOut;
         return this;
     }
-    
+
     private int _requeueCount = -1;
 
     /// <summary>
@@ -140,7 +140,7 @@ public sealed class RocketSubscriptionBuilder
         _requeueCount = requeueCount;
         return this;
     }
-    
+
     private TimeSpan? _requeueDelay;
 
     /// <summary>
@@ -153,7 +153,7 @@ public sealed class RocketSubscriptionBuilder
         _requeueDelay = requeueDelay;
         return this;
     }
-    
+
     private int _unacceptableMessageLimit = 0;
 
     /// <summary>
@@ -165,11 +165,11 @@ public sealed class RocketSubscriptionBuilder
     {
         if (unacceptableMessageLimit < 0)
             throw new ArgumentException("Unacceptable message limit cannot be negative", nameof(unacceptableMessageLimit));
-        
+
         _unacceptableMessageLimit = unacceptableMessageLimit;
         return this;
     }
-    
+
     private MessagePumpType _messagePumpType = MessagePumpType.Unknown;
 
     /// <summary>
@@ -182,9 +182,9 @@ public sealed class RocketSubscriptionBuilder
         _messagePumpType = messagePumpType;
         return this;
     }
-    
+
     private IAmAChannelFactory? _channelFactory;
-    
+
     /// <summary>
     /// Sets the channel factory for creating message channels.
     /// </summary>
@@ -195,7 +195,7 @@ public sealed class RocketSubscriptionBuilder
         _channelFactory = channelFactory ?? throw new ArgumentNullException(nameof(channelFactory));
         return this;
     }
-    
+
     private OnMissingChannel _makeChannels = OnMissingChannel.Create;
 
     /// <summary>
@@ -208,9 +208,9 @@ public sealed class RocketSubscriptionBuilder
         _makeChannels = makeChannels;
         return this;
     }
-    
+
     private FilterExpression? _filter;
-    
+
     /// <summary>
     /// Sets the message filter expression for RocketMQ topic filtering.
     /// Supports RocketMQ's tag-based or SQL-style message filtering.
@@ -222,9 +222,9 @@ public sealed class RocketSubscriptionBuilder
         _filter = filter ?? throw new ArgumentNullException(nameof(filter));
         return this;
     }
-    
+
     private TimeSpan? _emptyChannelDelay;
-    
+
     /// <summary>
     /// Sets the delay when a channel is empty.
     /// </summary>
@@ -235,7 +235,7 @@ public sealed class RocketSubscriptionBuilder
         _emptyChannelDelay = emptyChannelDelay;
         return this;
     }
-    
+
     private TimeSpan? _channelFailureDelay;
 
     /// <summary>
@@ -250,7 +250,7 @@ public sealed class RocketSubscriptionBuilder
     }
 
     private TimeSpan? _receiveMessageTimeout;
-    
+
     /// <summary>
     /// Sets the timeout for receiving messages from RocketMQ brokers.
     /// Controls the maximum time to wait for new messages during polling.
@@ -264,7 +264,7 @@ public sealed class RocketSubscriptionBuilder
     }
 
     private TimeSpan? _invisibilityTimeout;
-    
+
     /// <summary>
     /// Sets the invisibility timeout for consumed messages.
     /// Determines how long messages remain invisible after being received.
@@ -297,7 +297,7 @@ public sealed class RocketSubscriptionBuilder
         {
             throw new ConfigurationException("Routing key not set");
         }
-        
+
         return new RocketSubscription(
             _subscriptionName,
             _channelName,

@@ -53,8 +53,8 @@ var host = new HostBuilder()
                             .SetMessagePumpType(MessagePumpType.Proactor)
                             .SetMakeChannels(OnMissingChannel.Create))
                     )
-                    // .UseDynamoDbOutbox()
-                    // .UseDynamoDbInbox()
+                // .UseDynamoDbOutbox()
+                // .UseDynamoDbInbox()
                 ));
     })
     .Build();
@@ -62,7 +62,7 @@ var host = new HostBuilder()
 
 await host.StartAsync();
 
-using var cts = new  CancellationTokenSource();
+using var cts = new CancellationTokenSource();
 
 Console.CancelKeyPress += (_, _) => cts.Cancel();
 

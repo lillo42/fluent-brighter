@@ -27,7 +27,7 @@ public static class ConsumerBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var configuration = new MongoDbConfigurationBuilder();
         configure(configuration);
         return builder.UseMongoDbInbox(configuration.Build());
@@ -60,7 +60,7 @@ public static class ConsumerBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var inbox = new MongoDbInboxBuilder();
         configure(inbox);
         return builder.SetInbox(cfg => cfg.SetInbox(inbox.Build()));

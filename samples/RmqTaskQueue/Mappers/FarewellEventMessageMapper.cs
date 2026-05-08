@@ -11,7 +11,7 @@ namespace RmqTaskQueue.Mappers;
 public class FarewellEventMessageMapper : IAmAMessageMapperAsync<FarewellEvent>
 {
     public IRequestContext? Context { get; set; }
-    
+
     public Task<Message> MapToMessageAsync(FarewellEvent request, Publication publication, CancellationToken ct = default)
     {
         var header = new MessageHeader(

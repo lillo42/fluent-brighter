@@ -33,11 +33,11 @@ public static class RmqSubscriptionConfigurationExtensions
         this RmqMessageProducerFactoryBuilder builder,
         Action<RmqMessagingGatewayConnectionBuilder> configure)
     {
-        var conn = new  RmqMessagingGatewayConnectionBuilder();
+        var conn = new RmqMessagingGatewayConnectionBuilder();
         configure(conn);
         return builder.SetConnection(conn.Build());
     }
-    
+
     /// <summary>
     /// Adds a publication configuration using a fluent builder
     /// </summary>
@@ -58,7 +58,7 @@ public static class RmqSubscriptionConfigurationExtensions
         configure(publicationBuilder);
         return builder.AddPublication(publicationBuilder.Build());
     }
-    
+
     /// <summary>
     /// Adds a strongly-typed publication configuration for a specific request type
     /// </summary>

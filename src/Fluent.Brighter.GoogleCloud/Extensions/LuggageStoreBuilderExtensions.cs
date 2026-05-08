@@ -24,7 +24,7 @@ public static class LuggageStoreBuilderExtensions
         configure(store);
         return builder;
     }
-    
+
     /// <summary>
     /// Configures the luggage store to use a pre-configured Google Cloud Storage (GCS) luggage store instance.
     /// </summary>

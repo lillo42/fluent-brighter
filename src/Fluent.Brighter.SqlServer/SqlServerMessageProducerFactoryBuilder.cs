@@ -26,7 +26,7 @@ public sealed class SqlServerMessageProducerFactoryBuilder
         _configuration = connection ?? throw new ArgumentNullException(nameof(connection));
         return this;
     }
-    
+
     private readonly List<Publication> _publications = [];
 
     /// <summary>
@@ -53,7 +53,7 @@ public sealed class SqlServerMessageProducerFactoryBuilder
         {
             throw new ConfigurationException("No configuration configured");
         }
-        
+
         return new MsSqlMessageProducerFactory(_configuration, _publications);
     }
 }

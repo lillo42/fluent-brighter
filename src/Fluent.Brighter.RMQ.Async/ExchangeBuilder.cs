@@ -26,7 +26,7 @@ public class ExchangeBuilder
         _name = name;
         return this;
     }
-    
+
     private string _type = ExchangeType.Direct;
 
     /// <summary>
@@ -42,7 +42,7 @@ public class ExchangeBuilder
         return this;
     }
     private bool _durable;
-    
+
     /// <summary>
     /// Configures exchange durability (default: non-durable)
     /// </summary>
@@ -57,7 +57,7 @@ public class ExchangeBuilder
     }
 
     private bool _supportDelay;
-    
+
     /// <summary>
     /// Enables delayed message support for the exchange
     /// </summary>
@@ -77,7 +77,7 @@ public class ExchangeBuilder
         {
             throw new ConfigurationException("Exchange name cannot be null or empty.");
         }
-        
+
         return new Exchange(_name!, _type, _durable, _supportDelay);
     }
 }

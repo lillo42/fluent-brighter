@@ -29,7 +29,7 @@ public static class RocketSubscriptionConfigurationExtensions
     ///         .SetTopic("order.created"));
     /// </example>
     public static RocketMessageProducerFactoryBuilder SetConnection(
-        this RocketMessageProducerFactoryBuilder  builder,
+        this RocketMessageProducerFactoryBuilder builder,
         Action<RocketMessagingGatewayConnectionBuilder> configure)
     {
         var conn = new RocketMessagingGatewayConnectionBuilder();
@@ -57,7 +57,7 @@ public static class RocketSubscriptionConfigurationExtensions
         configure(publicationBuilder);
         return builder.AddPublication(publicationBuilder.Build());
     }
-    
+
     /// <summary>
     /// Adds a strongly-typed publication configuration for a specific request type
     /// </summary>

@@ -28,7 +28,7 @@ public static class RedisMessageProducerFactoryBuilderExtensions
         configure(configuration);
         return builder.SetConfiguration(configuration.Build());
     }
-    
+
     /// <summary>
     /// Adds a Redis publication to the producer factory using a configuration builder.
     /// Publications define how messages are published to Redis, including topic mappings and message metadata.
@@ -63,5 +63,5 @@ public static class RedisMessageProducerFactoryBuilderExtensions
         publication.SetRequestType(typeof(TRequest));
         configure(publication);
         return builder.AddPublication(publication.Build());
-    } 
+    }
 }

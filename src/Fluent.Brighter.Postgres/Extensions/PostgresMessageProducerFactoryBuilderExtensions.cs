@@ -25,9 +25,9 @@ public static class PostgresMessageProducerFactoryBuilderExtensions
     /// <returns>The <see cref="PostgresMessageProducerFactoryBuilder"/> instance for method chaining.</returns>
     public static PostgresMessageProducerFactoryBuilder SetConnection(
         this PostgresMessageProducerFactoryBuilder builder,
-        RelationalDatabaseConfiguration configuration) 
+        RelationalDatabaseConfiguration configuration)
         => builder.SetConnection(new PostgresMessagingGatewayConnection(configuration));
-    
+
     /// <summary>
     /// Sets the PostgreSQL messaging gateway connection using a fluent configuration builder.
     /// This extension method creates a <see cref="RelationalDatabaseConfigurationBuilder"/>, applies the provided configuration,
@@ -45,7 +45,7 @@ public static class PostgresMessageProducerFactoryBuilderExtensions
         return builder.SetConnection(new PostgresMessagingGatewayConnection(configuration.Build()));
     }
     #endregion
-    
+
     #region AddPublication
 
     /// <summary>
@@ -63,7 +63,7 @@ public static class PostgresMessageProducerFactoryBuilderExtensions
         configure(publication);
         return builder.AddPublication(publication.Build());
     }
-    
+
     /// <summary>
     /// Adds a PostgreSQL publication for a specific request type to the producer factory.
     /// This method automatically configures the publication with the specified <typeparamref name="TRequest"/> type
@@ -76,7 +76,7 @@ public static class PostgresMessageProducerFactoryBuilderExtensions
     public static PostgresMessageProducerFactoryBuilder AddPublication<TRequest>(
         this PostgresMessageProducerFactoryBuilder builder,
         Action<PostgresPublicationBuilder> configure)
-        where TRequest: class, IRequest
+        where TRequest : class, IRequest
     {
         var publication = new PostgresPublicationBuilder();
         publication.SetRequestType(typeof(TRequest));

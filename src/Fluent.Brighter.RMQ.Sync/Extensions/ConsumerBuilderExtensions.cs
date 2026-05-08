@@ -19,10 +19,10 @@ public static class ConsumerBuilderExtensions
     /// <param name="subscription">Pre-built subscription configuration</param>
     /// <returns>Configured consumer builder</returns>
     public static ConsumerBuilder AddRabbitMqSubscription(
-        this ConsumerBuilder builder, 
+        this ConsumerBuilder builder,
         RmqSubscription subscription)
         => builder.AddSubscription(subscription);
-    
+
     /// <summary>
     /// Adds and configures a RabbitMQ subscription using a fluent builder
     /// </summary>
@@ -37,14 +37,14 @@ public static class ConsumerBuilderExtensions
     /// )
     /// </example>
     public static ConsumerBuilder AddRabbitMqSubscription(
-        this ConsumerBuilder builder, 
+        this ConsumerBuilder builder,
         Action<RmqSubscriptionBuilder> configure)
     {
         var subBuilder = new RmqSubscriptionBuilder();
         configure(subBuilder);
         return builder.AddSubscription(subBuilder.Build());
     }
-    
+
     /// <summary>
     /// Adds and configures a strongly-typed RabbitMQ subscription
     /// </summary>
@@ -63,7 +63,7 @@ public static class ConsumerBuilderExtensions
     /// )
     /// </example>
     public static ConsumerBuilder AddRabbitMqSubscription<TRequest>(
-        this ConsumerBuilder builder, 
+        this ConsumerBuilder builder,
         Action<RmqSubscriptionBuilder> configure)
         where TRequest : class, IRequest
     {
@@ -93,7 +93,7 @@ public static class ConsumerBuilderExtensions
         configure(connectionBuilder);
         return builder.AddRabbitMqChannelFactory(connectionBuilder.Build());
     }
-    
+
     /// <summary>
     /// Sets the RabbitMQ channel factory using a pre-configured connection
     /// </summary>
@@ -101,7 +101,7 @@ public static class ConsumerBuilderExtensions
     /// <param name="connection">Pre-built connection configuration</param>
     /// <returns>Configured consumer builder</returns>
     public static ConsumerBuilder AddRabbitMqChannelFactory(
-        this ConsumerBuilder builder, 
+        this ConsumerBuilder builder,
         RmqMessagingGatewayConnection connection)
     {
         return builder.AddChannelFactory(new ChannelFactory(new RmqMessageConsumerFactory(connection)));

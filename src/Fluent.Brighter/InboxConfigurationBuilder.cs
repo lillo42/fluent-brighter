@@ -15,7 +15,7 @@ namespace Fluent.Brighter;
 public sealed class InboxConfigurationBuilder
 {
     private IAmAnInbox? _inbox;
-    
+
     /// <summary>
     /// Sets the inbox implementation to use for message tracking
     /// </summary>
@@ -28,7 +28,7 @@ public sealed class InboxConfigurationBuilder
     }
 
     private InboxScope _scope = InboxScope.All;
-    
+
     /// <summary>
     /// Sets the scope of messages to apply inbox processing to
     /// </summary>
@@ -41,9 +41,9 @@ public sealed class InboxConfigurationBuilder
         return this;
     }
 
-    
-    private bool _onceOnly = true; 
-    
+
+    private bool _onceOnly = true;
+
     /// <summary>
     /// Enables or disables once-only processing (idempotency guarantee)
     /// </summary>
@@ -55,9 +55,9 @@ public sealed class InboxConfigurationBuilder
         return this;
     }
 
-    
-    private OnceOnlyAction _actionOnExists = OnceOnlyAction.Throw; 
-    
+
+    private OnceOnlyAction _actionOnExists = OnceOnlyAction.Throw;
+
     /// <summary>
     /// Sets the action to take when a duplicate message is detected
     /// </summary>
@@ -70,9 +70,9 @@ public sealed class InboxConfigurationBuilder
         return this;
     }
 
-    
+
     private Func<Type, string>? _context;
-    
+
     /// <summary>
     /// Sets the context provider function for generating unique message identifiers
     /// </summary>

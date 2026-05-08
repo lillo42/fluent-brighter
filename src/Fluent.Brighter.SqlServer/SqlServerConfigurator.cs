@@ -35,7 +35,7 @@ public sealed class SqlServerConfigurator
         {
             throw new ArgumentNullException(nameof(configuration));
         }
-        
+
         var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
         return SetConnection(builder.Build());
@@ -88,7 +88,7 @@ public sealed class SqlServerConfigurator
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         _action += fluent => fluent.Subscriptions(s => s.UseMicrosoftSqlServerInbox(c =>
         {
             c.SetConnectionString(_configuration!.ConnectionString);
@@ -121,7 +121,7 @@ public sealed class SqlServerConfigurator
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         _action += fluent => fluent.Producers(s => s.UseMicrosoftSqlServerOutbox(c =>
         {
             c.SetConnectionString(_configuration!.ConnectionString);
@@ -143,7 +143,7 @@ public sealed class SqlServerConfigurator
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         _action += fluent =>
         {
             fluent.Producers(producer => producer
@@ -170,7 +170,7 @@ public sealed class SqlServerConfigurator
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         _action += fluent =>
         {
             fluent.Subscriptions(sub =>

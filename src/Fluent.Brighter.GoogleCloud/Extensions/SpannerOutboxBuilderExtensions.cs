@@ -15,7 +15,7 @@ public static class SpannerOutboxBuilderExtensions
     /// <param name="builder">The Spanner outbox builder instance.</param>
     /// <param name="configure">An action to configure the relational database settings.</param>
     /// <returns>The configured <see cref="SpannerOutboxBuilder"/> instance for method chaining.</returns>
-    public static SpannerOutboxBuilder SetConfiguration(this SpannerOutboxBuilder  builder,
+    public static SpannerOutboxBuilder SetConfiguration(this SpannerOutboxBuilder builder,
         Action<RelationalDatabaseConfigurationBuilder> configure)
     {
         var configuration = new RelationalDatabaseConfigurationBuilder();

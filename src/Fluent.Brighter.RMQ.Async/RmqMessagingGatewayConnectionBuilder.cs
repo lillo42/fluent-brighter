@@ -23,7 +23,7 @@ public sealed class RmqMessagingGatewayConnectionBuilder
         _connection.Name = name;
         return this;
     }
-    
+
     /// <summary>
     /// Sets the AMQP URI specification for the RabbitMQ connection
     /// </summary>
@@ -34,7 +34,7 @@ public sealed class RmqMessagingGatewayConnectionBuilder
         _connection.AmpqUri = ampqUri;
         return this;
     }
-    
+
     /// <summary>
     /// Sets the primary exchange configuration
     /// </summary>
@@ -45,7 +45,7 @@ public sealed class RmqMessagingGatewayConnectionBuilder
         _connection.Exchange = exchange;
         return this;
     }
-    
+
     /// <summary>
     /// Sets the dead letter exchange for handling failed messages
     /// </summary>
@@ -106,7 +106,7 @@ public sealed class RmqMessagingGatewayConnectionBuilder
         {
             throw new ConfigurationException("AMQP URI configuration is required. Use SetAmpq() to configure connection parameters.");
         }
-        
+
         if (_connection.Exchange == null)
         {
             throw new ConfigurationException("Primary exchange configuration is required. Use SetExchange() to define message publication settings.");

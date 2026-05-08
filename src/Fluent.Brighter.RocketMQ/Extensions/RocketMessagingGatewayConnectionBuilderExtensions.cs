@@ -26,7 +26,7 @@ public static class RocketMessagingGatewayConnectionBuilderExtensions
         connectionBuilder.SetClient(builder.Build());
         return connectionBuilder;
     }
-    
+
     /// <summary>
     /// Configures the RocketMQ client with a simple endpoint string.
     /// Convenience method for basic endpoint configuration.

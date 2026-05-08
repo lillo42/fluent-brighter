@@ -31,7 +31,7 @@ public sealed class SqlServerOutboxBuilder
         {
             throw new ArgumentNullException(nameof(configuration));
         }
-        
+
         _configuration = configuration;
         return this;
     }
@@ -49,7 +49,7 @@ public sealed class SqlServerOutboxBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
+
     /// <summary>
     /// Builds and returns a configured instance of <see cref="MsSqlOutbox"/>.
     /// </summary>

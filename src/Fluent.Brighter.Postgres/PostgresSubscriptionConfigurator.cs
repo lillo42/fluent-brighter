@@ -30,7 +30,7 @@ public class PostgresSubscriptionConfigurator(PostgresChannelFactory channelFact
         Subscriptions.Add(subscription);
         return this;
     }
-    
+
     /// <summary>
     /// Adds a PostgreSQL subscription using a builder configuration action.
     /// This method creates a new <see cref="PostgresSubscriptionBuilder"/>, applies the provided configuration,

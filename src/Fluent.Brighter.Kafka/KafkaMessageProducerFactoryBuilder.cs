@@ -38,7 +38,7 @@ public sealed class KafkaMessageProducerFactoryBuilder
         _publications = publications.ToList();
         return this;
     }
-    
+
     /// <summary>
     /// Adds a single Kafka publication configuration to the factory.
     /// </summary>
@@ -61,7 +61,7 @@ public sealed class KafkaMessageProducerFactoryBuilder
         {
             throw new ConfigurationException("The configuration was not set");
         }
-        
+
         return new KafkaMessageProducerFactory(_configuration, _publications);
     }
 }

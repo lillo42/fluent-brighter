@@ -30,7 +30,7 @@ public static class ProducersExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var configuration = new MongoDbConfigurationBuilder();
         configure(configuration);
         return builder.UseMongoDbOutbox(configuration.Build());
@@ -68,7 +68,7 @@ public static class ProducersExtensions
         {
             throw new ArgumentNullException(nameof(configuration));
         }
-        
+
         var outbox = new MongoDbOutboxBuilder();
         configuration(outbox);
         return builder.SetOutbox(outbox.Build())
@@ -96,7 +96,7 @@ public static class ProducersExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var configuration = new MongoDbConfigurationBuilder();
         configure(configuration);
         return builder.UseMongoDbDistributedLock(configuration.Build());
@@ -134,7 +134,7 @@ public static class ProducersExtensions
         {
             throw new ArgumentNullException(nameof(configuration));
         }
-        
+
         var locking = new MongoDbLockingBuilder();
         configuration(locking);
         builder.SetDistributedLock(locking.Build());

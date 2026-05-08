@@ -28,9 +28,9 @@ public sealed class RocketMessagingGatewayConnectionBuilder
         _clientConfig = clientConfig ?? throw new ArgumentNullException(nameof(clientConfig));
         return this;
     }
-    
+
     private TimeProvider _timerProvider = TimeProvider.System;
-    
+
     /// <summary>
     /// Sets the time provider for time-sensitive operations.
     /// Used for implementing RocketMQ's message delay and timeout features.
@@ -44,7 +44,7 @@ public sealed class RocketMessagingGatewayConnectionBuilder
     }
 
     private int _maxAttempts = 3;
-    
+
     /// <summary>
     /// Sets the maximum retry attempts for failed message operations.
     /// Implements RocketMQ's at-least-once delivery guarantee through retries.
@@ -57,12 +57,12 @@ public sealed class RocketMessagingGatewayConnectionBuilder
         {
             throw new ArgumentException("Max attempts must be at least 1", nameof(maxAttempts));
         }
-        
+
         _maxAttempts = maxAttempts;
         return this;
     }
-    
-    
+
+
     private ITransactionChecker? _checker;
 
     /// <summary>
@@ -78,7 +78,7 @@ public sealed class RocketMessagingGatewayConnectionBuilder
     }
 
     private InstrumentationOptions _instrumentation = InstrumentationOptions.All;
-    
+
     /// <summary>
     /// Sets the instrumentation options for the gateway connection.
     /// </summary>
@@ -100,7 +100,7 @@ public sealed class RocketMessagingGatewayConnectionBuilder
         {
             throw new ConfigurationException("ClientConfig must be set before calling this method");
         }
-        
+
         return new RocketMessagingGatewayConnection(_clientConfig)
         {
             TimerProvider = _timerProvider,

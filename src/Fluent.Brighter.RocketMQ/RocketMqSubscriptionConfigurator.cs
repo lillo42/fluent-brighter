@@ -48,7 +48,7 @@ public class RocketMqSubscriptionConfigurator(RocketMqChannelFactory channelFact
         configure(sub);
         return AddSubscription(sub.Build());
     }
-    
+
     /// <summary>
     /// Adds and configures a strongly-typed RocketMQ subscription
     /// </summary>

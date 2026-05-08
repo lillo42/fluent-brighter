@@ -42,14 +42,14 @@ public sealed class MySqlOutboxBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
+
     internal MySqlOutbox Build()
     {
         if (_configuration == null)
         {
             throw new ConfigurationException("Configuration is null");
         }
-        
+
         return _connectionProvider == null ? new MySqlOutbox(_configuration) : new MySqlOutbox(_configuration, _connectionProvider);
     }
 }

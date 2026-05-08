@@ -142,7 +142,7 @@ public sealed class GcsLuggageStoreBuilder
         _deleteObjectOptions = options;
         return this;
     }
-    
+
     private GetObjectOptions? _getObjectOptions;
 
     /// <summary>
@@ -218,7 +218,7 @@ public sealed class GcsLuggageStoreBuilder
                 CreateBucketOptions = _createBucketOptions,
                 DeleteObjectOptions = _deleteObjectOptions,
                 DownloadObjectOptions = _downloadObjectOptions,
-                GetBucketOptions =  _getBucketOptions,
+                GetBucketOptions = _getBucketOptions,
                 GetObjectOptions = _getObjectOptions,
                 Prefix = _prefix,
                 ProjectId = _projectId,

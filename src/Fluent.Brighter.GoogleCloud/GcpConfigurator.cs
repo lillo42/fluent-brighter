@@ -29,7 +29,7 @@ public sealed class GcpConfigurator
         _connection = connection;
         return this;
     }
-    
+
     /// <summary>
     /// Sets the GCP messaging gateway connection using a builder.
     /// </summary>
@@ -132,15 +132,15 @@ public sealed class GcpConfigurator
         {
             throw new ConfigurationException("Google Cloud Project ID was not set. Use SetConfiguration() to configure.");
         }
-        
+
         _firestoreConfiguration = new FirestoreConfiguration(_connection.ProjectId, database)
         {
             Credential = _connection.Credential
         };
-        
+
         return this;
     }
-    
+
     /// <summary>
     /// Sets the Firestore configuration using a builder.
     /// </summary>
@@ -153,16 +153,16 @@ public sealed class GcpConfigurator
         {
             throw new ConfigurationException("Google Cloud Project ID was not set. Use SetConfiguration() to configure.");
         }
-        
+
         var builder = new FirestoreConfigurationBuilder()
             .SetProjectId(_connection.ProjectId)
             .SetCredential(_connection.Credential);
         configure(builder);
-        
+
         _firestoreConfiguration = builder.Build();
         return this;
     }
-    
+
     /// <summary>
     /// Sets the Firestore configuration.
     /// </summary>
@@ -219,7 +219,7 @@ public sealed class GcpConfigurator
 
         return this;
     }
-    
+
     /// <summary>
     /// Configures Firestore as the inbox store with custom configuration.
     /// The inbox pattern ensures idempotent message processing by tracking received messages.
@@ -288,7 +288,7 @@ public sealed class GcpConfigurator
 
         return this;
     }
-    
+
     /// <summary>
     /// Configures Firestore as the outbox store with custom configuration.
     /// The outbox pattern ensures reliable message publishing by storing messages before sending.
@@ -421,7 +421,7 @@ public sealed class GcpConfigurator
 
         return this;
     }
-    
+
     /// <summary>
     /// Configures Firestore for distributed locking with custom configuration.
     /// Distributed locks prevent concurrent processing of the same message across multiple instances.

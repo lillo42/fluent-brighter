@@ -30,8 +30,8 @@ public sealed class RequestHandlerBuilder
     public RequestHandlerBuilder()
     {
         _assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a =>
-            !a.IsDynamic 
-            && a.FullName?.StartsWith("Microsoft.", true, CultureInfo.InvariantCulture) == false 
+            !a.IsDynamic
+            && a.FullName?.StartsWith("Microsoft.", true, CultureInfo.InvariantCulture) == false
             && a.FullName?.StartsWith("System.", true, CultureInfo.InvariantCulture) == false
             && a.FullName?.StartsWith("Paramore.Brighter", true, CultureInfo.InvariantCulture) == false));
     }
@@ -67,7 +67,7 @@ public sealed class RequestHandlerBuilder
 
         return this;
     }
-    
+
     /// <summary>
     /// Registers multiple synchronous handlers for a request type using custom routing
     /// </summary>
@@ -77,18 +77,18 @@ public sealed class RequestHandlerBuilder
     /// </param>
     /// <param name="handlerTypes">Collection of handler types to register</param>
     public RequestHandlerBuilder AddHandler<TRequest>(
-        Func<IRequest?, IRequestContext?, List<Type>> router, 
+        Func<IRequest?, IRequestContext?, List<Type>> router,
         IEnumerable<Type> handlerTypes)
         where TRequest : class, IRequest
     {
         _syncRegistration += registry =>
         {
-            registry.Register<TRequest>(router,  handlerTypes);
+            registry.Register<TRequest>(router, handlerTypes);
         };
 
         return this;
     }
-    
+
     /// <summary>
     /// Registers an asynchronous handler for a specific request type
     /// </summary>
@@ -106,7 +106,7 @@ public sealed class RequestHandlerBuilder
 
         return this;
     }
-    
+
     /// <summary>
     /// Registers multiple asynchronous handlers for a request type using custom routing
     /// </summary>
@@ -117,13 +117,13 @@ public sealed class RequestHandlerBuilder
     /// <param name="handlerTypes">Collection of async handler types to register</param>
     /// <returns>The builder instance for fluent chaining</returns>
     public RequestHandlerBuilder AddHandlerAsync<TRequest>(
-        Func<IRequest?, IRequestContext?, List<Type>> router, 
+        Func<IRequest?, IRequestContext?, List<Type>> router,
         IEnumerable<Type> handlerTypes)
         where TRequest : class, IRequest
     {
         _asyncRegistration += registry =>
         {
-            registry.RegisterAsync<TRequest>(router,  handlerTypes);
+            registry.RegisterAsync<TRequest>(router, handlerTypes);
         };
 
         return this;

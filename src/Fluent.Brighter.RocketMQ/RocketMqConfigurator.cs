@@ -46,7 +46,7 @@ public class RocketMqConfigurator
         _connection = connection;
         return this;
     }
-    
+
     /// <summary>
     /// Configures message publications (producers)
     /// </summary>
@@ -96,12 +96,12 @@ public class RocketMqConfigurator
             fluent.Subscriptions(sub =>
             {
                 var channel = new RocketMqChannelFactory(new RocketMessageConsumerFactory(_connection!));
-                
+
                 var configurator = new RocketMqSubscriptionConfigurator(channel);
                 configure(configurator);
 
                 sub.AddChannelFactory(channel);
-                
+
                 foreach (var subscription in configurator.Subscriptions)
                 {
                     sub.AddRocketMqSubscription(subscription);
@@ -110,7 +110,7 @@ public class RocketMqConfigurator
         };
         return this;
     }
-    
+
     /// <summary>
     /// Applies the configuration to Brighter's fluent builder (internal)
     /// </summary>
@@ -123,7 +123,7 @@ public class RocketMqConfigurator
         {
             throw new ConfigurationException("RocketMQ connection configuration is required. Use SetConnection() to configure connection settings.");
         }
-        
+
         _action(fluentBrighter);
     }
 }

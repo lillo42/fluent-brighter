@@ -25,10 +25,10 @@ public sealed class PostgresSubscriptionBuilder
         _subscriptionName = subscriptionName;
         return this;
     }
-    
+
     private ChannelName? _channelName;
     private RoutingKey? _routingKey;
-    
+
     /// <summary>
     /// Sets the channel name and routing key for the subscription.
     /// The channel represents the PostgreSQL queue/topic from which messages will be consumed.
@@ -42,7 +42,7 @@ public sealed class PostgresSubscriptionBuilder
         _routingKey = new RoutingKey(channelName.Value);
         return this;
     }
-    
+
     private Type? _dataType;
 
     /// <summary>
@@ -59,7 +59,7 @@ public sealed class PostgresSubscriptionBuilder
         {
             return this;
         }
-        
+
         if (_subscriptionName == null)
         {
             _subscriptionName = new SubscriptionName(dataType.ToString());
@@ -74,10 +74,10 @@ public sealed class PostgresSubscriptionBuilder
         {
             _routingKey = new RoutingKey(dataType.Name);
         }
-        
+
         return this;
     }
-    
+
     private Func<Message, Type>? _getRequestType;
 
     /// <summary>
@@ -106,8 +106,8 @@ public sealed class PostgresSubscriptionBuilder
         _bufferSize = bufferSize;
         return this;
     }
-    
-    private int _noOfPerformers  = 1;
+
+    private int _noOfPerformers = 1;
 
     /// <summary>
     /// Sets the number of performer threads that will process messages concurrently.
@@ -120,9 +120,9 @@ public sealed class PostgresSubscriptionBuilder
         _noOfPerformers = noOfPerformers;
         return this;
     }
-    
+
     private TimeSpan? _timeOut;
-    
+
     /// <summary>
     /// Sets the timeout duration for message processing operations.
     /// If a message handler takes longer than this timeout, the operation will be cancelled.
@@ -134,9 +134,9 @@ public sealed class PostgresSubscriptionBuilder
         _timeOut = timeout;
         return this;
     }
-    
+
     private int _requeueCount = -1;
-    
+
     /// <summary>
     /// Sets the maximum number of times a failed message will be requeued for retry.
     /// Messages that fail processing can be retried up to this limit before being moved to a dead letter queue or discarded.
@@ -148,9 +148,9 @@ public sealed class PostgresSubscriptionBuilder
         _requeueCount = requeueCount;
         return this;
     }
-    
+
     private TimeSpan? _requeueDelay;
-    
+
     /// <summary>
     /// Sets the delay before a failed message is requeued for retry.
     /// This provides a backoff period before attempting to process the message again, which can help with transient failures.
@@ -162,9 +162,9 @@ public sealed class PostgresSubscriptionBuilder
         _requeueDelay = timeout;
         return this;
     }
-    
+
     private int _unacceptableMessageLimit;
-    
+
     /// <summary>
     /// Sets the limit for the number of unacceptable messages that can be received before the channel stops processing.
     /// Unacceptable messages are those that cannot be deserialized or are malformed. This limit prevents endless processing of bad messages.
@@ -173,12 +173,12 @@ public sealed class PostgresSubscriptionBuilder
     /// <returns>The current <see cref="PostgresSubscriptionBuilder"/> instance for method chaining.</returns>
     public PostgresSubscriptionBuilder SetUnacceptableMessageLimit(int unacceptableMessageLimit)
     {
-        _unacceptableMessageLimit = unacceptableMessageLimit ;
+        _unacceptableMessageLimit = unacceptableMessageLimit;
         return this;
     }
-    
+
     private MessagePumpType _messagePumpType = MessagePumpType.Proactor;
-    
+
     /// <summary>
     /// Sets the message pump type that determines how messages are processed.
     /// Proactor uses async/await patterns for non-blocking I/O, while Reactor uses synchronous processing.
@@ -204,7 +204,7 @@ public sealed class PostgresSubscriptionBuilder
         _channelFactory = channelFactory;
         return this;
     }
-    
+
     private OnMissingChannel _onMissingChannel = OnMissingChannel.Create;
 
     /// <summary>
@@ -317,7 +317,7 @@ public sealed class PostgresSubscriptionBuilder
         _binaryMessagePayload = binaryMessagePayload;
         return this;
     }
-    
+
     /// <summary>
     /// Builds and returns a configured <see cref="PostgresSubscription"/> instance.
     /// This method is called internally to create the subscription with all the configured settings
@@ -331,7 +331,7 @@ public sealed class PostgresSubscriptionBuilder
         {
             throw new ConfigurationException("SubscriptionName not set");
         }
-        
+
         if (_channelName == null)
         {
             throw new ConfigurationException("ChannelName not set");
@@ -341,7 +341,7 @@ public sealed class PostgresSubscriptionBuilder
         {
             throw new ConfigurationException("RoutingKey not set");
         }
-        
+
         return new PostgresSubscription(
             subscriptionName: _subscriptionName,
             channelName: _channelName,
@@ -357,7 +357,7 @@ public sealed class PostgresSubscriptionBuilder
             messagePumpType: _messagePumpType,
             channelFactory: _channelFactory,
             makeChannels: _onMissingChannel,
-            emptyChannelDelay: _emptyChannelDelay, 
+            emptyChannelDelay: _emptyChannelDelay,
             channelFailureDelay: _channelFailureDelay,
             schemaName: _schemaName,
             queueStoreTable: _queueStoreTable,

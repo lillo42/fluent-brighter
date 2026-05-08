@@ -10,13 +10,13 @@ namespace Fluent.Brighter;
 public static class ConsumerBuilderExtensions
 {
     #region Handlers
-    
+
     /// <summary>
     /// Configures message handlers as singleton services
     /// </summary>
     /// <param name="consumerBuilder">The ConsumerBuilder instance</param>
     /// <returns>The ConsumerBuilder for fluent chaining</returns>
-    public static ConsumerBuilder UseHandlersAsSingleton(this ConsumerBuilder consumerBuilder) 
+    public static ConsumerBuilder UseHandlersAsSingleton(this ConsumerBuilder consumerBuilder)
         => consumerBuilder.SetHandlerLifetime(ServiceLifetime.Singleton);
 
     /// <summary>
@@ -26,7 +26,7 @@ public static class ConsumerBuilderExtensions
     /// <returns>The ConsumerBuilder for fluent chaining</returns>
     public static ConsumerBuilder UseHandlersAsScoped(this ConsumerBuilder consumerBuilder)
         => consumerBuilder.SetHandlerLifetime(ServiceLifetime.Scoped);
-    
+
     /// <summary>
     /// Configures message handlers as transient services
     /// </summary>
@@ -35,15 +35,15 @@ public static class ConsumerBuilderExtensions
     public static ConsumerBuilder UseHandlersAsTransient(this ConsumerBuilder consumerBuilder)
         => consumerBuilder.SetHandlerLifetime(ServiceLifetime.Transient);
     #endregion
-    
+
     #region Message Mapper 
-    
+
     /// <summary>
     /// Configures message mappers as singleton services
     /// </summary>
     /// <param name="consumerBuilder">The ConsumerBuilder instance</param>
     /// <returns>The ConsumerBuilder for fluent chaining</returns>
-    public static ConsumerBuilder UseMappersAsSingleton(this ConsumerBuilder consumerBuilder) 
+    public static ConsumerBuilder UseMappersAsSingleton(this ConsumerBuilder consumerBuilder)
         => consumerBuilder.SetMapperLifetime(ServiceLifetime.Singleton);
 
     /// <summary>
@@ -62,15 +62,15 @@ public static class ConsumerBuilderExtensions
     public static ConsumerBuilder UseMappersAsTransient(this ConsumerBuilder consumerBuilder)
         => consumerBuilder.SetMapperLifetime(ServiceLifetime.Transient);
     #endregion
-    
+
     #region Transformer 
-    
+
     /// <summary>
     /// Configures message transformers as singleton services
     /// </summary>
     /// <param name="consumerBuilder">The ConsumerBuilder instance</param>
     /// <returns>The ConsumerBuilder for fluent chaining</returns>
-    public static ConsumerBuilder UseTransformersAsSingleton(this ConsumerBuilder consumerBuilder) 
+    public static ConsumerBuilder UseTransformersAsSingleton(this ConsumerBuilder consumerBuilder)
         => consumerBuilder.SetTransformerLifetime(ServiceLifetime.Singleton);
 
     /// <summary>

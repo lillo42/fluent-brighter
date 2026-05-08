@@ -35,7 +35,7 @@ public static class KafkaSubscriptionBuilderExtensions
     }
 
     #endregion
-    
+
     #region MakeChannels
 
     /// <summary>

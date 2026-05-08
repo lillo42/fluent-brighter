@@ -12,7 +12,7 @@ namespace Fluent.Brighter.Redis;
 public sealed class RedisMessagingGatewayConfigurationBuilder
 {
     private int? _defaultConnectTimeout;
-    
+
     /// <summary>
     /// Sets the default RedisClient socket connect timeout.
     /// </summary>
@@ -23,9 +23,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _defaultConnectTimeout = defaultConnectTimeout;
         return this;
     }
-    
+
     private int? _defaultSendTimeout;
-    
+
     /// <summary>
     /// Sets the default RedisClient socket send timeout.
     /// </summary>
@@ -36,9 +36,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _defaultSendTimeout = defaultSendTimeout;
         return this;
     }
-    
+
     private int? _defaultReceiveTimeout;
-    
+
     /// <summary>
     /// Sets the default RedisClient socket receive timeout.
     /// </summary>
@@ -49,9 +49,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _defaultReceiveTimeout = defaultReceiveTimeout;
         return this;
     }
-    
+
     private int? _defaultIdleTimeOutSecs;
-    
+
     /// <summary>
     /// Sets the default idle timeout before a subscription is considered stale.
     /// </summary>
@@ -62,9 +62,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _defaultIdleTimeOutSecs = defaultIdleTimeOutSecs;
         return this;
     }
-    
+
     private int? _defaultRetryTimeout;
-    
+
     /// <summary>
     /// Sets the default retry timeout for automatic retry of failed operations.
     /// </summary>
@@ -75,9 +75,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _defaultRetryTimeout = defaultRetryTimeout;
         return this;
     }
-    
+
     private int? _bufferPoolMaxSize;
-    
+
     /// <summary>
     /// Sets the byte buffer size for operations to use a byte buffer pool.
     /// </summary>
@@ -88,9 +88,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _bufferPoolMaxSize = bufferPoolMaxSize;
         return this;
     }
-    
+
     private bool? _verifyMasterConnections;
-    
+
     /// <summary>
     /// Sets whether connections to master hosts should be verified to ensure they're still master instances.
     /// </summary>
@@ -101,9 +101,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _verifyMasterConnections = verifyMasterConnections;
         return this;
     }
-    
+
     private int? _hostLookupTimeoutMs;
-    
+
     /// <summary>
     /// Sets the connect timeout on clients used to find the next available host.
     /// </summary>
@@ -114,9 +114,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _hostLookupTimeoutMs = hostLookupTimeoutMs;
         return this;
     }
-    
+
     private int? _assumeServerVersion;
-    
+
     /// <summary>
     /// Sets the assumed Redis server version to skip server version checks.
     /// Specify the minimum version number (e.g., 2.8.12 => 2812, 2.9.1 => 2910).
@@ -128,9 +128,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _assumeServerVersion = assumeServerVersion;
         return this;
     }
-    
+
     private TimeSpan? _deactivatedClientsExpiry;
-    
+
     /// <summary>
     /// Sets how long to hold deactivated clients before disposing their subscription.
     /// Use <see cref="TimeSpan.Zero"/> to dispose of deactivated clients immediately.
@@ -142,9 +142,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _deactivatedClientsExpiry = deactivatedClientsExpiry;
         return this;
     }
-    
+
     private bool? _disableVerboseLogging;
-    
+
     /// <summary>
     /// Sets whether debug logging should log detailed Redis operations.
     /// </summary>
@@ -155,9 +155,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _disableVerboseLogging = disableVerboseLogging;
         return this;
     }
-    
+
     private int? _backoffMultiplier;
-    
+
     /// <summary>
     /// Sets the exponential backoff interval for retrying connections on socket failure.
     /// </summary>
@@ -168,9 +168,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _backoffMultiplier = backoffMultiplier;
         return this;
     }
-    
+
     private int? _maxPoolSize;
-    
+
     /// <summary>
     /// Sets the maximum size of the Redis connection pool.
     /// </summary>
@@ -181,9 +181,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _maxPoolSize = maxPoolSize;
         return this;
     }
-    
+
     private TimeSpan? _messageTimeToLive;
-    
+
     /// <summary>
     /// Sets how long message bodies persist in Redis before being reclaimed.
     /// Once reclaimed, attempts to retrieve the message will fail and the message will be rejected.
@@ -195,9 +195,9 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _messageTimeToLive = messageTimeToLive;
         return this;
     }
-    
+
     private string? _redisConnectionString;
-    
+
     /// <summary>
     /// Sets the Redis connection string that defines how to connect to Redis.
     /// </summary>
@@ -208,7 +208,7 @@ public sealed class RedisMessagingGatewayConfigurationBuilder
         _redisConnectionString = redisConnectionString;
         return this;
     }
-    
+
     /// <summary>
     /// Builds and returns a configured <see cref="RedisMessagingGatewayConfiguration"/> instance.
     /// This method is called internally to create the configuration with all the configured settings.

@@ -34,7 +34,7 @@ public sealed class SqliteOutboxBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
+
     /// <summary>
     /// Constructs the SQLite outbox configuration
     /// </summary>
@@ -47,9 +47,9 @@ public sealed class SqliteOutboxBuilder
             throw new ConfigurationException("SQLite outbox configuration is missing. " +
                                              "You must provide database configuration using SetConfiguration() before building. ");
         }
-        
-        return _connectionProvider == null 
-            ? new SqliteOutbox(_configuration) 
+
+        return _connectionProvider == null
+            ? new SqliteOutbox(_configuration)
             : new SqliteOutbox(_configuration, _connectionProvider);
     }
 }

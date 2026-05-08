@@ -14,7 +14,7 @@ public sealed class PostgresConfigurator
 {
     private PostgresMessagingGatewayConnection? _connection;
     private Action<FluentBrighterBuilder> _action = _ => { };
-    
+
     /// <summary>
     /// Sets the PostgreSQL database connection using a fluent configuration builder.
     /// </summary>
@@ -22,7 +22,7 @@ public sealed class PostgresConfigurator
     /// <returns>The current <see cref="PostgresConfigurator"/> instance for method chaining.</returns>
     public PostgresConfigurator SetConnection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
-        var builder = new RelationalDatabaseConfigurationBuilder(); 
+        var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
         return SetConnection(builder.Build());
     }
@@ -112,7 +112,7 @@ public sealed class PostgresConfigurator
                 configure(configurator);
 
                 sub.AddChannelFactory(channel);
-                
+
                 foreach (var subscription in configurator.Subscriptions)
                 {
                     sub.AddPostgresSubscription(subscription);
@@ -134,7 +134,7 @@ public sealed class PostgresConfigurator
         {
             throw new ConfigurationException("No RelationalDatabaseConfiguration was set");
         }
-        
+
         _action(fluentBrighter);
     }
 }

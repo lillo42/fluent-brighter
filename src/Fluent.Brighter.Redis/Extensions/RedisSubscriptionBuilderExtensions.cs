@@ -38,7 +38,7 @@ public static class RedisSubscriptionBuilderExtensions
     }
 
     #endregion
-    
+
     #region MakeChannels
 
     /// <summary>

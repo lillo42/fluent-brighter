@@ -32,7 +32,7 @@ public static class GcpPublicationFactoryBuilderExtensions
         configure(connection);
         return builder.SetConnection(connection.Build());
     }
-    
+
     /// <summary>
     /// Adds a message publication configuration to the Google Cloud Pub/Sub message producer factory.
     /// This overload allows configuring publication settings using a builder action without specifying a request type.
@@ -54,7 +54,7 @@ public static class GcpPublicationFactoryBuilderExtensions
         configure(connection);
         return builder.AddPublication(connection.Build());
     }
-    
+
     /// <summary>
     /// Adds a message publication configuration to the Google Cloud Pub/Sub message producer factory for a specific request type.
     /// This overload automatically associates the publication with the specified request type using generics.

@@ -28,7 +28,7 @@ public sealed class RocketMessageProducerFactoryBuilder
         _connection = connection;
         return this;
     }
-    
+
     private List<RocketMqPublication> _publications = [];
 
     /// <summary>
@@ -66,7 +66,7 @@ public sealed class RocketMessageProducerFactoryBuilder
         {
             throw new ConfigurationException("RocketMQ connection configuration is required. Use SetConnection() to provide gateway settings.");
         }
-        
+
         return new RocketMessageProducerFactory(_connection, _publications);
     }
 }
