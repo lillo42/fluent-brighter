@@ -2,6 +2,7 @@ using System;
 
 using Google.Cloud.PubSub.V1;
 using Google.Protobuf.Collections;
+
 using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.GcpPubSub;
 
@@ -32,7 +33,7 @@ public sealed class GcpPubSubSubscriptionBuilder
         {
             _channelName = new ChannelName(_subscriptionName.Value);
         }
-        
+
         return this;
     }
 
@@ -51,7 +52,7 @@ public sealed class GcpPubSubSubscriptionBuilder
         {
             _subscriptionName = new SubscriptionName(channelName.Value);
         }
-        
+
         return this;
     }
 

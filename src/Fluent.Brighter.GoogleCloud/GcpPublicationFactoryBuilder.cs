@@ -14,7 +14,7 @@ namespace Fluent.Brighter.GoogleCloud;
 public class GcpPublicationFactoryBuilder
 {
     private GcpMessagingGatewayConnection? _connection;
-    
+
     /// <summary>
     /// Sets the connection details for the Google Cloud Pub/Sub gateway.
     /// </summary>
@@ -27,7 +27,7 @@ public class GcpPublicationFactoryBuilder
     }
 
     private List<GcpPublication> _publications = new();
-    
+
     /// <summary>
     /// Sets the collection of Google Cloud Pub/Sub specific publication configurations.
     /// Replaces any previously configured publications.
@@ -51,9 +51,9 @@ public class GcpPublicationFactoryBuilder
         _publications.Add(publication);
         return this;
     }
-    
+
     private InstrumentationOptions? _instrumentation;
-    
+
     /// <summary>
     /// Sets the instrumentation options for tracing and metrics.
     /// </summary>

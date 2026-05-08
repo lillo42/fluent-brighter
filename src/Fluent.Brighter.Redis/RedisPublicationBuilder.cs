@@ -14,7 +14,7 @@ namespace Fluent.Brighter.Redis;
 public sealed class RedisPublicationBuilder
 {
     private Uri? _dataSchema;
-    
+
     /// <summary>
     /// Sets the data schema URI for CloudEvents messages.
     /// This defines the schema that describes the structure of the message data.
@@ -26,9 +26,9 @@ public sealed class RedisPublicationBuilder
         _dataSchema = dataSchema;
         return this;
     }
-    
+
     private OnMissingChannel _makeChannels = OnMissingChannel.Create;
-    
+
     /// <summary>
     /// Sets the behavior for handling missing channels/topics in Redis.
     /// Determines whether to create, validate, or assume the existence of channels.
@@ -40,9 +40,9 @@ public sealed class RedisPublicationBuilder
         _makeChannels = makeChannels;
         return this;
     }
-    
+
     private Type? _requestType;
-    
+
     /// <summary>
     /// Sets the request type for the publication.
     /// This defines the .NET type of the message/command/event that will be published.
@@ -54,9 +54,9 @@ public sealed class RedisPublicationBuilder
         _requestType = requestType;
         return this;
     }
-    
+
     private Uri _source = new(MessageHeader.DefaultSource);
-    
+
     /// <summary>
     /// Sets the source URI for CloudEvents messages.
     /// This identifies the context in which an event happened and is part of the CloudEvents specification.
@@ -68,9 +68,9 @@ public sealed class RedisPublicationBuilder
         _source = source;
         return this;
     }
-    
+
     private string? _subject;
-    
+
     /// <summary>
     /// Sets the subject for CloudEvents messages.
     /// This describes the subject of the event in the context of the event producer and is part of the CloudEvents specification.
@@ -82,9 +82,9 @@ public sealed class RedisPublicationBuilder
         _subject = subject;
         return this;
     }
-    
+
     private RoutingKey? _topic;
-    
+
     /// <summary>
     /// Sets the routing key (topic/channel name) where messages will be published in Redis.
     /// This determines the destination topic for outgoing messages.
@@ -96,9 +96,9 @@ public sealed class RedisPublicationBuilder
         _topic = topic;
         return this;
     }
-    
+
     private CloudEventsType _type = CloudEventsType.Empty;
-    
+
     /// <summary>
     /// Sets the CloudEvents type for messages.
     /// This describes the type of event related to the originating occurrence and is part of the CloudEvents specification.
@@ -110,9 +110,9 @@ public sealed class RedisPublicationBuilder
         _type = type;
         return this;
     }
-    
+
     private IDictionary<string, object>? _defaultHeaders;
-    
+
     /// <summary>
     /// Sets default headers to be included with every published message.
     /// These headers provide additional metadata that will be sent along with messages.
@@ -124,9 +124,9 @@ public sealed class RedisPublicationBuilder
         _defaultHeaders = defaultHeaders;
         return this;
     }
-    
+
     private IDictionary<string, object>? _cloudEventsAdditionalProperties;
-    
+
     /// <summary>
     /// Sets additional CloudEvents extension properties to be included with published messages.
     /// CloudEvents allows custom extension attributes beyond the standard specification to provide additional context.
@@ -144,9 +144,9 @@ public sealed class RedisPublicationBuilder
         _cloudEventsAdditionalProperties = cloudEventsAdditionalProperties;
         return this;
     }
-    
+
     private string? _replyTo;
-    
+
     /// <summary>
     /// Sets the reply-to address for request-reply messaging patterns.
     /// This specifies where response messages should be sent when implementing request-reply communication.
@@ -158,7 +158,7 @@ public sealed class RedisPublicationBuilder
         _replyTo = replyTo;
         return this;
     }
-    
+
     /// <summary>
     /// Builds and returns a configured <see cref="RedisMessagePublication"/> instance.
     /// This method is called internally to create the publication with all the configured settings

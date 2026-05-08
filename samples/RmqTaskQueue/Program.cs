@@ -21,10 +21,10 @@ var host = new HostBuilder()
                     .UsePublications(pb => pb
                         .AddPublication<GreetingEvent>(p => p
                             .SetTopic("greeting.event.topic")
-                            .CreateTopicIfMissing()) 
+                            .CreateTopicIfMissing())
                         .AddPublication<FarewellEvent>(p => p
                             .SetTopic("farewell.event.topic")
-                            .CreateTopicIfMissing()) 
+                            .CreateTopicIfMissing())
                     )
                     .UseSubscriptions(sb => sb
                         .AddSubscription<GreetingEvent>(s => s

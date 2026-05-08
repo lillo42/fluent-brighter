@@ -29,7 +29,7 @@ public sealed class RocketMqPublicationBuilder
         return this;
     }
 
-    private OnMissingChannel _makeChannels = OnMissingChannel.Create; 
+    private OnMissingChannel _makeChannels = OnMissingChannel.Create;
 
     /// <summary>
     /// Configures channel creation behavior when missing (default: Create)
@@ -159,7 +159,7 @@ public sealed class RocketMqPublicationBuilder
         _tags = tags;
         return this;
     }
-    
+
     private InstrumentationOptions _instrumentation = InstrumentationOptions.All;
 
     /// <summary>
@@ -179,7 +179,7 @@ public sealed class RocketMqPublicationBuilder
     /// <returns>Fully configured publication settings</returns>
     internal RocketMqPublication Build()
     {
-        return new RocketMqPublication  
+        return new RocketMqPublication
         {
             DataSchema = _dataSchema,
             MakeChannels = _makeChannels,

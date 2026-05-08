@@ -24,7 +24,7 @@ public static class RmqPublicationBuilderExtensions
     /// <returns>Configured publication builder</returns>
     public static RmqPublicationBuilder CreateTopicIfMissing(this RmqPublicationBuilder builder)
         => builder.SetMakeChannels(OnMissingChannel.Create);
-    
+
     /// <summary>
     /// Configures the producer to validate exchange/topic existence before publishing
     /// </summary>
@@ -36,7 +36,7 @@ public static class RmqPublicationBuilderExtensions
     /// <returns>Configured publication builder</returns>
     public static RmqPublicationBuilder ValidIfTopicExists(this RmqPublicationBuilder builder)
         => builder.SetMakeChannels(OnMissingChannel.Validate);
-    
+
     /// <summary>
     /// Configures the producer to assume exchanges/topics exist
     /// </summary>

@@ -1,4 +1,5 @@
 using System;
+
 using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.Redis;
 

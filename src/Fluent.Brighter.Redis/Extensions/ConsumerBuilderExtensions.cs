@@ -36,7 +36,7 @@ public static class ConsumerBuilderExtensions
         configure(sub);
         return builder.AddSubscription(sub.Build());
     }
-    
+
     /// <summary>
     /// Adds a Redis subscription for a specific request type to the consumer builder.
     /// This method automatically configures the subscription with the specified <typeparamref name="TRequest"/> type
@@ -46,7 +46,7 @@ public static class ConsumerBuilderExtensions
     /// <param name="builder">The <see cref="ConsumerBuilder"/> instance to configure.</param>
     /// <param name="configure">An action that configures the <see cref="RedisSubscriptionBuilder"/> with additional settings.</param>
     /// <returns>The <see cref="ConsumerBuilder"/> instance for method chaining.</returns>
-    public static ConsumerBuilder AddRedisSubscription<TRequest>(this ConsumerBuilder builder, 
+    public static ConsumerBuilder AddRedisSubscription<TRequest>(this ConsumerBuilder builder,
         Action<RedisSubscriptionBuilder> configure)
         where TRequest : class, IRequest
     {
@@ -70,7 +70,7 @@ public static class ConsumerBuilderExtensions
         configure(connection);
         return builder.AddRedisChannelFactory(connection.Build());
     }
-    
+
     /// <summary>
     /// Adds a Redis channel factory to the consumer builder using a pre-configured Redis messaging gateway configuration.
     /// Channel factories are responsible for creating message channels that consume messages from Redis.

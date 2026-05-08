@@ -18,7 +18,7 @@ namespace Fluent.Brighter;
 public sealed class TransformerBuilder
 {
     private List<Assembly> _assemblies = [];
-    
+
     /// <summary>
     /// Initializes a new TransformerBuilder instance
     /// </summary>
@@ -29,12 +29,12 @@ public sealed class TransformerBuilder
     public TransformerBuilder()
     {
         _assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a =>
-            !a.IsDynamic 
-            && a.FullName?.StartsWith("Microsoft.", true, CultureInfo.InvariantCulture) == false 
+            !a.IsDynamic
+            && a.FullName?.StartsWith("Microsoft.", true, CultureInfo.InvariantCulture) == false
             && a.FullName?.StartsWith("System.", true, CultureInfo.InvariantCulture) == false
             && a.FullName?.StartsWith("Paramore.Brighter", true, CultureInfo.InvariantCulture) == false));
     }
-    
+
     /// <summary>
     /// Specifies specific assemblies to scan for message transformers
     /// </summary>

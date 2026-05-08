@@ -14,7 +14,7 @@ namespace Fluent.Brighter.RMQ.Sync;
 public class AmqpUriSpecificationBuilder
 {
     private Uri? _uri;
-    
+
     /// <summary>
     /// Sets the RabbitMQ connection URI
     /// </summary>
@@ -27,7 +27,7 @@ public class AmqpUriSpecificationBuilder
     }
 
     private int _connectionRetryCount;
-    
+
     /// <summary>
     /// Sets the maximum number of connection retry attempts
     /// </summary>
@@ -40,7 +40,7 @@ public class AmqpUriSpecificationBuilder
     }
 
     private int _retryWaitInMilliseconds;
-    
+
     /// <summary>
     /// Sets the delay between connection retry attempts
     /// </summary>
@@ -51,9 +51,9 @@ public class AmqpUriSpecificationBuilder
         _retryWaitInMilliseconds = milliseconds;
         return this;
     }
-    
+
     private int _circuitBreakTimeInMilliseconds;
-    
+
     /// <summary>
     /// Sets the duration to break the circuit when connection failures exceed thresholds
     /// </summary>
@@ -71,7 +71,7 @@ public class AmqpUriSpecificationBuilder
         {
             throw new ConfigurationException("Uri was not specified");
         }
-        
+
         return new AmqpUriSpecification(
             _uri,
             _connectionRetryCount,

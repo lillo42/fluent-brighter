@@ -44,7 +44,7 @@ public static class ProducersExtensions
     {
         return builder.UseMySqlOutbox(cfg => cfg.SetConfiguration(configuration));
     }
-    
+
     /// <summary>
     /// Configures the MySQL outbox using a direct outbox builder delegate
     /// </summary>
@@ -70,7 +70,7 @@ public static class ProducersExtensions
         builder.SetOutbox(outbox.Build());
         return builder;
     }
-    
+
     /// <summary>
     /// Configures a MySQL-based distributed lock using a database configuration
     /// </summary>
@@ -83,7 +83,7 @@ public static class ProducersExtensions
     /// </remarks> 
     public static ProducerBuilder UseMySqlDistributedLock(this ProducerBuilder builder, IAmARelationalDatabaseConfiguration configuration)
         => builder.SetDistributedLock(new MySqlLockingProvider(new MySqlConnectionProvider(configuration)));
-    
+
     /// <summary>
     /// Configures a MySQL-based distributed lock using a connection string
     /// </summary>
@@ -96,6 +96,6 @@ public static class ProducersExtensions
     /// .UseMySqlDistributedLock("Server=localhost;Database=brighter;Uid=user;Pwd=pass;")
     /// </code>
     /// </remarks>
-    public static ProducerBuilder UseMySqlDistributedLock(this ProducerBuilder builder, string connectionString) 
+    public static ProducerBuilder UseMySqlDistributedLock(this ProducerBuilder builder, string connectionString)
         => builder.UseMySqlDistributedLock(new RelationalDatabaseConfiguration(connectionString));
 }

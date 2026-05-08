@@ -24,9 +24,9 @@ public sealed class RedisMessageProducerFactoryBuilder
         _configuration = configuration;
         return this;
     }
-    
+
     private List<RedisMessagePublication> _publications = [];
-   
+
     /// <summary>
     /// Sets the collection of Redis message publications that define how messages are published.
     /// Publications define the mapping between message types and Redis channels/topics.
@@ -39,7 +39,7 @@ public sealed class RedisMessageProducerFactoryBuilder
         _publications = publications.ToList();
         return this;
     }
-    
+
     /// <summary>
     /// Adds a single publication configuration to the existing collection.
     /// Publications define the mapping between message types and Redis channels/topics.
@@ -51,7 +51,7 @@ public sealed class RedisMessageProducerFactoryBuilder
         _publications.Add(publications);
         return this;
     }
-    
+
     /// <summary>
     /// Builds and returns a configured <see cref="RedisMessageProducerFactory"/> instance.
     /// This method is called internally to create the factory with the configured settings.
@@ -64,7 +64,7 @@ public sealed class RedisMessageProducerFactoryBuilder
         {
             throw new ConfigurationException("The configuration was not set");
         }
-        
+
         return new RedisMessageProducerFactory(_configuration, _publications);
     }
 }

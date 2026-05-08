@@ -27,7 +27,7 @@ public sealed class PostgresPublicationBuilder
         return this;
     }
 
-    private OnMissingChannel _makeChannels = OnMissingChannel.Create; 
+    private OnMissingChannel _makeChannels = OnMissingChannel.Create;
 
     /// <summary>
     /// Sets the behavior for handling missing channels/topics in PostgreSQL.

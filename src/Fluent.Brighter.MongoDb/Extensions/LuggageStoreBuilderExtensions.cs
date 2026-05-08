@@ -29,7 +29,7 @@ public static class LuggageStoreBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var store = new MongoDbLuggageStoreBuilder();
         configure(store);
         return builder.UseMongoGridFsLuggageStore(store.Build());
@@ -51,7 +51,7 @@ public static class LuggageStoreBuilderExtensions
         {
             throw new ArgumentNullException(nameof(store));
         }
-        
+
         builder.UseLuggageStore(store);
         return builder;
     }

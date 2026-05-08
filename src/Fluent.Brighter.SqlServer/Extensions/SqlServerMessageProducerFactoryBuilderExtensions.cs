@@ -34,7 +34,7 @@ public static class SqlServerMessageProducerFactoryBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var configuration = new RelationalDatabaseConfigurationBuilder();
         configure(configuration);
         return builder.SetConnection(configuration.Build());
@@ -59,7 +59,7 @@ public static class SqlServerMessageProducerFactoryBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var publication = new SqlServerPublicationBuilder();
         configure(publication);
         return builder.AddPublication(publication.Build());
@@ -83,7 +83,7 @@ public static class SqlServerMessageProducerFactoryBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var publication = new SqlServerPublicationBuilder();
         publication.SetRequestType(typeof(TRequest));
         configure(publication);

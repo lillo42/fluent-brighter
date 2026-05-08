@@ -37,7 +37,7 @@ public static class PostgresSubscriptionBuilderExtensions
     }
 
     #endregion
-    
+
     #region MakeChannels
     /// <summary>
     /// Configures the subscription to create PostgreSQL queues/topics if they don't exist.
@@ -74,7 +74,7 @@ public static class PostgresSubscriptionBuilderExtensions
     }
 
     #endregion
-    
+
     #region Binary Message Payload
     /// <summary>
     /// Enables binary message payload storage in PostgreSQL.
@@ -101,7 +101,7 @@ public static class PostgresSubscriptionBuilderExtensions
     }
 
     #endregion
-    
+
     #region Table with large message
     /// <summary>
     /// Enables large message support for the PostgreSQL queue table.

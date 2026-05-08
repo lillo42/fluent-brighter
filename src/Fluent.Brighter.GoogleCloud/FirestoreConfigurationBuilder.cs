@@ -165,4 +165,3 @@ public sealed class FirestoreConfigurationBuilder
         };
     }
 }
-

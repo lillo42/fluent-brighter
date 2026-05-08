@@ -26,7 +26,7 @@ public static class SqlServerOutboxBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var configuration = new RelationalDatabaseConfigurationBuilder();
         configure(configuration);
         return builder.SetConfiguration(configuration.Build());

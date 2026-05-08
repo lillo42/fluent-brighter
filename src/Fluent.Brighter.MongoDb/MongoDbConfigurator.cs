@@ -32,7 +32,7 @@ public sealed class MongoDbConfigurator
         {
             throw new ArgumentNullException(nameof(configuration));
         }
-        
+
         var builder = new MongoDbConfigurationBuilder();
         configuration(builder);
         _connectionString = builder.ConnectionString;
@@ -151,7 +151,7 @@ public sealed class MongoDbConfigurator
                     .UseMongoDbOutbox(cfg => cfg
                         .SetCollection(configure)
                         .SetConfiguration(_configuration!)))
-                .RegisterServices(services => 
+                .RegisterServices(services =>
                     services.AddSingleton(_configuration!));
         };
         return this;
@@ -207,7 +207,7 @@ public sealed class MongoDbConfigurator
                 .SetConfiguration(_configuration!)));
         return this;
     }
-    
+
     /// <summary>
     /// Configures a MongoDB GridFS luggage store using a custom bucket name.
     /// The database and connection are inherited from the shared MongoDB configuration.
@@ -242,7 +242,7 @@ public sealed class MongoDbConfigurator
                         var settings = _configuration!.Client.Settings;
                         var builder = new MongoUrlBuilder
                         {
-                            AllowInsecureTls = settings.AllowInsecureTls, 
+                            AllowInsecureTls = settings.AllowInsecureTls,
                             ApplicationName = settings.ApplicationName,
                             AuthenticationMechanism = settings.Credential.Mechanism,
                             AuthenticationSource = settings.Credential.Source,
@@ -288,7 +288,7 @@ public sealed class MongoDbConfigurator
                         };
                         cfg.SetConnectionString(builder.ToString());
                     }
-                    
+
                     cfg.SetDatabaseName(_configuration!.DatabaseName);
                     configure(cfg);
                 }));

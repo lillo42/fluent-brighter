@@ -29,7 +29,7 @@ public static class MongoDbOutboxBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var configuration = new MongoDbConfigurationBuilder();
         configure(configuration);
         return builder.SetConfiguration(configuration.Build());
@@ -50,7 +50,7 @@ public static class MongoDbOutboxBuilderExtensions
         {
             throw new ArgumentException("Collection name cannot be null or empty.", nameof(collectionName));
         }
-        
+
         return builder.SetCollection(new MongoDbCollectionConfiguration { Name = collectionName });
     }
 
@@ -71,7 +71,7 @@ public static class MongoDbOutboxBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var collection = new MongoDbCollectionConfigurationBuilder();
         configure(collection);
         return builder.SetCollection(collection.Build());

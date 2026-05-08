@@ -24,7 +24,7 @@ public static class AmqpUriSpecificationBuilderExtensions
     /// builder.SetUri("amqp://user:pass@rabbitmq-server:5672/vhost")
     /// </example>
     public static AmqpUriSpecificationBuilder SetUri(
-        this AmqpUriSpecificationBuilder builder, 
+        this AmqpUriSpecificationBuilder builder,
         string uri)
         => builder.SetUri(new Uri(uri, UriKind.RelativeOrAbsolute));
 }

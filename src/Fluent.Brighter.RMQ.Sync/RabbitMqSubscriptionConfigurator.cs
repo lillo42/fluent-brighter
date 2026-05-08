@@ -48,7 +48,7 @@ public class RabbitMqSubscriptionConfigurator(ChannelFactory channelFactory)
         configure(sub);
         return AddSubscription(sub.Build());
     }
-    
+
     /// <summary>
     /// Adds and configures a strongly-typed RabbitMQ subscription
     /// </summary>

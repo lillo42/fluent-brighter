@@ -1,10 +1,13 @@
 using System;
+
 using Fluent.Brighter.GoogleCloud;
+
 using Paramore.Brighter;
 using Paramore.Brighter.Firestore;
 using Paramore.Brighter.Inbox.Firestore;
 using Paramore.Brighter.Inbox.Spanner;
 using Paramore.Brighter.MessagingGateway.GcpPubSub;
+
 using SpannerInboxBuilder = Fluent.Brighter.GoogleCloud.SpannerInboxBuilder;
 
 namespace Fluent.Brighter;

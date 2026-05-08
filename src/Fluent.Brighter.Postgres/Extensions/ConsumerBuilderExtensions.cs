@@ -19,9 +19,9 @@ public static class ConsumerBuilderExtensions
     /// <param name="builder">The <see cref="ConsumerBuilder"/> instance to configure.</param>
     /// <param name="subscription">The pre-configured <see cref="PostgresSubscription"/> to add.</param>
     /// <returns>The <see cref="ConsumerBuilder"/> instance for method chaining.</returns>
-    public static ConsumerBuilder AddPostgresSubscription(this ConsumerBuilder builder, PostgresSubscription subscription) 
+    public static ConsumerBuilder AddPostgresSubscription(this ConsumerBuilder builder, PostgresSubscription subscription)
         => builder.AddSubscription(subscription);
-    
+
     /// <summary>
     /// Adds a PostgreSQL subscription to the consumer builder using a configuration action.
     /// This method creates a new <see cref="PostgresSubscriptionBuilder"/>, applies the configuration, and builds the subscription.
@@ -36,7 +36,7 @@ public static class ConsumerBuilderExtensions
         configure(sub);
         return builder.AddSubscription(sub.Build());
     }
-    
+
     /// <summary>
     /// Adds a PostgreSQL subscription for a specific request type to the consumer builder.
     /// This method automatically configures the subscription with the specified <typeparamref name="TRequest"/> type
@@ -55,7 +55,7 @@ public static class ConsumerBuilderExtensions
         configure(sub);
         return builder.AddSubscription(sub.Build());
     }
-    
+
     /// <summary>
     /// Configures the consumer to use a PostgreSQL inbox pattern using a database configuration builder.
     /// The inbox pattern ensures message deduplication and idempotent message processing by storing
@@ -64,7 +64,7 @@ public static class ConsumerBuilderExtensions
     /// <param name="builder">The <see cref="ConsumerBuilder"/> instance to configure.</param>
     /// <param name="configure">An action that configures the <see cref="RelationalDatabaseConfigurationBuilder"/> with connection details.</param>
     /// <returns>The <see cref="ConsumerBuilder"/> instance for method chaining.</returns>
-    public static ConsumerBuilder UsePostgresInbox(this ConsumerBuilder builder, 
+    public static ConsumerBuilder UsePostgresInbox(this ConsumerBuilder builder,
         Action<RelationalDatabaseConfigurationBuilder> configure)
     {
         var configuration = new RelationalDatabaseConfigurationBuilder();
@@ -120,7 +120,7 @@ public static class ConsumerBuilderExtensions
     /// <param name="builder">The <see cref="ConsumerBuilder"/> instance to configure.</param>
     /// <param name="configuration">The pre-configured relational database configuration containing connection details.</param>
     /// <returns>The <see cref="ConsumerBuilder"/> instance for method chaining.</returns>
-    public static ConsumerBuilder AddPostgresChannelFactory(this ConsumerBuilder builder, RelationalDatabaseConfiguration  configuration)
+    public static ConsumerBuilder AddPostgresChannelFactory(this ConsumerBuilder builder, RelationalDatabaseConfiguration configuration)
     {
         return builder
             .AddChannelFactory(new PostgresChannelFactory(new PostgresMessagingGatewayConnection(configuration)));

@@ -34,7 +34,7 @@ public sealed class SpannerOutboxBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
+
     /// <summary>
     /// Builds a new instance of <see cref="SpannerOutbox"/> using the configured settings.
     /// </summary>
@@ -46,8 +46,8 @@ public sealed class SpannerOutboxBuilder
         {
             throw new ConfigurationException("Configuration is null");
         }
-        
-        return _connectionProvider == null ? new SpannerOutbox(_configuration) 
+
+        return _connectionProvider == null ? new SpannerOutbox(_configuration)
             : new SpannerOutbox(_configuration, _connectionProvider);
     }
 }

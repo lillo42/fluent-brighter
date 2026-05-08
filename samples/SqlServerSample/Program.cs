@@ -116,8 +116,8 @@ var host = new HostBuilder()
                     .UseOutboxSweeper()
                     .UsingMicrosoftSqlServer(cfg =>
                     {
-                        cfg.SetConnection(new RelationalDatabaseConfiguration(ConnectionString, 
-                            databaseName: "BrighterTests", 
+                        cfg.SetConnection(new RelationalDatabaseConfiguration(ConnectionString,
+                            databaseName: "BrighterTests",
                             queueStoreTable: "QueueData"));
 
                         cfg
@@ -134,7 +134,7 @@ var host = new HostBuilder()
                                 .AddSubscription<FarewellEvent>(s => s
                                     .SetQueue("farewell.queue")
                                     .SetMessagePumpType(MessagePumpType.Reactor)));
-                });
+                    });
             });
     })
     .Build();

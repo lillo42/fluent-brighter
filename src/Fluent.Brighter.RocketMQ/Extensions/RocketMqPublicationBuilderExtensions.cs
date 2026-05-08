@@ -24,7 +24,7 @@ public static class RocketMqPublicationBuilderExtensions
     /// <returns>Configured publication builder</returns>
     public static RocketMqPublicationBuilder ValidIfTopicExists(this RocketMqPublicationBuilder builder)
         => builder.SetMakeChannels(OnMissingChannel.Validate);
-    
+
     /// <summary>
     /// Configures the producer to assume exchanges/topics exist
     /// </summary>

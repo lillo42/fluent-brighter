@@ -50,7 +50,7 @@ public static class MongoDbLockingBuilderExtensions
         {
             throw new ArgumentException("Collection name cannot be null or empty.", nameof(collectionName));
         }
-        
+
         return builder.SetCollection(new MongoDbCollectionConfiguration { Name = collectionName });
     }
 
@@ -71,7 +71,7 @@ public static class MongoDbLockingBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var collection = new MongoDbCollectionConfigurationBuilder();
         configure(collection);
         return builder.SetCollection(collection.Build());

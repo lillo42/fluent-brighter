@@ -21,7 +21,7 @@ public static class MapperBuilderExtensions
     {
         return mapperBuilder.SetDefaultMapper(typeof(CloudEventJsonMessageMapper<>));
     }
-    
+
     /// <summary>
     /// Sets standard JSON as the default message mapper for the Brighter configuration.
     /// </summary>

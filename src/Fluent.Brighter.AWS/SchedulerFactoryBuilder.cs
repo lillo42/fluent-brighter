@@ -40,7 +40,7 @@ public sealed class SchedulerFactoryBuilder
     }
 
     private TimeProvider _timeProvider = TimeProvider.System;
-    
+
     /// <summary>
     /// Sets the time provider for scheduling operations, allowing for custom time sources
     /// in testing scenarios or for time synchronization requirements.
@@ -54,7 +54,7 @@ public sealed class SchedulerFactoryBuilder
     }
 
     private SchedulerGroup _group = new();
-    
+
     /// <summary>
     /// Sets the scheduler group for organizing and managing related schedules.
     /// </summary>
@@ -67,7 +67,7 @@ public sealed class SchedulerFactoryBuilder
     }
 
     private Func<Message, string> _getOrCreteMessageSchedulerId = static _ => Uuid.New().ToString("N");
-    
+
     /// <summary>
     /// Sets the function to generate or retrieve a unique scheduler ID for messages.
     /// </summary>
@@ -80,7 +80,7 @@ public sealed class SchedulerFactoryBuilder
     }
 
     private Func<IRequest, string> _getOrCreteRequestSchedulerId = static _ => Uuid.New().ToString("N");
-    
+
     /// <summary>
     /// Sets the function to generate or retrieve a unique scheduler ID for requests.
     /// </summary>
@@ -93,7 +93,7 @@ public sealed class SchedulerFactoryBuilder
     }
 
     private int? _flexibleTimeWindowMinutes;
-    
+
     /// <summary>
     /// Sets the flexible time window in minutes for schedule execution, which allows
     /// AWS to execute the schedule within the specified window for better resource utilization.
@@ -107,7 +107,7 @@ public sealed class SchedulerFactoryBuilder
     }
 
     private RoutingKey _schedulerTopicOrQueue = RoutingKey.Empty;
-    
+
     /// <summary>
     /// Sets the topic or queue where scheduled messages will be delivered.
     /// </summary>
@@ -120,7 +120,7 @@ public sealed class SchedulerFactoryBuilder
     }
 
     private bool _useMessageTopicAsTarget = true;
-    
+
     /// <summary>
     /// Sets whether to use the message's topic as the target for scheduled delivery.
     /// </summary>
@@ -133,7 +133,7 @@ public sealed class SchedulerFactoryBuilder
     }
 
     private OnSchedulerConflict _onConflict;
-    
+
     /// <summary>
     /// Sets the conflict resolution strategy when scheduling conflicts occur.
     /// </summary>
@@ -146,7 +146,7 @@ public sealed class SchedulerFactoryBuilder
     }
 
     private OnMissingRole _missingRole = OnMissingRole.Assume;
-    
+
     /// <summary>
     /// Sets the behavior when the specified IAM role is missing.
     /// </summary>

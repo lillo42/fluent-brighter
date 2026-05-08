@@ -58,7 +58,7 @@ public static class RmqSubscriptionConfigurationExtensions
         configure(publicationBuilder);
         return builder.AddPublication(publicationBuilder.Build());
     }
-    
+
     /// <summary>
     /// Adds a strongly-typed publication configuration for a specific request type
     /// </summary>

@@ -77,8 +77,8 @@ public sealed class MongoDbInboxBuilder
         }
 
         // Use connection provider if available; otherwise, rely on configuration's embedded client
-        return _connectionProvider == null 
-            ? new MongoDbInbox(_configuration) 
+        return _connectionProvider == null
+            ? new MongoDbInbox(_configuration)
             : new MongoDbInbox(_connectionProvider, _configuration);
     }
 }

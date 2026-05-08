@@ -48,14 +48,14 @@ public sealed class MySqlInboxBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
+
     internal MySqlInbox Build()
     {
         if (_configuration == null)
         {
             throw new ConfigurationException("Configuration is null");
         }
-        
+
         return _connectionProvider == null ? new MySqlInbox(_configuration) : new MySqlInbox(_configuration, _connectionProvider);
     }
 }

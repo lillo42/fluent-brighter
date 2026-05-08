@@ -25,7 +25,7 @@ public sealed class RelationalDatabaseConfigurationBuilder
     }
 
     private string? _databaseName;
-    
+
     /// <summary>
     /// Sets the database name (optional)
     /// </summary>
@@ -37,9 +37,9 @@ public sealed class RelationalDatabaseConfigurationBuilder
         return this;
     }
 
-    
+
     private string? _outBoxTableName;
-    
+
     /// <summary>
     /// Sets the outbox table name (optional)
     /// </summary>
@@ -51,9 +51,9 @@ public sealed class RelationalDatabaseConfigurationBuilder
         return this;
     }
 
-   
+
     private string? _inboxTableName;
-    
+
     /// <summary>
     /// Sets the inbox table name (optional)
     /// </summary>
@@ -66,7 +66,7 @@ public sealed class RelationalDatabaseConfigurationBuilder
     }
 
     private string? _queueStoreTable;
-    
+
     /// <summary>
     /// Sets the queue store table name (optional)
     /// </summary>
@@ -79,7 +79,7 @@ public sealed class RelationalDatabaseConfigurationBuilder
     }
 
     private string? _schemaName;
-    
+
     /// <summary>
     /// Sets the database schema name (optional)
     /// </summary>
@@ -92,7 +92,7 @@ public sealed class RelationalDatabaseConfigurationBuilder
     }
 
     private bool _binaryMessagePayload;
-    
+
     /// <summary>
     /// Configures whether message payloads should be stored as binary (optional)
     /// </summary>
@@ -121,7 +121,7 @@ public sealed class RelationalDatabaseConfigurationBuilder
         }
 
         return new RelationalDatabaseConfiguration(
-            connectionString: _connectionString!, 
+            connectionString: _connectionString!,
             databaseName: _databaseName,
             outBoxTableName: _outBoxTableName,
             inboxTableName: _inboxTableName,
@@ -129,5 +129,5 @@ public sealed class RelationalDatabaseConfigurationBuilder
             schemaName: _schemaName,
             binaryMessagePayload: _binaryMessagePayload
         );
-    } 
+    }
 }

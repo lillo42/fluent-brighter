@@ -36,7 +36,7 @@ var host = new HostBuilder()
                         ))));
     })
     .Build();
-    
+
 await host.StartAsync();
 
 while (true)

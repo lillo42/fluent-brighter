@@ -11,7 +11,7 @@ namespace Fluent.Brighter.GoogleCloud;
 public class FirestoreLockingBuilder
 {
     private IAmAFirestoreConnectionProvider? _connectionProvider;
-    
+
     /// <summary>
     /// Sets the Firestore connection provider.
     /// </summary>
@@ -22,9 +22,9 @@ public class FirestoreLockingBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
+
     private FirestoreConfiguration? _configuration;
-    
+
     /// <summary>
     /// Sets the Firestore configuration.
     /// </summary>

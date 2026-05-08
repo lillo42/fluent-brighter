@@ -36,7 +36,7 @@ public static class ProducersExtensions
     {
         return builder.UseSqliteOutbox(cfg => cfg.SetConfiguration(configuration));
     }
-    
+
     /// <summary>
     /// Configures a SQLite outbox using a custom outbox builder configuration
     /// </summary>

@@ -28,7 +28,7 @@ public static class SchedulerFactoryBuilderExtensions
     }
 
     #region Group 
-    
+
     /// <summary>
     /// Sets the scheduler group configuration using a builder pattern for fluent configuration.
     /// </summary>
@@ -81,7 +81,7 @@ public static class SchedulerFactoryBuilderExtensions
     #endregion
 
     #region On conflict
-    
+
     /// <summary>
     /// Configures the scheduler to throw an exception when scheduling conflicts occur.
     /// </summary>
@@ -105,7 +105,7 @@ public static class SchedulerFactoryBuilderExtensions
     #endregion
 
     #region On missing role
-    
+
     /// <summary>
     /// Configures the scheduler to assume the IAM role exists (no validation or creation).
     /// </summary>

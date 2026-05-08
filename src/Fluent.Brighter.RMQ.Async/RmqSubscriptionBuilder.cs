@@ -27,9 +27,9 @@ public sealed class RmqSubscriptionBuilder
         _subscriptionName = subscriptionName;
         return this;
     }
-    
+
     private ChannelName? _channelName;
-    
+
     /// <summary>
     /// Sets the queue name to consume from
     /// </summary>
@@ -40,9 +40,9 @@ public sealed class RmqSubscriptionBuilder
         _channelName = channelName;
         return this;
     }
-    
+
     private RoutingKey? _routingKey;
-    
+
     /// <summary>
     /// Sets the binding key for topic-based routing
     /// </summary>
@@ -53,7 +53,7 @@ public sealed class RmqSubscriptionBuilder
         _routingKey = routingKey;
         return this;
     }
-    
+
     private Type? _dataType;
 
     /// <summary>
@@ -71,18 +71,18 @@ public sealed class RmqSubscriptionBuilder
     {
         _dataType = dataType;
         if (dataType == null) return this;
-        
+
         _subscriptionName ??= new SubscriptionName(dataType.ToString());
-        _channelName = ChannelName.IsNullOrEmpty(_channelName) 
-            ? new ChannelName(dataType.Name) 
+        _channelName = ChannelName.IsNullOrEmpty(_channelName)
+            ? new ChannelName(dataType.Name)
             : _channelName;
-        _routingKey = RoutingKey.IsNullOrEmpty(_routingKey) 
-            ? new RoutingKey(dataType.Name) 
+        _routingKey = RoutingKey.IsNullOrEmpty(_routingKey)
+            ? new RoutingKey(dataType.Name)
             : _routingKey;
-        
+
         return this;
     }
-    
+
     private Func<Message, Type>? _getRequestType;
 
     /// <summary>
@@ -108,8 +108,8 @@ public sealed class RmqSubscriptionBuilder
         _bufferSize = bufferSize;
         return this;
     }
-    
-    private int _noOfPerformers  = 1;
+
+    private int _noOfPerformers = 1;
 
     /// <summary>
     /// Sets the number of concurrent consumers (default: 1)
@@ -121,9 +121,9 @@ public sealed class RmqSubscriptionBuilder
         _noOfPerformers = noOfPerformers;
         return this;
     }
-    
+
     private TimeSpan? _timeOut;
-    
+
     /// <summary>
     /// Sets the message processing timeout (optional)
     /// </summary>
@@ -134,9 +134,9 @@ public sealed class RmqSubscriptionBuilder
         _timeOut = timeout;
         return this;
     }
-    
+
     private int _requeueCount = -1;
-    
+
     /// <summary>
     /// Sets maximum requeue attempts before discarding (default: -1 infinite)
     /// </summary>
@@ -147,9 +147,9 @@ public sealed class RmqSubscriptionBuilder
         _requeueCount = requeueCount;
         return this;
     }
-    
+
     private TimeSpan? _requeueDelay;
-    
+
     /// <summary>
     /// Sets delay before requeueing failed messages (optional)
     /// </summary>
@@ -160,9 +160,9 @@ public sealed class RmqSubscriptionBuilder
         _requeueDelay = timeout;
         return this;
     }
-    
+
     private int _unacceptableMessageLimit;
-    
+
     /// <summary>
     /// Sets consecutive error threshold before circuit breaking (default: 0 disabled)
     /// </summary>
@@ -173,9 +173,9 @@ public sealed class RmqSubscriptionBuilder
         _unacceptableMessageLimit = unacceptableMessageLimit;
         return this;
     }
-    
+
     private MessagePumpType _messagePumpType = MessagePumpType.Proactor;
-    
+
     /// <summary>
     /// Sets message processing model (default: Proactor)
     /// </summary>
@@ -199,9 +199,9 @@ public sealed class RmqSubscriptionBuilder
         _channelFactory = channelFactory;
         return this;
     }
-    
+
     private OnMissingChannel _onMissingChannel = OnMissingChannel.Create;
-    
+
     /// <summary>
     /// Sets behavior when queues/channels are missing (default: Create)
     /// </summary>
@@ -214,7 +214,7 @@ public sealed class RmqSubscriptionBuilder
     }
 
     private TimeSpan? _emptyChannelDelay;
-    
+
     /// <summary>
     /// Sets polling delay when no messages available (optional)
     /// </summary>
@@ -227,7 +227,7 @@ public sealed class RmqSubscriptionBuilder
     }
 
     private TimeSpan? _channelFailureDelay;
-    
+
     /// <summary>
     /// Sets recovery delay after channel failures (optional)
     /// </summary>
@@ -277,7 +277,7 @@ public sealed class RmqSubscriptionBuilder
         _isDurable = isDurable;
         return this;
     }
-    
+
     private bool _highAvailability;
 
     /// <summary>
@@ -303,9 +303,9 @@ public sealed class RmqSubscriptionBuilder
         _deadLetterChannelName = deadLetterChannelName;
         return this;
     }
-    
+
     private RoutingKey? _deadLetterRoutingKey;
-    
+
     /// <summary>
     /// Sets dead letter routing key (optional)
     /// </summary>
@@ -316,7 +316,7 @@ public sealed class RmqSubscriptionBuilder
         _deadLetterRoutingKey = deadLetterRoutingKey;
         return this;
     }
-    
+
     private TimeSpan? _ttl;
 
     /// <summary>
@@ -329,7 +329,7 @@ public sealed class RmqSubscriptionBuilder
         _ttl = ttl;
         return this;
     }
-    
+
     /// <summary>
     /// Constructs the final RmqSubscription configuration
     /// </summary>
@@ -343,7 +343,7 @@ public sealed class RmqSubscriptionBuilder
         {
             throw new ConfigurationException("Subscription name is required. Set it via SetSubscription() or SetDataType().");
         }
-    
+
         if (_channelName == null)
         {
             throw new ConfigurationException("Queue name (ChannelName) is required. Set it via SetQueue() or SetDataType().");
@@ -353,7 +353,7 @@ public sealed class RmqSubscriptionBuilder
         {
             throw new ConfigurationException("Routing key (Topic) is required. Set it via SetTopic() or SetDataType().");
         }
-        
+
         return new RmqSubscription(
             subscriptionName: _subscriptionName,
             channelName: _channelName,
@@ -369,7 +369,7 @@ public sealed class RmqSubscriptionBuilder
             messagePumpType: _messagePumpType,
             channelFactory: _channelFactory,
             makeChannels: _onMissingChannel,
-            emptyChannelDelay: _emptyChannelDelay, 
+            emptyChannelDelay: _emptyChannelDelay,
             channelFailureDelay: _channelFailureDelay,
             maxQueueLength: _maxQueueLenght,
             queueType: _queueType,

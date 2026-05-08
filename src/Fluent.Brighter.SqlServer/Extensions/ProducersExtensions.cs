@@ -62,7 +62,7 @@ public static class ProducersExtensions
     {
         return builder.UseMicrosoftSqlServerOutbox(cfg => cfg.SetConfiguration(configuration ?? throw new ArgumentNullException(nameof(configuration))));
     }
-    
+
     /// <summary>
     /// Configures the producer to use a SQL Server-based outbox via a fully customized <see cref="SqlServerOutboxBuilder"/>.
     /// Allows advanced setup such as custom connection providers.
@@ -80,7 +80,7 @@ public static class ProducersExtensions
             .SetTransactionProvider(typeof(MsSqlTransactionProvider));
         return builder;
     }
-    
+
     /// <summary>
     /// Configures the producer to use a SQL Server-based distributed lock provider with the given connection string.
     /// Used to coordinate singleton or exclusive message processing across multiple instances.
@@ -95,7 +95,7 @@ public static class ProducersExtensions
         {
             throw new ArgumentException("Connection string cannot be null or empty.", nameof(connectionString));
         }
-        
+
         return builder.UseMicrosoftSqlServerDistributedLock(new RelationalDatabaseConfiguration(connectionString));
     }
 

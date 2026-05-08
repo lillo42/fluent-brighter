@@ -16,7 +16,7 @@ public sealed class SqliteConfigurator
 {
     private RelationalDatabaseConfiguration? _configuration;
     private Action<FluentBrighterBuilder> _action = _ => { };
-    
+
     /// <summary>
     /// Configures the SQLite database connection using a fluent builder
     /// </summary>
@@ -24,7 +24,7 @@ public sealed class SqliteConfigurator
     /// <returns>This configurator for method chaining</returns>
     public SqliteConfigurator SetConnection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
-        var builder = new RelationalDatabaseConfigurationBuilder(); 
+        var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
         return SetConnection(builder.Build());
     }
@@ -80,7 +80,7 @@ public sealed class SqliteConfigurator
             throw new ConfigurationException("SQLite database configuration is missing. " +
                                              "You must set the connection using SetConnection() before enabling features. ");
         }
-        
+
         _action(fluentBrighter);
     }
 }

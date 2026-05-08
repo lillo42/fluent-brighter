@@ -185,7 +185,7 @@ public sealed class KafkaPublicationBuilder
         _enableIdempotence = enableIdempotence;
         return this;
     }
-    
+
     private int _lingerMs = 5;
 
     /// <summary>
@@ -331,7 +331,7 @@ public sealed class KafkaPublicationBuilder
     }
 
     private int _topicFindTimeoutMs = 5000;
-    
+
     /// <summary>
     /// Sets the timeout in milliseconds for operations that require topic metadata lookup (e.g., validation).
     /// </summary>

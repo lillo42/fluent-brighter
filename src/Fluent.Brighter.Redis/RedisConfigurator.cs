@@ -39,7 +39,7 @@ public sealed class RedisConfigurator
         _connection = connection;
         return this;
     }
-    
+
     /// <summary>
     /// Configures Redis-based message publications.
     /// This method allows you to define how messages are published through Redis messaging gateway,
@@ -60,7 +60,7 @@ public sealed class RedisConfigurator
         };
         return this;
     }
-    
+
     /// <summary>
     /// Configures Redis-based message subscriptions.
     /// This method allows you to define how messages are consumed from Redis messaging gateway,
@@ -79,7 +79,7 @@ public sealed class RedisConfigurator
                 configure(configurator);
 
                 sub.AddChannelFactory(channel);
-                
+
                 foreach (var subscription in configurator.Subscriptions)
                 {
                     sub.AddRedisSubscription(subscription);
@@ -88,7 +88,7 @@ public sealed class RedisConfigurator
         };
         return this;
     }
-    
+
     /// <summary>
     /// Applies the configured Redis settings to the Fluent Brighter builder.
     /// This method is called internally to set up all the configured Redis features.
@@ -101,7 +101,7 @@ public sealed class RedisConfigurator
         {
             throw new ConfigurationException("No MessagingGatewayConnection was set");
         }
-        
+
         _action(fluentBrighter);
     }
 }

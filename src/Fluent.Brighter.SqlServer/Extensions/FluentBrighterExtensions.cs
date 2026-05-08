@@ -26,7 +26,7 @@ public static class FluentBrighterExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var configurator = new SqlServerConfigurator();
         configure(configurator);
         configurator.SetFluentBrighter(builder);

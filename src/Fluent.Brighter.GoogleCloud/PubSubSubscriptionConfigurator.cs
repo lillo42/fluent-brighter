@@ -17,7 +17,7 @@ public class PubSubSubscriptionConfigurator(GcpPubSubChannelFactory channelFacto
     /// Gets the internal list of configured GCP Pub/Sub subscriptions.
     /// </summary>
     internal List<GcpPubSubSubscription> Subscriptions { get; } = [];
-    
+
     /// <summary>
     /// Adds a pre-configured GCP Pub/Sub subscription to the configurator.
     /// </summary>

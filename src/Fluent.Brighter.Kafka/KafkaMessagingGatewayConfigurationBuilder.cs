@@ -34,7 +34,7 @@ public sealed class KafkaMessagingGatewayConfigurationBuilder
     }
 
     private string? _debug = null;
-    
+
     /// <summary>
     /// Configures the debug contexts for the underlying Kafka client (e.g., "broker,topic").
     /// </summary>
@@ -86,7 +86,7 @@ public sealed class KafkaMessagingGatewayConfigurationBuilder
     }
 
     private string? _saslUsername;
-    
+
     /// <summary>
     /// Sets the username for SASL authentication (e.g., for PLAIN or SCRAM mechanisms).
     /// </summary>
@@ -99,7 +99,7 @@ public sealed class KafkaMessagingGatewayConfigurationBuilder
     }
 
     private string? _saslPassword;
-    
+
     /// <summary>
     /// Sets the password for SASL authentication.
     /// </summary>
@@ -112,7 +112,7 @@ public sealed class KafkaMessagingGatewayConfigurationBuilder
     }
 
     private SecurityProtocol? _securityProtocol = null;
-    
+
     /// <summary>
     /// Configures the security protocol used to communicate with Kafka brokers.
     /// </summary>
@@ -150,7 +150,7 @@ public sealed class KafkaMessagingGatewayConfigurationBuilder
         return this;
     }
 
-    
+
     private string? _sslKeystorePassword = null;
 
     /// <summary>

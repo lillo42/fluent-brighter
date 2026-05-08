@@ -30,12 +30,12 @@ public sealed class MapperBuilder
     public MapperBuilder()
     {
         _assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Where(a =>
-            !a.IsDynamic 
-            && a.FullName?.StartsWith("Microsoft.", true, CultureInfo.InvariantCulture) == false 
+            !a.IsDynamic
+            && a.FullName?.StartsWith("Microsoft.", true, CultureInfo.InvariantCulture) == false
             && a.FullName?.StartsWith("System.", true, CultureInfo.InvariantCulture) == false
             && a.FullName?.StartsWith("Paramore.Brighter", true, CultureInfo.InvariantCulture) == false));
     }
-    
+
     /// <summary>
     /// Specifies specific assemblies to scan for message mappers
     /// </summary>
@@ -70,7 +70,7 @@ public sealed class MapperBuilder
 
         return this;
     }
-    
+
     /// <summary>
     /// Registers a mapper that handles synchronous mapping for a request type
     /// </summary>
@@ -88,7 +88,7 @@ public sealed class MapperBuilder
 
         return this;
     }
-    
+
     /// <summary>
     /// Registers a mapper that handles asynchronous mapping for a request type
     /// </summary>
@@ -106,7 +106,7 @@ public sealed class MapperBuilder
 
         return this;
     }
-    
+
     private Type? _defaultMapperSync;
     private Type? _defaultMapperAsync;
 
@@ -121,7 +121,7 @@ public sealed class MapperBuilder
         _defaultMapperAsync = defaultMapper;
         return this;
     }
-    
+
     /// <summary>
     /// Sets the default mapper type for synchronous operations
     /// </summary>
@@ -132,7 +132,7 @@ public sealed class MapperBuilder
         _defaultMapperSync = defaultMapper;
         return this;
     }
-    
+
     /// <summary>
     /// Sets the default mapper type for asynchronous operations
     /// </summary>
@@ -143,7 +143,7 @@ public sealed class MapperBuilder
         _defaultMapperAsync = defaultMapper;
         return this;
     }
-    
+
     private Action<ServiceCollectionMessageMapperRegistryBuilder>? _configure;
 
     /// <summary>

@@ -46,7 +46,7 @@ public class RabbitMqConfigurator
         _connection = connection;
         return this;
     }
-    
+
     /// <summary>
     /// Configures message publications (producers)
     /// </summary>
@@ -96,12 +96,12 @@ public class RabbitMqConfigurator
             fluent.Subscriptions(sub =>
             {
                 var channel = new ChannelFactory(new RmqMessageConsumerFactory(_connection!));
-                
+
                 var configurator = new RabbitMqSubscriptionConfigurator(channel);
                 configure(configurator);
 
                 sub.AddChannelFactory(channel);
-                
+
                 foreach (var subscription in configurator.Subscriptions)
                 {
                     sub.AddRabbitMqSubscription(subscription);
@@ -110,7 +110,7 @@ public class RabbitMqConfigurator
         };
         return this;
     }
-    
+
     /// <summary>
     /// Applies the configuration to Brighter's fluent builder (internal)
     /// </summary>
@@ -123,7 +123,7 @@ public class RabbitMqConfigurator
         {
             throw new ConfigurationException("RabbitMQ connection configuration is required. Use SetConnection() to configure connection settings.");
         }
-        
+
         _action(fluentBrighter);
     }
 }

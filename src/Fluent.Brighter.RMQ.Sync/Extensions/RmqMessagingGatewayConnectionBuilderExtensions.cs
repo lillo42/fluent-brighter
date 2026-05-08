@@ -19,12 +19,12 @@ public static class RmqMessagingGatewayConnectionBuilderExtensions
     /// builder.SetAmpq("amqp://guest:guest@localhost:5672/")
     /// </example>
     public static RmqMessagingGatewayConnectionBuilder SetAmpq(
-        this RmqMessagingGatewayConnectionBuilder builder, 
+        this RmqMessagingGatewayConnectionBuilder builder,
         string uri)
     {
         return builder.SetAmpq(cfg => cfg.SetUri(uri));
     }
-    
+
     /// <summary>
     /// Configures the AMQP URI using a Uri object
     /// </summary>
@@ -32,12 +32,12 @@ public static class RmqMessagingGatewayConnectionBuilderExtensions
     /// <param name="uri">RabbitMQ connection URI</param>
     /// <returns>Configured connection builder</returns>
     public static RmqMessagingGatewayConnectionBuilder SetAmpq(
-        this RmqMessagingGatewayConnectionBuilder builder, 
+        this RmqMessagingGatewayConnectionBuilder builder,
         Uri uri)
     {
         return builder.SetAmpq(cfg => cfg.SetUri(uri));
     }
-    
+
     /// <summary>
     /// Configures advanced AMQP URI settings using a fluent builder
     /// </summary>
@@ -59,7 +59,7 @@ public static class RmqMessagingGatewayConnectionBuilderExtensions
         configure(specification);
         return builder.SetAmpq(specification.Build());
     }
-    
+
     /// <summary>
     /// Configures the primary exchange using just the exchange name
     /// </summary>
@@ -104,7 +104,7 @@ public static class RmqMessagingGatewayConnectionBuilderExtensions
         configure(exchangeBuilder);
         return builder.SetExchange(exchangeBuilder.Build());
     }
-    
+
     /// <summary>
     /// Configures the dead letter exchange using a fluent builder
     /// </summary>

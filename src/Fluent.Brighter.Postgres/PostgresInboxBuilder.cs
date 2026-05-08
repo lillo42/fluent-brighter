@@ -36,7 +36,7 @@ public sealed class PostgresInboxBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
+
     /// <summary>
     /// Builds and returns a configured <see cref="PostgreSqlInbox"/> instance.
     /// This method is called internally to create the inbox with the configured settings.
@@ -49,7 +49,7 @@ public sealed class PostgresInboxBuilder
         {
             throw new ConfigurationException("Configuration is null");
         }
-        
+
         return _connectionProvider == null ? new PostgreSqlInbox(_configuration) : new PostgreSqlInbox(_configuration, _connectionProvider);
     }
 }

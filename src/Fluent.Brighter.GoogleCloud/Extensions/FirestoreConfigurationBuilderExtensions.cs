@@ -17,12 +17,12 @@ public static class FirestoreConfigurationBuilderExtensions
     /// <param name="tableName">The name of the inbox collection</param>
     /// <returns>The Firestore configuration builder instance for method chaining</returns>
     public static FirestoreConfigurationBuilder SetInbox(
-        this FirestoreConfigurationBuilder builder, 
+        this FirestoreConfigurationBuilder builder,
         string tableName)
     {
         return builder.SetInbox(c => c.SetName(tableName));
     }
-    
+
     /// <summary>
     /// Sets the inbox Firestore collection using a fluent configuration callback.
     /// </summary>
@@ -30,14 +30,14 @@ public static class FirestoreConfigurationBuilderExtensions
     /// <param name="configure">An action to configure the inbox collection builder</param>
     /// <returns>The Firestore configuration builder instance for method chaining</returns>
     public static FirestoreConfigurationBuilder SetInbox(
-        this FirestoreConfigurationBuilder builder, 
+        this FirestoreConfigurationBuilder builder,
         Action<FirestoreCollectionBuilder> configure)
     {
         var collection = new FirestoreCollectionBuilder();
         configure(collection);
         return builder.SetInbox(collection.Build());
     }
-    
+
     /// <summary>
     /// Sets the outbox Firestore collection name.
     /// </summary>
@@ -45,12 +45,12 @@ public static class FirestoreConfigurationBuilderExtensions
     /// <param name="tableName">The name of the outbox collection</param>
     /// <returns>The Firestore configuration builder instance for method chaining</returns>
     public static FirestoreConfigurationBuilder SetOutbox(
-        this FirestoreConfigurationBuilder builder, 
+        this FirestoreConfigurationBuilder builder,
         string tableName)
     {
         return builder.SetOutbox(c => c.SetName(tableName));
     }
-    
+
     /// <summary>
     /// Sets the outbox Firestore collection using a fluent configuration callback.
     /// </summary>
@@ -58,14 +58,14 @@ public static class FirestoreConfigurationBuilderExtensions
     /// <param name="configure">An action to configure the outbox collection builder</param>
     /// <returns>The Firestore configuration builder instance for method chaining</returns>
     public static FirestoreConfigurationBuilder SetOutbox(
-        this FirestoreConfigurationBuilder builder, 
+        this FirestoreConfigurationBuilder builder,
         Action<FirestoreCollectionBuilder> configure)
     {
         var collection = new FirestoreCollectionBuilder();
         configure(collection);
         return builder.SetOutbox(collection.Build());
     }
-    
+
     /// <summary>
     /// Sets the locking Firestore collection name.
     /// </summary>
@@ -73,12 +73,12 @@ public static class FirestoreConfigurationBuilderExtensions
     /// <param name="tableName">The name of the locking collection</param>
     /// <returns>The Firestore configuration builder instance for method chaining</returns>
     public static FirestoreConfigurationBuilder SetLocking(
-        this FirestoreConfigurationBuilder builder, 
+        this FirestoreConfigurationBuilder builder,
         string tableName)
     {
         return builder.SetLocking(c => c.SetName(tableName));
     }
-    
+
     /// <summary>
     /// Sets the locking Firestore collection using a fluent configuration callback.
     /// </summary>
@@ -86,7 +86,7 @@ public static class FirestoreConfigurationBuilderExtensions
     /// <param name="configure">An action to configure the locking collection builder</param>
     /// <returns>The Firestore configuration builder instance for method chaining</returns>
     public static FirestoreConfigurationBuilder SetLocking(
-        this FirestoreConfigurationBuilder builder, 
+        this FirestoreConfigurationBuilder builder,
         Action<FirestoreCollectionBuilder> configure)
     {
         var collection = new FirestoreCollectionBuilder();

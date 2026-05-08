@@ -38,7 +38,7 @@ public sealed class PostgresOutboxBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
+
     private NpgsqlDataSource? _dataSource;
 
     /// <summary>
@@ -52,7 +52,7 @@ public sealed class PostgresOutboxBuilder
         _dataSource = dataSource;
         return this;
     }
-    
+
     /// <summary>
     /// Builds and returns a configured <see cref="PostgreSqlOutbox"/> instance.
     /// This method is called internally to create the outbox with the configured settings.
@@ -66,7 +66,7 @@ public sealed class PostgresOutboxBuilder
         {
             throw new ConfigurationException("Configuration is null");
         }
-        
+
         return _connectionProvider == null ? new PostgreSqlOutbox(_configuration, _dataSource) : new PostgreSqlOutbox(_configuration, _connectionProvider);
     }
 }

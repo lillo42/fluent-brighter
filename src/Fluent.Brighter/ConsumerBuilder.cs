@@ -25,7 +25,7 @@ namespace Fluent.Brighter;
 public sealed class ConsumerBuilder
 {
     private ServiceLifetime _handlerLifetime = ServiceLifetime.Transient;
-    
+
     /// <summary>
     /// Sets the service lifetime for message handlers
     /// </summary>
@@ -144,7 +144,7 @@ public sealed class ConsumerBuilder
         _resiliencePipelineRegistry = resiliencePipelineRegistry;
         return this;
     }
-    
+
     /// <summary>
     /// Adds a resilience pipeline to the registry
     /// </summary>
@@ -171,7 +171,7 @@ public sealed class ConsumerBuilder
     }
 
     private IAmAChannelFactory? _defaultChannelFactory;
-    
+
     /// <summary>
     /// Sets the default channel factory for message consumption
     /// </summary>
@@ -184,7 +184,7 @@ public sealed class ConsumerBuilder
     }
 
     private readonly List<IAmAChannelFactory> _channelFactories = [];
-    
+
     /// <summary>
     /// Adds a channel factory to the configuration
     /// </summary>
@@ -195,7 +195,7 @@ public sealed class ConsumerBuilder
         _channelFactories.Add(channelFactory);
         return this;
     }
-    
+
     /// <summary>
     /// Configures the inbox settings for idempotency
     /// </summary>
@@ -210,9 +210,9 @@ public sealed class ConsumerBuilder
             .SetOnceOnly(inboxConfiguration.OnceOnly)
             .SetScope(inboxConfiguration.Scope));
     }
-    
+
     private readonly InboxConfigurationBuilder _inboxConfigurationBuilder = new();
-    
+
     /// <summary>
     /// Configures the inbox using a builder action
     /// </summary>
@@ -236,7 +236,7 @@ public sealed class ConsumerBuilder
         _subscriptions = subscriptions.ToList();
         return this;
     }
-    
+
     /// <summary>
     /// Adds a single subscription
     /// </summary>
@@ -260,14 +260,14 @@ public sealed class ConsumerBuilder
         _configuration = configuration;
         return this;
     }
-    
+
     internal void SetConsumerOptions(ConsumersOptions options)
     {
         if (_defaultChannelFactory == null && _channelFactories.Count > 0)
         {
             _defaultChannelFactory = new CombinedChannelFactory(_channelFactories);
         }
-        
+
         options.HandlerLifetime = _handlerLifetime;
         options.MapperLifetime = _mapperLifetime;
         options.TransformerLifetime = _transformerLifetime;
@@ -278,11 +278,11 @@ public sealed class ConsumerBuilder
 #pragma warning disable CS0618 // Type or member is obsolete
         options.PolicyRegistry = _policyRegistry;
 #pragma warning restore CS0618 // Type or member is obsolete
-        
+
         options.DefaultChannelFactory = _defaultChannelFactory;
         options.InboxConfiguration = _inboxConfigurationBuilder.Build();
         options.Subscriptions = _subscriptions;
-        
+
         _configuration?.Invoke(options);
     }
 }

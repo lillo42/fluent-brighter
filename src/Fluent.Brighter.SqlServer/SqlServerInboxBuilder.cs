@@ -37,7 +37,7 @@ public sealed class SqlServerInboxBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
+
     /// <summary>
     /// Builds and returns a configured instance of <see cref="MsSqlInbox"/>.
     /// </summary>

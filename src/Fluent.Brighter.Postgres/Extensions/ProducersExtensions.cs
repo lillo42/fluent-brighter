@@ -59,7 +59,7 @@ public static class ProducersExtensions
     {
         return builder.UsePostgresOutbox(cfg => cfg.SetConfiguration(configuration));
     }
-    
+
     /// <summary>
     /// Configures the producer to use a PostgreSQL outbox pattern using a custom outbox builder configuration.
     /// This method provides the most flexibility by allowing direct configuration of the <see cref="PostgresOutboxBuilder"/>,

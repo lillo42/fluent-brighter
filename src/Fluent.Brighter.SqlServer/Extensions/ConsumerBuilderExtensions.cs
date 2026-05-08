@@ -36,15 +36,15 @@ public static class ConsumerBuilderExtensions
         Action<SqlServerSubscriptionBuilder> configure)
     {
         if (configure == null)
-        { 
+        {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var sub = new SqlServerSubscriptionBuilder();
         configure(sub);
         return builder.AddSubscription(sub.Build());
     }
-    
+
     /// <summary>
     /// Adds a SQL Server subscription for a specific request type <typeparamref name="TRequest"/>,
     /// automatically setting the data type and allowing further customization.
@@ -59,16 +59,16 @@ public static class ConsumerBuilderExtensions
         where TRequest : class, IRequest
     {
         if (configure == null)
-        { 
+        {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var sub = new SqlServerSubscriptionBuilder();
         sub.SetDataType(typeof(TRequest));
         configure(sub);
         return builder.AddSubscription(sub.Build());
     }
-    
+
     /// <summary>
     /// Configures the consumer to use a SQL Server-based inbox for message deduplication,
     /// using a fluent configuration action for database settings (e.g., connection string, schema).
@@ -77,14 +77,14 @@ public static class ConsumerBuilderExtensions
     /// <param name="configure">An action that configures the relational database connection.</param>
     /// <returns>The updated <see cref="ConsumerBuilder"/> to allow method chaining.</returns>
     /// <exception cref="ArgumentNullException">Thrown if <paramref name="configure"/> is null.</exception>
-    public static ConsumerBuilder UseMicrosoftSqlServerInbox(this ConsumerBuilder builder, 
+    public static ConsumerBuilder UseMicrosoftSqlServerInbox(this ConsumerBuilder builder,
         Action<RelationalDatabaseConfigurationBuilder> configure)
     {
         if (configure == null)
-        { 
+        {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var configuration = new RelationalDatabaseConfigurationBuilder();
         configure(configuration);
         return builder.UseMicrosoftSqlServerInbox(configuration.Build());
@@ -115,7 +115,7 @@ public static class ConsumerBuilderExtensions
         {
             throw new ArgumentNullException(nameof(configure));
         }
-        
+
         var inbox = new SqlServerInboxBuilder();
         configure(inbox);
         return builder.SetInbox(cfg => cfg.SetInbox(inbox.Build()));

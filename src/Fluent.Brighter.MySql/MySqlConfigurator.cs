@@ -31,7 +31,7 @@ public sealed class MySqlConfigurator
 {
     private RelationalDatabaseConfiguration? _configuration;
     private Action<FluentBrighterBuilder> _action = _ => { };
-    
+
     /// <summary>
     /// Configures the MySQL connection using a fluent builder delegate
     /// </summary>
@@ -39,7 +39,7 @@ public sealed class MySqlConfigurator
     /// <returns>This configurator for method chaining</returns>
     public MySqlConfigurator SetConnection(Action<RelationalDatabaseConfigurationBuilder> configuration)
     {
-        var builder = new RelationalDatabaseConfigurationBuilder(); 
+        var builder = new RelationalDatabaseConfigurationBuilder();
         configuration(builder);
         return SetConnection(builder.Build());
     }
@@ -95,7 +95,7 @@ public sealed class MySqlConfigurator
         _action += fluent => fluent.Producers(x => x.UseMySqlOutbox(_configuration!));
         return this;
     }
-    
+
     /// <summary>
     /// Enables MySQL-based distributed locking
     /// </summary>
@@ -121,7 +121,7 @@ public sealed class MySqlConfigurator
         {
             throw new ConfigurationException("No RelationalDatabaseConfiguration was set");
         }
-        
+
         _action(fluentBrighter);
     }
 }

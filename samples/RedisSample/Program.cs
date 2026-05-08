@@ -49,7 +49,7 @@ var host = new HostBuilder()
                                     .SetTopic("farewell.topic")
                                     .SetQueue("farewell.queue")
                                     .SetMessagePumpType(MessagePumpType.Reactor)));
-                });
+                    });
             });
     })
     .Build();

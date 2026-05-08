@@ -24,7 +24,7 @@ public static class KafkaMessageProducerFactoryBuilderExtensions
         configure(configuration);
         return builder.SetConfiguration(configuration.Build());
     }
-    
+
     /// <summary>
     /// Adds a Kafka publication by configuring it through a builder action.
     /// </summary>
@@ -56,5 +56,5 @@ public static class KafkaMessageProducerFactoryBuilderExtensions
         publication.SetRequestType(typeof(TRequest));
         configure(publication);
         return builder.AddPublication(publication.Build());
-    } 
+    }
 }

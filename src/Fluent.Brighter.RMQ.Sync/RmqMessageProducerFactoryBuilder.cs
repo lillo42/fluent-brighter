@@ -28,7 +28,7 @@ public sealed class RmqMessageProducerFactoryBuilder
         _connection = connection;
         return this;
     }
-    
+
     private List<RmqPublication> _publications = [];
 
     /// <summary>
@@ -66,7 +66,7 @@ public sealed class RmqMessageProducerFactoryBuilder
         {
             throw new ConfigurationException("RabbitMQ connection configuration is required. Use SetConnection() to provide gateway settings.");
         }
-        
+
         return new RmqMessageProducerFactory(_connection, _publications);
     }
 }

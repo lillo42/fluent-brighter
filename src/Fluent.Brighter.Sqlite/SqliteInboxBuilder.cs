@@ -33,7 +33,7 @@ public sealed class SqliteInboxBuilder
         _connectionProvider = connectionProvider;
         return this;
     }
-    
+
     /// <summary>
     /// Constructs the SQLite inbox configuration
     /// </summary>
@@ -46,9 +46,9 @@ public sealed class SqliteInboxBuilder
             throw new ConfigurationException("SQLite inbox configuration is missing. " +
                                              "You must provide database configuration using SetConfiguration() before building. ");
         }
-        
-        return _connectionProvider == null 
-            ? new SqliteInbox(_configuration) 
+
+        return _connectionProvider == null
+            ? new SqliteInbox(_configuration)
             : new SqliteInbox(_configuration, _connectionProvider);
     }
 }

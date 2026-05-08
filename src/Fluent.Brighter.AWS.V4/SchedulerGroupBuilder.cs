@@ -14,7 +14,7 @@ namespace Fluent.Brighter.AWS.V4;
 public class SchedulerGroupBuilder
 {
     private string _name = "default";
-    
+
     /// <summary>
     /// Sets the name of the scheduler group for organizing related schedules.
     /// </summary>
@@ -27,7 +27,7 @@ public class SchedulerGroupBuilder
     }
 
     private List<Tag> _tags = [new Tag { Key = "Source", Value = "Brighter" }];
-    
+
     /// <summary>
     /// Sets the tags for the scheduler group, which help with organization,
     /// cost allocation, and access control in AWS.
@@ -52,7 +52,7 @@ public class SchedulerGroupBuilder
     }
 
     private OnMissingSchedulerGroup _makeSchedulerGroup = OnMissingSchedulerGroup.Assume;
-    
+
     /// <summary>
     /// Sets the behavior when the scheduler group doesn't exist.
     /// </summary>

@@ -19,9 +19,9 @@ public static class ExchangeBuilderExtensions
     /// </remarks>
     /// <param name="builder">Exchange builder</param>
     /// <returns>Configured exchange builder</returns>
-    public static ExchangeBuilder EnableDurable(this ExchangeBuilder builder) 
+    public static ExchangeBuilder EnableDurable(this ExchangeBuilder builder)
         => builder.SetDurable(true);
-    
+
     /// <summary>
     /// Configures the exchange as transient (deleted on broker restart)
     /// </summary>
@@ -45,9 +45,9 @@ public static class ExchangeBuilderExtensions
     /// </remarks>
     /// <param name="builder">Exchange builder</param>
     /// <returns>Configured exchange builder</returns>
-    public static ExchangeBuilder EnableSupportDelay(this ExchangeBuilder builder) 
+    public static ExchangeBuilder EnableSupportDelay(this ExchangeBuilder builder)
         => builder.SetSupportDelay(true);
-    
+
     /// <summary>
     /// Disables delayed message support
     /// </summary>
@@ -56,7 +56,7 @@ public static class ExchangeBuilderExtensions
     /// </remarks>
     /// <param name="builder">Exchange builder</param>
     /// <returns>Configured exchange builder</returns>
-    public static ExchangeBuilder DisableSupportDelay(this ExchangeBuilder builder) 
+    public static ExchangeBuilder DisableSupportDelay(this ExchangeBuilder builder)
         => builder.SetSupportDelay(false);
     #endregion
 
@@ -72,7 +72,7 @@ public static class ExchangeBuilderExtensions
     /// <returns>Configured exchange builder</returns>
     public static ExchangeBuilder DirectType(this ExchangeBuilder builder)
         => builder.SetType(ExchangeType.Direct);
-    
+
     /// <summary>
     /// Configures the exchange as Fanout type
     /// </summary>
@@ -84,7 +84,7 @@ public static class ExchangeBuilderExtensions
     /// <returns>Configured exchange builder</returns>
     public static ExchangeBuilder FanoutType(this ExchangeBuilder builder)
         => builder.SetType(ExchangeType.Fanout);
-    
+
     /// <summary>
     /// Configures the exchange as Headers type
     /// </summary>
@@ -96,7 +96,7 @@ public static class ExchangeBuilderExtensions
     /// <returns>Configured exchange builder</returns>
     public static ExchangeBuilder HeadersType(this ExchangeBuilder builder)
         => builder.SetType(ExchangeType.Headers);
-    
+
     /// <summary>
     /// Configures the exchange as Topic type
     /// </summary>

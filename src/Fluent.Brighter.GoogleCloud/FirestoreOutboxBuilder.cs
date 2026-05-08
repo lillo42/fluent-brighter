@@ -11,7 +11,7 @@ namespace Fluent.Brighter.GoogleCloud;
 public sealed class FirestoreOutboxBuilder
 {
     private FirestoreConfiguration? _configuration;
-    
+
     /// <summary>
     /// Sets the Firestore configuration containing project ID, database, and collection settings.
     /// </summary>
@@ -37,7 +37,7 @@ public sealed class FirestoreOutboxBuilder
         _firestoreConnectionProvider = connectionProvider;
         return this;
     }
-    
+
     /// <summary>
     /// Builds the FirestoreOutbox instance with the configured options.
     /// </summary>

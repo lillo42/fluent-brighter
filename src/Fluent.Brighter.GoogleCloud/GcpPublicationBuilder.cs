@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 using Google.Cloud.PubSub.V1;
+
 using Paramore.Brighter;
 using Paramore.Brighter.MessagingGateway.GcpPubSub;
 

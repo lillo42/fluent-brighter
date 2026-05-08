@@ -28,7 +28,7 @@ public sealed class RmqPublicationBuilder
         return this;
     }
 
-    private OnMissingChannel _makeChannels = OnMissingChannel.Create; 
+    private OnMissingChannel _makeChannels = OnMissingChannel.Create;
 
     /// <summary>
     /// Configures channel creation behavior when missing (default: Create)
@@ -167,7 +167,7 @@ public sealed class RmqPublicationBuilder
     /// <returns>Fully configured publication settings</returns>
     internal RmqPublication Build()
     {
-        return new RmqPublication 
+        return new RmqPublication
         {
             DataSchema = _dataSchema,
             MakeChannels = _makeChannels,

@@ -69,7 +69,7 @@ public static class KafkaMessagingGatewayConfigurationBuilderExtensions
     }
 
     #endregion
-    
+
     #region SecurityProtocol
 
     /// <summary>

@@ -42,7 +42,7 @@ public sealed class KafkaSubscriptionConfigurator(ChannelFactory channelFactory)
         configure(sub);
         return AddSubscription(sub.Build());
     }
-    
+
     /// <summary>
     /// Adds a Kafka subscription for a specific request type, enabling type-safe message handling.
     /// The request type is automatically registered, and additional configuration can be applied.
