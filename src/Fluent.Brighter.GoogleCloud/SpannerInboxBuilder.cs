@@ -4,7 +4,7 @@ using Paramore.Brighter.Inbox.Spanner;
 namespace Fluent.Brighter.GoogleCloud;
 
 /// <summary>
-/// Builder class for creating instances of <see cref="SpannerInbox"/>.
+/// Builder class for creating instances of <see cref="SpannerInboxAsync"/>.
 /// Provides a fluent API for configuring Google Cloud Spanner inbox storage.
 /// </summary>
 public sealed class SpannerInboxBuilder
@@ -38,11 +38,11 @@ public sealed class SpannerInboxBuilder
     }
 
     /// <summary>
-    /// Builds a new instance of <see cref="SpannerInbox"/> using the configured settings.
+    /// Builds a new instance of <see cref="SpannerInboxAsync"/> using the configured settings.
     /// </summary>
-    /// <returns>A configured <see cref="SpannerInbox"/> instance.</returns>
+    /// <returns>A configured <see cref="SpannerInboxAsync"/> instance.</returns>
     /// <exception cref="ConfigurationException">Thrown when configuration is not set.</exception>
-    internal SpannerInbox Build()
+    internal SpannerInboxAsync Build()
     {
         if (_configuration == null)
         {
@@ -50,7 +50,7 @@ public sealed class SpannerInboxBuilder
         }
 
         return _connectionProvider == null
-            ? new SpannerInbox(_configuration)
-            : new SpannerInbox(_configuration, _connectionProvider);
+            ? new SpannerInboxAsync(_configuration)
+            : new SpannerInboxAsync(_configuration, _connectionProvider);
     }
 }

@@ -167,9 +167,9 @@ public static class ConsumerBuilderExtensions
     /// Configures the consumer to use Google Cloud Spanner as the inbox storage with a pre-configured inbox instance.
     /// </summary>
     /// <param name="builder">The consumer builder instance.</param>
-    /// <param name="inbox">The configured <see cref="SpannerInbox"/> instance.</param>
+    /// <param name="inbox">The configured <see cref="SpannerInboxAsync"/> instance.</param>
     /// <returns>The consumer builder for method chaining.</returns>
-    public static ConsumerBuilder UseSpannerInbox(this ConsumerBuilder builder, SpannerInbox inbox)
+    public static ConsumerBuilder UseSpannerInbox(this ConsumerBuilder builder, SpannerInboxAsync inbox)
     {
         return builder.SetInbox(cfg => cfg.SetInbox(inbox));
     }

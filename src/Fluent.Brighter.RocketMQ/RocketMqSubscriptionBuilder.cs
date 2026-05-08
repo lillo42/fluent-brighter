@@ -311,6 +311,7 @@ public sealed class RocketSubscriptionBuilder
             _requeueCount,
             _requeueDelay,
             _unacceptableMessageLimit,
+            null,
             _messagePumpType,
             _channelFactory,
             _makeChannels,
