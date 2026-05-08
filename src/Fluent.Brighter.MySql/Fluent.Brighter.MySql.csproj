@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>$(BrighterTargetFrameworks)</TargetFrameworks>
+        <TargetFrameworks>$(BrighterTargetFrameworksNot10)</TargetFrameworks>
         <IsPackable>true</IsPackable>
         <Nullable>enable</Nullable>
     </PropertyGroup>

@@ -1,6 +1,6 @@
 <Project>
   <PropertyGroup>
-    <BrighterVersion>[10.0.0, 11.0.0)</BrighterVersion>
+    <BrighterVersion>[10.4.0, 11.0.0)</BrighterVersion>
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
@@ -8,7 +8,6 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0" />
     <PackageVersion Include="MinVer" Version="6.0.0" />
-    <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="Paramore.Brighter" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Inbox.DynamoDB" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Inbox.DynamoDB.V4" Version="$(BrighterVersion)" />
@@ -54,7 +53,9 @@
     <PackageVersion Include="Paramore.Brighter.Transformers.AWS.V4" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Transformers.Gcp" Version="$(BrighterVersion)" />
     <PackageVersion Include="Paramore.Brighter.Transformers.MongoGridFS" Version="$(BrighterVersion)" />
+    <PackageVersion Include="NSubstitute" Version="5.3.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
+    <PackageVersion Include="TUnit" Version="1.18.21" />
     <PackageVersion Include="xunit" Version="2.9.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="3.1.1">
       <PrivateAssets>all</PrivateAssets>
